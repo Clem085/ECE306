@@ -131,5 +131,17 @@ void out_control_words(void);
 
 //// Connor's Custom Functions
 void backlightControl(int action);
-//void LRmotorForward(void);
-//void LRmotorStop(void);
+
+//Motor Forward
+void LRmotorForward(void);
+void LmotorForward(void);
+void RmotorForward(void);
+
+//Motor Stop
+void LRmotorStop(void);
+void LmotorStop(void);
+void RmotorStop(void);
+
+//Motor Shapes
+void circle(void);
+void rightTurn(void);

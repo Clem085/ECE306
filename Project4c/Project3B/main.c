@@ -72,14 +72,20 @@ void main(void){
     //------------------------------------------------------------------------------
     // Beginning of the "While" Operating System
     //------------------------------------------------------------------------------
-//    LRmotorStop();
-    LRmotorForward();
-    while(ALWAYS) {                      // Can the Operating system run
-        Carlson_StateMachine();            // Run a Time Based State Machine
-        //    Switches_Process();                // Check for switch state change
-        Display_Process();                 // Update Display
-        P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-    }
+    //    LRmotorStop();
+
+
+        LRmotorForward();
+        while(ALWAYS) {                      // Can the Operating system run
+            Carlson_StateMachine();            // Run a Time Based State Machine
+            //    Switches_Process();                // Check for switch state change
+            Display_Process();                 // Update Display
+            P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+            circle();
+        }
+
+
+
     //------------------------------------------------------------------------------
 
 
@@ -106,7 +112,6 @@ void Carlson_StateMachine(void){
             P6OUT |= GRN_LED;            // Change State of LED 5
             one_time = 0;
         }
-        LRmotorStop();
         break;
     case 150:                         //
         if(one_time){
@@ -133,70 +138,46 @@ void Carlson_StateMachine(void){
     }
 }
 
-//// Controls Display Backlight
-//void backlightControl(int action){
-///*  Parameter Values
-//    action
-//        0: Backlight OFF
-//        1: Backlight ON
-//*/
-//    switch(action){
-//    case 0: // Turn Backlight OFF
-//        P6SEL0 &= ~LCD_BACKLITE;
-//        P6SEL1 &= ~LCD_BACKLITE;
-//        P6OUT  &= ~LCD_BACKLITE;
-//        P6DIR  &= ~LCD_BACKLITE;
-//        break;
-//    case 1: // Turn Backlight ON
-//        P6SEL0 &= ~LCD_BACKLITE;
-//        P6SEL1 &= ~LCD_BACKLITE;
-//        P6OUT  |=  LCD_BACKLITE;
-//        P6DIR  |=  LCD_BACKLITE;
-//        break;
-//    default:
-//        // Display ERROR on Screen
-//
-//        // Turn Display ON
-//        P6SEL0 &= ~LCD_BACKLITE;
-//        P6SEL1 &= ~LCD_BACKLITE;
-//        P6OUT  |=  LCD_BACKLITE;
-//        P6DIR  |=  LCD_BACKLITE;
-//        break;
-//    }
-//}
 
-void LRmotorForward(void){
-    //    Select and Turn Off Backlight
+// Shape Commands
+void circle(){
+    int count = 0;
+//    LRmotorForward();
+////    rightTurn();
+//    backlightControl(1);
+    while(count < 5000){
+        ++count;
+        RmotorForward();
+        LmotorStop();
+    }
+    count = 0;
+    while(count < 5000){
+        ++count;
+        LRmotorForward();
+    }
     backlightControl(0);
-
-    //  Turn ON Motors
-    P6SEL0 &= ~R_FORWARD;
-    P6SEL1 &= ~R_FORWARD;
-    P6OUT  |=  R_FORWARD;
-    P6DIR  |=  R_FORWARD;
-
-    P6SEL0 &= ~L_FORWARD;
-    P6SEL1 &= ~L_FORWARD;
-    P6OUT  |=  L_FORWARD;
-    P6DIR  |=  L_FORWARD;
+//    rightTurn();
 }
 
-void LRmotorStop(void){
-    //    Select and Turn On Backlight
-    backlightControl(1);
-
-    //  Turn OFF Motors
-    P6SEL0 &= ~R_FORWARD;
-    P6SEL1 &= ~R_FORWARD;
-    P6OUT  &= ~R_FORWARD;
-    P6DIR  &= ~R_FORWARD;
-
-    P6SEL0 &= ~L_FORWARD;
-    P6SEL1 &= ~L_FORWARD;
-    P6OUT  &= ~L_FORWARD;
-    P6DIR  &= ~L_FORWARD;
+void rightTurn(){
+    switch(Time_Sequence){
+    case 250:
+        Time_Sequence = 0;
+        RmotorStop();
+        break;
+    case 200:
+//        RmotorForward();
+        break;
+    case 150:
+//        RmotorStop();
+        break;
+    case 100:
+        RmotorForward();
+        break;
+    case  50:
+//        RmotorStop();
+        break;
+    default: break;
+    }
 }
-
-
-
 
