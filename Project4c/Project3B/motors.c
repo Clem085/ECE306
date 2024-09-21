@@ -13,12 +13,12 @@
     LRmotorStop
     LmotorStop
     RmotorStop
-*/
+ */
 
 // FORWARD Commands
 void LRmotorForward(void){
     //  Select and Turn Off Backlight
-    backlightControl(0);
+    //    backlightControl(0);
 
     //  Turn ON Motors
     P6SEL0 &= ~R_FORWARD;
@@ -34,7 +34,7 @@ void LRmotorForward(void){
 
 void LmotorForward(void){
     //  Select and Turn Off Backlight
-    backlightControl(0);
+    //    backlightControl(0);
 
     //  Turn ON Left Motor
     P6SEL0 &= ~L_FORWARD;
@@ -45,7 +45,7 @@ void LmotorForward(void){
 
 void RmotorForward(void){
     //  Select and Turn Off Backlight
-    backlightControl(0);
+    //    backlightControl(0);
 
     //  Turn ON Right Motor
     P6SEL0 &= ~R_FORWARD;
@@ -59,7 +59,7 @@ void RmotorForward(void){
 // STOP Commands
 void LRmotorStop(void){
     //  Select and Turn On Backlight
-    backlightControl(1);
+    //    backlightControl(1);
 
     //  Turn OFF Motors
     P6SEL0 &= ~R_FORWARD;
@@ -75,7 +75,7 @@ void LRmotorStop(void){
 
 void LmotorStop(void){
     //  Select and Turn On Backlight
-    backlightControl(1);
+    //    backlightControl(1);
 
     //  Turn OFF Left Motor
     P6SEL0 &= ~L_FORWARD;
@@ -86,7 +86,7 @@ void LmotorStop(void){
 
 void RmotorStop(void){
     //  Select and Turn On Backlight
-    backlightControl(1);
+    //    backlightControl(1);
 
     //  Turn OFF Right Motors
     P6SEL0 &= ~R_FORWARD;
@@ -99,35 +99,62 @@ void RmotorStop(void){
 
 
 
-//// Shape Commands
-//void circle(){
-//    int count = 0;
-//    while(count < 100){
-//        rightTurn();
-//        ++count;
-//    }
-//}
-//
-//void rightTurn(){
-//    LRmotorForward();
-//    switch(Time_Sequence){
-//    case 250:
-//        Time_Sequence = 0;
-//        RmotorStop();
-//        break;
-//    case 200:
-//        RmotorForward();
-//        break;
-//    case 150:
-//        RmotorStop();
-//        break;
-//    case 100:
-//        RmotorForward();
-//        break;
-//    case  50:
-//        RmotorStop();
-//        break;
-//    default: break;
-//    }
-//}
-//
+// Shape Commands
+void circle(void){
+    int count = 0;
+    //    LRmotorForward();
+    //    backlightControl(1);
+    while(count < 5000){
+        ++count;
+        RmotorForward();
+        LmotorStop();
+    }
+    count = 0;
+    while(count < 1000){
+        ++count;
+        LRmotorForward();
+    }
+    //    backlightControl(0);
+    //    rightTurn();
+}
+
+void triangle(void){
+    int count = 0;
+    int count2 = 0;
+    //    Pivot
+    int i;
+    for(i = 0; i <= 3; i++){
+        count = 0;
+        while(count < 32767){
+            RmotorStop();
+            LmotorForward();
+            count2 = 0;
+            count++;
+            while((count2 < 100)){
+                count2++;
+            }
+        }
+
+        count = 0;
+        while(count < 32767){
+            LRmotorStop();
+            count++;
+            count2 = 0;
+            while((count2 < 100)){
+                count2++;
+            }
+        }
+
+        count = 0;
+        while(count < 32767){
+            LRmotorForward();
+            count++;
+            count2 = 0;
+            while((count2 < 100)){
+                count2++;
+            }
+        }
+        LRmotorStop();
+    }
+    LRmotorStop();
+}

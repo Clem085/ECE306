@@ -144,4 +144,5 @@ void RmotorStop(void);
 
 //Motor Shapes
 void circle(void);
-void rightTurn(void);
+void triangle(void);
+

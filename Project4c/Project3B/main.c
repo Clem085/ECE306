@@ -74,15 +74,26 @@ void main(void){
     //------------------------------------------------------------------------------
     //    LRmotorStop();
 
+//    Circle Code
+//    int circleCount = 0;
+//    while(circleCount < 160){
+//        circle();
+//        circleCount++;
+//    }
+//    LRmotorStop();
 
-        LRmotorForward();
-        while(ALWAYS) {                      // Can the Operating system run
-            Carlson_StateMachine();            // Run a Time Based State Machine
-            //    Switches_Process();                // Check for switch state change
-            Display_Process();                 // Update Display
-            P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-            circle();
-        }
+//    Triangle Code
+      triangle();
+      backlightControl(0);
+
+
+    while(ALWAYS) {                      // Can the Operating system run
+        Carlson_StateMachine();            // Run a Time Based State Machine
+        //    Switches_Process();                // Check for switch state change
+        Display_Process();                 // Update Display
+        P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+
+    }
 
 
 
@@ -91,6 +102,8 @@ void main(void){
 
 
 }
+
+
 
 
 //CarlsonCode
@@ -139,45 +152,4 @@ void Carlson_StateMachine(void){
 }
 
 
-// Shape Commands
-void circle(){
-    int count = 0;
-//    LRmotorForward();
-////    rightTurn();
-//    backlightControl(1);
-    while(count < 5000){
-        ++count;
-        RmotorForward();
-        LmotorStop();
-    }
-    count = 0;
-    while(count < 5000){
-        ++count;
-        LRmotorForward();
-    }
-    backlightControl(0);
-//    rightTurn();
-}
-
-void rightTurn(){
-    switch(Time_Sequence){
-    case 250:
-        Time_Sequence = 0;
-        RmotorStop();
-        break;
-    case 200:
-//        RmotorForward();
-        break;
-    case 150:
-//        RmotorStop();
-        break;
-    case 100:
-        RmotorForward();
-        break;
-    case  50:
-//        RmotorStop();
-        break;
-    default: break;
-    }
-}
 
