@@ -101,49 +101,56 @@ void RmotorStop(void){
 
 // Shape Commands
 void circle(void){
-    int count = 0;
-    //    LRmotorForward();
-    //    backlightControl(1);
-    while(count < 5000){
-        ++count;
-        RmotorForward();
-        LmotorStop();
+    int circleCount = 0;
+    while(circleCount < 210){
+        int count = 0;
+        //    LRmotorForward();
+        //    backlightControl(1);
+        while(count < 5000){
+            ++count;
+            RmotorForward();
+            LmotorStop();
+        }
+        count = 0;
+        while(count < 1000){
+            ++count;
+            LRmotorForward();
+        }
+        //    backlightControl(0);
+        //    rightTurn();
+        circleCount++;
     }
-    count = 0;
-    while(count < 1000){
-        ++count;
-        LRmotorForward();
-    }
-    //    backlightControl(0);
-    //    rightTurn();
+    LRmotorStop();
 }
+
+
 
 void triangle(void){
     int count = 0;
     int count2 = 0;
     //    Pivot
     int i;
-    for(i = 0; i <= 3; i++){
+    for(i = 0; i < 3; i++){
         count = 0;
-        while(count < 32767){
+        while(count < 32000){
             RmotorStop();
             LmotorForward();
             count2 = 0;
             count++;
-            while((count2 < 100)){
+            while((count2 < 27)){
                 count2++;
             }
         }
 
-        count = 0;
-        while(count < 32767){
-            LRmotorStop();
-            count++;
-            count2 = 0;
-            while((count2 < 100)){
-                count2++;
-            }
-        }
+        //        count = 0;
+        //        while(count < 32767){
+        //            LRmotorStop();
+        //            count++;
+        //            count2 = 0;
+        //            while((count2 < 100)){
+        //                count2++;
+        //            }
+        //        }
 
         count = 0;
         while(count < 32767){

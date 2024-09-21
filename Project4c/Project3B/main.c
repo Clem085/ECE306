@@ -74,17 +74,23 @@ void main(void){
     //------------------------------------------------------------------------------
     //    LRmotorStop();
 
-//    Circle Code
-//    int circleCount = 0;
-//    while(circleCount < 160){
-//        circle();
-//        circleCount++;
-//    }
-//    LRmotorStop();
+    //    Circle Code
+    circle();
+    LRmotorStop();
 
-//    Triangle Code
-      triangle();
-      backlightControl(0);
+    //    Triangle Code
+    backlightControl(0);
+    int mainCount = 0;
+    int mainCount2 = 0;
+    while(mainCount2 < 32000){
+        mainCount = 0;
+        while(mainCount < 500){
+            mainCount++;
+        }
+        mainCount2++;
+    }
+    backlightControl(1);
+    triangle();
 
 
     while(ALWAYS) {                      // Can the Operating system run
