@@ -14,7 +14,7 @@
 #include  "LCD.h"
 #include  "ports.h"
 #include  "macros.h"
-#include  "Display.c"
+
 
 // Function Prototypes
 void main(void);
@@ -22,8 +22,6 @@ void Init_Conditions(void);
 void Display_Process(void);
 void Init_LEDs(void);
 void Carlson_StateMachine(void);
-void forward(void);
-void stop(void);
 
   // Global Variables
 volatile char slow_input_down;
@@ -38,15 +36,8 @@ extern volatile char one_time;
 unsigned int test_value;
 char chosen_direction;
 char change;
-
-//unsigned int wheel_move;
-//char forward;
-//^ These two lines  are from Carlson's original code, I think they're no longer needed.
-
-char start_moving;
-unsigned int moving;
-
-
+unsigned int wheel_move;
+char forward;
 
 void main(void){
 //    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
@@ -74,14 +65,14 @@ void main(void){
   display_changed = TRUE;
 //  Display_Update(0,0,0,0);
 
-//  wheel_move = 0;
-//  forward = TRUE;
-//  P6OUT |=  L_FORWARD;
-//  P6OUT |=  R_FORWARD;
-//  P1OUT |=  RED_LED;
-//  P6OUT |=  R_REVERSE;
-//  P6OUT &= ~R_REVERSE;
-//  P1OUT &= ~RED_LED;
+  wheel_move = 0;
+  forward = TRUE;
+  P6OUT |=  L_FORWARD;
+  P6OUT |=  R_FORWARD;
+  P1OUT |=  RED_LED;
+  P6OUT |=  R_REVERSE;
+  P6OUT &= ~R_REVERSE;
+  P1OUT &= ~RED_LED;
   // Set Port pin High [Wheel On]
   // Set Port pin High [Wheel On]
   // Set Red LED On
@@ -91,15 +82,11 @@ void main(void){
 //------------------------------------------------------------------------------
 // Beginning of the "While" Operating System
 //------------------------------------------------------------------------------
-  forward();
   while(ALWAYS) {                      // Can the Operating system run
-      Carlson_StateMachine();            // Run a Time Based State Machine
-      //    Switches_Process();                // Check for switch state change
-      Display_Process();                 // Update Display
-      P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-      stop();
-
-
+    Carlson_StateMachine();            // Run a Time Based State Machine
+    Switches_Process();                // Check for switch state change
+    Display_Process();                 // Update Display
+    P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
   }
 //------------------------------------------------------------------------------
 
@@ -115,7 +102,6 @@ void Carlson_StateMachine(void){
           lcd_BIG_mid();
           display_changed = 1;
           one_time = 0;
-
         }
         Time_Sequence = 0;             //
         break;
@@ -147,45 +133,8 @@ void Carlson_StateMachine(void){
           one_time = 0;
         }
         break;                         //
-      default:
-          if(Time_Sequence > 250){
-              Time_Sequence = 0;
-          }
-          break;
+      default: break;
     }
-}
-
-
-void forward(void){
-//    Select and Turn Off Backlight
-    blacklight(0);
-
-//  Turn ON Motors
-    P6SEL0 &= ~R_FORWARD;
-    P6SEL1 &= ~R_FORWARD;
-    P6OUT  |=  R_FORWARD;
-    P6DIR  |=  R_FORWARD;
-
-    P6SEL0 &= ~L_FORWARD;
-    P6SEL1 &= ~L_FORWARD;
-    P6OUT  |=  L_FORWARD;
-    P6DIR  |=  L_FORWARD;
-}
-
-void stop(void){
-//    Select and Turn On Backlight
-    backlight(1);
-
-//  Turn OFF Motors
-    P6SEL0 &= ~R_FORWARD;
-    P6SEL1 &= ~R_FORWARD;
-    P6OUT  &= ~R_FORWARD;
-    P6DIR  &= ~R_FORWARD;
-
-    P6SEL0 &= ~L_FORWARD;
-    P6SEL1 &= ~L_FORWARD;
-    P6OUT  &= ~L_FORWARD;
-    P6DIR  &= ~L_FORWARD;
 }
 
 

@@ -1,17 +1,3 @@
-//===========================================================================
-//  File Name : Display.c
-//  Description: This file contains code to control the Display
-//      Note: This Code was originally stored in main.c. Moved to separate file as instructed in Project 2
-//  Author: Jim Carlson
-//  Date: Jan 2023
-//  -- -- -- -- -- -- -- -- -- -- --
-//  Revision Log
-//  9/20/2024
-//      Programmer: Connor Savugot
-//      Revision: Added 1 new Functions
-//          backlight(action);
-//  -- -- -- -- -- -- -- -- -- -- --
-//===========================================================================
 #include  "msp430.h"
 #include  <string.h>
 #include  "functions.h"
@@ -32,37 +18,3 @@ void Display_Process(void){
     }
   }
 }
-
-// Controls Display Backlight
-void backlight(int action){
-/*  Parameter Values
-    action
-        0: Backlight OFF
-        1: Backlight ON
-*/
-    switch(action){
-    case 0: // Turn Backlight OFF
-        P6SEL0 &= ~LCD_BACKLITE;
-        P6SEL1 &= ~LCD_BACKLITE;
-        P6OUT  &= ~LCD_BACKLITE;
-        P6DIR  &= ~LCD_BACKLITE;
-        break;
-    case 1: // Turn Backlight ON
-        P6SEL0 &= ~LCD_BACKLITE;
-        P6SEL1 &= ~LCD_BACKLITE;
-        P6OUT  |=  LCD_BACKLITE;
-        P6DIR  |=  LCD_BACKLITE;
-        break;
-    default:
-        // Display ERROR on Screen
-
-        // Turn Display ON
-        P6SEL0 &= ~LCD_BACKLITE;
-        P6SEL1 &= ~LCD_BACKLITE;
-        P6OUT  |=  LCD_BACKLITE;
-        P6DIR  |=  LCD_BACKLITE;
-        break;
-    }
-}
-
-

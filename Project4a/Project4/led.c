@@ -1,10 +1,3 @@
-//===========================================================================
-//  File Name : led.c
-//  Description: This file contains code to control the red and green LEDs
-//      Note: This Code was originally stored in main.c. Moved to separate file as instructed in Project 2
-//  Author: Jim Carlson
-//  Date: Jan 2023
-//===========================================================================
 #include  "msp430.h"
 #include  <string.h>
 #include  "functions.h"

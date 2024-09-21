@@ -98,8 +98,6 @@ void main(void){
       Display_Process();                 // Update Display
       P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
       stop();
-
-
   }
 //------------------------------------------------------------------------------
 

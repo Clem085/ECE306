@@ -40,10 +40,6 @@ void lcd_clear(void);
 void lcd_putc(char c);
 void lcd_puts(char *s);
 
-//--NEW--
-void backlight(int);
-//--NEW--
-
 void lcd_power_on(void);
 void lcd_write_line1(void);
 void lcd_write_line2(void);
@@ -132,7 +128,6 @@ void usleep10(unsigned int usec);
 void five_msec_sleep(unsigned int msec);
 void measure_delay(void);
 void out_control_words(void);
-
 
 
 
