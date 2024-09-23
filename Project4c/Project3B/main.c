@@ -75,23 +75,19 @@ void main(void){
     //    LRmotorStop();
 
     //    Circle Code
+    wait();
     circle();
     LRmotorStop();
 
+
     //    Triangle Code
-    backlightControl(0);
-    int mainCount = 0;
-    int mainCount2 = 0;
-    while(mainCount2 < 32000){
-        mainCount = 0;
-        while(mainCount < 500){
-            mainCount++;
-        }
-        mainCount2++;
-    }
-    backlightControl(1);
+    wait();
     triangle();
 
+
+    // Figure8
+    wait();
+    figure8();
 
     while(ALWAYS) {                      // Can the Operating system run
         Carlson_StateMachine();            // Run a Time Based State Machine
@@ -157,5 +153,20 @@ void Carlson_StateMachine(void){
     }
 }
 
+
+// Wait Code
+void wait(void){
+    backlightControl(0);
+    int mainCount = 0;
+    int mainCount2 = 0;
+    while(mainCount2 < 32000){
+        mainCount = 0;
+        while(mainCount < 500){
+            mainCount++;
+        }
+        mainCount2++;
+    }
+    backlightControl(1);
+}
 
 

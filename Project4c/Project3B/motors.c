@@ -102,7 +102,7 @@ void RmotorStop(void){
 // Shape Commands
 void circle(void){
     int circleCount = 0;
-    while(circleCount < 210){
+    while(circleCount < 200){
         int count = 0;
         //    LRmotorForward();
         //    backlightControl(1);
@@ -137,23 +137,13 @@ void triangle(void){
             LmotorForward();
             count2 = 0;
             count++;
-            while((count2 < 27)){
+            while((count2 < 28)){  // 27 undershoots
                 count2++;
             }
         }
 
-        //        count = 0;
-        //        while(count < 32767){
-        //            LRmotorStop();
-        //            count++;
-        //            count2 = 0;
-        //            while((count2 < 100)){
-        //                count2++;
-        //            }
-        //        }
-
         count = 0;
-        while(count < 32767){
+        while(count < 32000){
             LRmotorForward();
             count++;
             count2 = 0;
@@ -162,6 +152,50 @@ void triangle(void){
             }
         }
         LRmotorStop();
+    }
+    LRmotorStop();
+}
+
+void figure8(void){
+    int circleCount = 0;
+    while(circleCount < 100){
+        int count = 0;
+        //    LRmotorForward();
+        //    backlightControl(1);
+        while(count < 5000){
+            ++count;
+            RmotorForward();
+            LmotorStop();
+        }
+        count = 0;
+        while(count < 1000){
+            ++count;
+            LRmotorForward();
+        }
+        //    backlightControl(0);
+        //    rightTurn();
+        circleCount++;
+    }
+    LRmotorStop();
+
+    circleCount = 0;
+    while(circleCount < 100){
+        int count = 0;
+        //    LRmotorForward();
+        //    backlightControl(1);
+        while(count < 5000){
+            ++count;
+            LmotorForward();
+            RmotorStop();
+        }
+        count = 0;
+        while(count < 1000){
+            ++count;
+            LRmotorForward();
+        }
+        //    backlightControl(0);
+        //    rightTurn();
+        circleCount++;
     }
     LRmotorStop();
 }

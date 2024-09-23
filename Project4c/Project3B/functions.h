@@ -145,4 +145,8 @@ void RmotorStop(void);
 //Motor Shapes
 void circle(void);
 void triangle(void);
+void figure8(void);
+
+//Wait
+void wait(void);
 
