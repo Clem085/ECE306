@@ -19,7 +19,7 @@ void Software_Trim(void);
 
 void Init_Clocks(void){
 // -----------------------------------------------------------------------------
-// Clock Configurtaions
+// Clock Configurations
 // This is the clock initialization for the program.
 // Initial clock configuration, runs immediately after port configuration.
 // Disables 1ms watchdog timer,

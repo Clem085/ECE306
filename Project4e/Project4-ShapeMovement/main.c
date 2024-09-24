@@ -37,6 +37,7 @@ char chosen_direction;
 char change;
 
 // New Global Variables for Button Switch & Movement
+unsigned char backlight_status;
 unsigned int Last_Time_Sequence;
 unsigned int cycle_time;
 unsigned int time_change;
@@ -71,42 +72,24 @@ void main(void){
     //------------------------------------------------------------------------------
     // Beginning of the "While" Operating System
     //------------------------------------------------------------------------------
-    //    LRmotorStop();
+    backlight_status = 0;
     while(ALWAYS) {                      // Can the Operating system run
         Carlson_StateMachine();            // Run a Time Based State Machine
-        //    Switches_Process();                // Check for switch state change
+        Switches_Process();                // Check for switch state change, MAYBE ONLY AFFECTS SW3???
         Display_Process();                 // Update Display
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-
-
         //        New Code
-        //        if switch is pressed, go to switches
+        backlight()
         if(Last_Time_Sequence != Time_Sequence){
             Last_Time_Sequence = Time_Sequence;
             cycle_time++;
             time_change = 1;
         }
 
-        switch(event){
-        case  STRAIGHT:                       // Straight
-            Run_Straight();
-            break;
+        Switch1_Process();
+        Switch2_Process();
 
-        case  CIRCLE:                         // Circle
-            Run_Circle();
-            break;
-
-        case TRIANGLE:
-            Run_Triangle();
-            break;
-
-        case FIGURE8:
-            Run_FIGURE8();
-            break;
-
-        default: break;
-        }
-
+        Move_Shape(); //Nothing will happen UNTIL proper buttons are pressed, stored in motors.c
     }
 
 

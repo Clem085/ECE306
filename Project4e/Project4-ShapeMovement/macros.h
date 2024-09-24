@@ -19,10 +19,11 @@
 #define NONE                  ('N')
 #define STRAIGHT              ('L')
 #define CIRCLE                ('C')
+#define TRIANGLE              ('T')
+#define FIGURE8               ('F')
 #define WAIT                  ('W')
 #define START                 ('S')
-#define RUN
-('R')
+#define RUN                   ('R')
 #define END                   ('E')
 #define WHEEL_COUNT_TIME       (10)
 #define RIGHT_COUNT_TIME        (7)

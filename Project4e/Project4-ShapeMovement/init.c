@@ -1,7 +1,7 @@
 //===========================================================================
 //  File Name : init.c
 //
-//  Description: This file contains the Initialization for all port pins
+//  Description: This file contains the Initialization sequences for many of the boards and processes used in this project.
 //      Note: This Code was originally stored in main.c. Moved to separate file as instructed in Project 2
 //  Author: Jim Carlson
 //  Date: Sept 2013

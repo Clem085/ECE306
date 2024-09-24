@@ -1,7 +1,8 @@
 //===========================================================================
 //  File Name : ports.h
 //
-//  Description: This header file contains the port register definitions
+//  Description: Macro Configurations for Ports
+//               This header file contains the port register definitions
 //  Author: Jim Carlson
 //  Date: Sept 2013
 //  Compiler: Built with IAR Embedded Workbench Version: V4.10A/W32 (5.40.1)

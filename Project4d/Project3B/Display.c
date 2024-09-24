@@ -9,7 +9,7 @@ extern volatile unsigned char display_changed;
 extern volatile unsigned char update_display;
 
 
-s
+
 
 void Display_Process(void){
   if(update_display){

@@ -1,3 +1,18 @@
+/* Program Information Header
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : motors.c
+  Description:  This file contains the code to control the motors
+      >>> Motors Forward
+          Motors Stop
+          Circle
+          Triangle
+          Figure8
+
+  Programmer: Connor Savugot
+  Date: Sep 20, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+ */
+
 #include  "msp430.h"
 #include  <string.h>
 #include  "functions.h"
@@ -97,16 +112,85 @@ void RmotorStop(void){
 
 
 // Shape Commands
-void circle(void){
+void Move_Shape(void){
+    switch(state){
+    case  WAIT:
+        wait_case();
+        // Begin
+        break;
+    case  START:
+        start_case();
+        break;
+    case  RUN:
+        // Run actual code to make Shape
+        switch(event){
+        case STRAIGHT:
+            straight();
+            break;
+        case CIRCLE:
+            circle();
+            break;
+        case TRIANGLE:
+            triangle();
+            break;
+        case FIGURE8:
+            figure8();
+            break;
+        default:
+            break;
+        }
+        break;
+        case  END:
+            end_case();
+            break;
+        default: break;
+    }
+}
 
+
+// Circle:
+//    For Right Turn, LEFT_COUNT_TIME > RIGHT_COUNT_TIME
+//    For Left Turn, RIGHT_COUNT_TIME > LEFT_COUNT_TIME
+void circle(void){
+    TRAVEL_DISTANCE = 2;
+    RIGHT_COUNT_TIME = 3;
+    LEFT_COUNT_TIME = 7;
+    WHEEL_COUNT_TIME = 10;
+    run_case();
 }
 
 
 void triangle(void){
+    for(i = 0; i < 3; i++){
+        // Triangle Straight
+        TRAVEL_DISTANCE = 2;
+        RIGHT_COUNT_TIME = 5;
+        LEFT_COUNT_TIME = 5;
+        WHEEL_COUNT_TIME = 10;
+        run_case();
 
+        // Triangle  Turn
+        TRAVEL_DISTANCE = 2;
+        RIGHT_COUNT_TIME = 7;
+        LEFT_COUNT_TIME = 0;
+        WHEEL_COUNT_TIME = 10;
+        run_case();
+    }
 }
 
 
 void figure8(void){
+    //    Right Circle
+    TRAVEL_DISTANCE = 2;
+    RIGHT_COUNT_TIME = 7;
+    LEFT_COUNT_TIME = 0;
+    WHEEL_COUNT_TIME = 10;
+    run_case();
 
+    //    Left Circle
+    TRAVEL_DISTANCE = 2;
+    RIGHT_COUNT_TIME = 7;
+    LEFT_COUNT_TIME = 0;
+    WHEEL_COUNT_TIME = 10;
+    run_case();
 }
