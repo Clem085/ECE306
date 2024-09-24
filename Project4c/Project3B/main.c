@@ -62,10 +62,11 @@ void main(void){
     // Place the contents of what you want on the display, in between the quotes
     // Limited to 10 characters per line
     strcpy(display_line[0], "   NCSU   ");
-    strcpy(display_line[1], " WOLFPACK ");
+    strcpy(display_line[1], "  Circle  ");
     strcpy(display_line[2], "  ECE306  ");
     strcpy(display_line[3], "  GP I/O  ");
     display_changed = TRUE;
+
     //  Display_Update(0,0,0,0);
 
 
@@ -74,23 +75,24 @@ void main(void){
     //------------------------------------------------------------------------------
     //    LRmotorStop();
 
-    //    Circle Code
-    wait();
-    circle();
-    LRmotorStop();
-
-
-    //    Triangle Code
-    wait();
-    triangle();
-
-
-    // Figure8
-    wait();
-    figure8();
+//    //    Circle Code
+//    wait();
+//    circle();
+//    LRmotorStop();
+//
+//
+//    //    Triangle Code
+//    wait();
+//    triangle();
+//
+//
+//    // Figure8
+//    wait();
+//    figure8();
 
     while(ALWAYS) {                      // Can the Operating system run
-        Carlson_StateMachine();            // Run a Time Based State Machine
+        backlightControl(1);
+//        Carlson_StateMachine();            // Run a Time Based State Machine
         //    Switches_Process();                // Check for switch state change
         Display_Process();                 // Update Display
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
