@@ -26,7 +26,7 @@
 // Globals
 extern volatile unsigned char display_changed;
 extern volatile unsigned char update_display;
-extern unsigned char backlight_status;
+extern unsigned int backlight_status;
 
 
 void Display_Process(void){
@@ -40,16 +40,17 @@ void Display_Process(void){
 }
 
 // Controls Display Backlight
-void backlight(void){
+void backlight_control(void){
 /*  Parameter Values
     action
         0: Backlight OFF
         1: Backlight ON
 */
-    if(!backlight_status):
+    if(backlight_status == 0){
         P6OUT  &= ~LCD_BACKLITE;
         P6DIR  &= ~LCD_BACKLITE;
-    else:
+    }
+    else{
         P6OUT  |=  LCD_BACKLITE;
         P6DIR  |=  LCD_BACKLITE;
     }

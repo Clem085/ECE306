@@ -108,7 +108,6 @@ void enable_switch_SW1(void);
 void enable_switch_SW2(void);
 void disable_switch_SW1(void);
 void disable_switch_SW2(void);
-void Switches_Process(void);
 void Init_Switch(void);
 void Switch_Process(void);
 void Switch1_Process(void);
@@ -130,7 +129,7 @@ void measure_delay(void);
 void out_control_words(void);
 
 //// Connor's Custom Functions
-void backlightControl(int action);
+void backlight_control(void);
 
 //Motor Forward
 void LRmotorForward(void);
@@ -143,10 +142,16 @@ void LmotorStop(void);
 void RmotorStop(void);
 
 //Motor Shapes
+void Move_Shape(void);
+void straight(void);
 void circle(void);
 void triangle(void);
 void figure8(void);
 
-//Wait
-void wait(void);
+// Motor Movement Cases
+void wait_case(void);
+void start_case(void);
+void end_case(void);
+
+
 

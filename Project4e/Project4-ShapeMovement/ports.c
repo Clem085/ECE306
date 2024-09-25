@@ -12,8 +12,6 @@
 #include  "macros.h"
 
 
-
-
 //Init_Ports
 void Init_Ports(void){
     Init_Port1();
@@ -157,10 +155,10 @@ void Init_Port4(void){ // Configure PORT 4
     P4SEL1 &= ~SW1; // SW1 GPIO operation
     P4DIR  &= ~SW1; // Direction = input
     P4REN  |=  SW1; // Enable pullup resistor
+    P4OUT  |=  SW1;
 
     P4SEL0 |= UCA1RXD; // USCI_A1 UART operation
     P4SEL1 &= ~UCA1RXD; // USCI_A1 UART operation
-
     P4SEL0 |= UCA1TXD; // USCI_A1 UART operation
     P4SEL1 &= ~UCA1TXD; // USCI_A1 UART operation
 

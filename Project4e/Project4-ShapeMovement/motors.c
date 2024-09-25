@@ -13,15 +13,29 @@
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
  */
 // Includes
-#include  "msp430.h"
 #include  <string.h>
 #include  "functions.h"
 #include  "LCD.h"
 #include  "ports.h"
-#include "macros.h"
+#include  "macros.h"
+#include  "msp430.h"
 
 // Globals
 extern unsigned char state;
+extern unsigned char event;
+extern char display_line[4][11];
+extern unsigned int travel_distance;
+extern unsigned int right_count_time;
+extern unsigned int left_count_time;
+extern unsigned int wheel_count_time;
+
+extern unsigned int time_change;
+extern unsigned int delay_start;
+extern unsigned int cycle_time;
+extern unsigned int right_motor_count;
+extern unsigned int left_motor_count;
+extern unsigned int segment_count;
+
 
 /* Functions Included in this File
     LRmotorForward
@@ -175,14 +189,14 @@ void start_case(void){
 void run_case(void){
     if(time_change){
         time_change = 0;
-        if(segment_count <= TRAVEL_DISTANCE){
-            if(right_motor_count++ >= RIGHT_COUNT_TIME){
+        if(segment_count <= travel_distance){
+            if(right_motor_count++ >= right_count_time){
                 P6OUT &= ~R_FORWARD;
             }
-            if(left_motor_count++ >= LEFT_COUNT_TIME){
+            if(left_motor_count++ >= left_count_time){
                 P6OUT &= ~L_FORWARD;
             }
-            if(cycle_time >= WHEEL_COUNT_TIME){
+            if(cycle_time >= wheel_count_time){
                 cycle_time = 0;
                 right_motor_count = 0;
                 left_motor_count = 0;
@@ -196,7 +210,7 @@ void run_case(void){
 }
 
 void end_case(void){
-    Forward_Off();
+    LRmotorStop();
     state = WAIT;
     event = NONE;
 }
@@ -204,32 +218,42 @@ void end_case(void){
 
 
 // Shape Commands
+// Straight:
+void straight(void){
+    travel_distance = 2;
+    right_count_time = 5;
+    left_count_time = 5;
+    wheel_count_time = 10;
+    run_case();
+}
+
 // Circle:
 //    For Right Turn, LEFT_COUNT_TIME > RIGHT_COUNT_TIME
 //    For Left Turn, RIGHT_COUNT_TIME > LEFT_COUNT_TIME
 void circle(void){
-    TRAVEL_DISTANCE = 2;
-    RIGHT_COUNT_TIME = 3;
-    LEFT_COUNT_TIME = 7;
-    WHEEL_COUNT_TIME = 10;
+    travel_distance = 2;
+    right_count_time = 3;
+    left_count_time = 7;
+    wheel_count_time = 10;
     run_case();
 }
 
 
 void triangle(void){
-    for(i = 0; i < 3; i++){
+    unsigned int i;
+    for(i = 3; i > 0; i--){
         // Triangle Straight
-        TRAVEL_DISTANCE = 2;
-        RIGHT_COUNT_TIME = 5;
-        LEFT_COUNT_TIME = 5;
-        WHEEL_COUNT_TIME = 10;
+        travel_distance = 2;
+        right_count_time = 5;
+        left_count_time = 5;
+        wheel_count_time = 10;
         run_case();
 
         // Triangle  Turn
-        TRAVEL_DISTANCE = 2;
-        RIGHT_COUNT_TIME = 7;
-        LEFT_COUNT_TIME = 0;
-        WHEEL_COUNT_TIME = 10;
+        travel_distance = 2;
+        right_count_time = 7;
+        left_count_time = 0;
+        wheel_count_time = 10;
         run_case();
     }
 }
@@ -237,16 +261,16 @@ void triangle(void){
 
 void figure8(void){
     //    Right Circle
-    TRAVEL_DISTANCE = 2;
-    RIGHT_COUNT_TIME = 7;
-    LEFT_COUNT_TIME = 0;
-    WHEEL_COUNT_TIME = 10;
+    travel_distance = 2;
+    right_count_time = 7;
+    left_count_time = 5;
+    wheel_count_time = 10;
     run_case();
 
     //    Left Circle
-    TRAVEL_DISTANCE = 2;
-    RIGHT_COUNT_TIME = 7;
-    LEFT_COUNT_TIME = 0;
-    WHEEL_COUNT_TIME = 10;
+    travel_distance = 2;
+    right_count_time = 5;
+    left_count_time = 7;
+    wheel_count_time = 10;
     run_case();
 }

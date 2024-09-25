@@ -7,7 +7,7 @@
   Date: Sep 20, 2024
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
  */
-// Inculudes
+// Includes
 #include  "msp430.h"
 #include  <string.h>
 #include  "functions.h"
@@ -19,21 +19,26 @@
 extern unsigned char dispEvent;
 extern volatile unsigned char display_changed;
 extern unsigned char event;
+extern char display_line[4][11];
 
+// TEST
 extern int Switch1_Pressed;
 extern int Switch2_Pressed;
 extern int Switch_Counter1;
 extern int Switch_Counter2;
-extern unsigned int okay_to_look_at_switch1;
-extern unsigned int okay_to_look_at_switch2;
+int okay_to_look_at_switch1=1;
+int count_debounce_SW1;
+int sw1_position=1;
+int okay_to_look_at_switch2=1;
+int count_debounce_SW2;
+int sw2_position=1;
+extern volatile unsigned int debounce_count1;
+extern volatile unsigned int debounce_count2;
+extern unsigned int backlight_status;
 
 
-int debounce_count_SW1;
-int debounce_count_SW2;
 
-
-
-// Physical Buttons
+//// Physical Buttons
 void Switch1_Process(void){
     //-----------------------------------------------------------------------------
     // Switch 1 Configurations
@@ -44,6 +49,7 @@ void Switch1_Process(void){
             okay_to_look_at_switch1 = NOT_OKAY;
             count_debounce_SW1 = DEBOUNCE_RESTART;
             // Event Code
+            backlight_status = 1;
             switch(dispEvent){
             case STRAIGHT:
                 dispEvent = CIRCLE;
@@ -105,6 +111,7 @@ void Switch2_Process(void){
             okay_to_look_at_switch2 = NOT_OKAY;
             count_debounce_SW2 = DEBOUNCE_RESTART;
             // Event Code
+            backlight_status = 0;
             switch(dispEvent){
             case STRAIGHT:
                 event = STRAIGHT;
@@ -112,6 +119,7 @@ void Switch2_Process(void){
                 strcpy(display_line[1], "  Running ");
                 strcpy(display_line[2], " Straight ");
                 strcpy(display_line[3], "          ");
+                break;
             case CIRCLE:
                 event = CIRCLE;
                 strcpy(display_line[0], "          ");

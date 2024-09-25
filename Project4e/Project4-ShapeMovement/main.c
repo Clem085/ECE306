@@ -37,13 +37,26 @@ char chosen_direction;
 char change;
 
 // New Global Variables for Button Switch & Movement
-unsigned char backlight_status;
+unsigned int backlight_status;
 unsigned int Last_Time_Sequence;
 unsigned int cycle_time;
 unsigned int time_change;
 unsigned char dispEvent;
 unsigned char state;
 unsigned char event;
+
+unsigned int travel_distance;
+unsigned int right_count_time;
+unsigned int left_count_time;
+unsigned int wheel_count_time;
+
+unsigned int time_change;
+unsigned int delay_start;
+unsigned int cycle_time;
+unsigned int right_motor_count;
+unsigned int left_motor_count;
+unsigned int segment_count;
+
 
 void main(void){
     //    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
@@ -76,13 +89,13 @@ void main(void){
     // Beginning of the "While" Operating System
     //------------------------------------------------------------------------------
     backlight_status = 0;
+    dispEvent = FIGURE8;
     while(ALWAYS) {                      // Can the Operating system run
         Carlson_StateMachine();            // Run a Time Based State Machine
-        Switches_Process();                // Check for switch state change, MAYBE ONLY AFFECTS SW3???
         Display_Process();                 // Update Display
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
         //        New Code
-        backlight();
+        backlight_control();
         if(Last_Time_Sequence != Time_Sequence){
             Last_Time_Sequence = Time_Sequence;
             cycle_time++;
@@ -101,134 +114,6 @@ void main(void){
 
 
 
-}
-
-
-
-
-
-
-
-
-void Run_Straight(void){
-    switch(state){
-    case  WAIT:
-        wait_case();
-        // Begin
-        break;
-    case  START:
-        start_case();
-        break;
-    case  RUN:
-        //        Run actual code to go straight
-
-        break;
-    case  END:
-        end_case();
-        break;
-    default: break;
-    }
-}
-
-
-
-void Run_Circle(void){
-    switch(state){
-    case  WAIT:
-        wait_case();
-        // Begin
-        break;
-    case  START:
-        start_case();
-        break;
-    case  RUN:
-        //        Run actual code to go straight
-        circle();
-        break;
-    case  END:
-        end_case();
-        break;
-    default: break;
-    }
-}
-
-
-void Run_Triangle(void){
-    switch(state){
-    case  WAIT:
-        wait_case();
-        // Begin
-        break;
-    case  START:
-        start_case();
-        break;
-    case  RUN:
-        //        Run actual code to go straight
-        triangle();
-        break;
-    case  END:
-        end_case();
-        break;
-    default: break;
-    }
-}
-
-
-void Run_Figure8(void){
-    switch(state){
-    case  WAIT:
-        wait_case();
-        // Begin
-        break;
-    case  START:
-        start_case();
-        break;
-    case  RUN:
-        //        Run actual code to go straight
-        figure8();
-        break;
-    case  END:
-        end_case();
-        break;
-    default: break;
-    }
-}
-
-
-circle(void){
-    // Circle Turn (Right)
-    TRAVEL_DISTANCE = 2
-            RIGHT_COUNT_TIME = 3
-            LEFT_COUNT_TIME = 7
-            WHEEL_COUNT_TIME = 10
-            run_case();
-}
-
-triangle(void){
-    for(i = 0; i < 3; i++){
-        //      Triangle  Turn
-        TRAVEL_DISTANCE = 2
-                RIGHT_COUNT_TIME = 7
-                LEFT_COUNT_TIME = 0
-                WHEEL_COUNT_TIME = 10
-                run_case();
-
-        //      Triangle Straight
-        TRAVEL_DISTANCE = 2
-                RIGHT_COUNT_TIME = 7
-                LEFT_COUNT_TIME = 0
-                WHEEL_COUNT_TIME = 10
-                run_case();
-    }
-}
-
-void figure8(void){
-    //    Right Circle
-    TRAVEL_DISTANCE = 2
-            RIGHT_COUNT_TIME = 7
-            LEFT_COUNT_TIME = 5
-            WHEEL_COUNT_TIME = 10
-            run_case();
 }
 
 
