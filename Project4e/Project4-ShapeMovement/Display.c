@@ -15,6 +15,7 @@
 //      Revision: Optimized backlight to be more memory efficient by using only global variables
 //  -- -- -- -- -- -- -- -- -- -- --
 //===========================================================================
+// Includes
 #include  "msp430.h"
 #include  <string.h>
 #include  "functions.h"
@@ -22,6 +23,7 @@
 #include  "ports.h"
 #include "macros.h"
 
+// Globals
 extern volatile unsigned char display_changed;
 extern volatile unsigned char update_display;
 extern unsigned char backlight_status;

@@ -12,13 +12,16 @@
   Date: Sep 20, 2024
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
  */
-
+// Includes
 #include  "msp430.h"
 #include  <string.h>
 #include  "functions.h"
 #include  "LCD.h"
 #include  "ports.h"
 #include "macros.h"
+
+// Globals
+extern unsigned char state;
 
 /* Functions Included in this File
     LRmotorForward
@@ -111,7 +114,8 @@ void RmotorStop(void){
 }
 
 
-// Shape Commands
+
+// Movement Cases
 void Move_Shape(void){
     switch(state){
     case  WAIT:
@@ -136,6 +140,8 @@ void Move_Shape(void){
         case FIGURE8:
             figure8();
             break;
+        case NONE:
+            break;
         default:
             break;
         }
@@ -147,7 +153,57 @@ void Move_Shape(void){
     }
 }
 
+void wait_case(void){
+    if(time_change){
+        time_change = 0;
+        if(delay_start++ >= WAITING2START){
+            delay_start = 0;
+            state = START;
+        }
+    }
+}
 
+void start_case(void){
+    cycle_time = 0;
+    right_motor_count = 0;
+    left_motor_count = 0;
+    LRmotorForward();
+    segment_count = 0;
+    state = RUN;
+}
+
+void run_case(void){
+    if(time_change){
+        time_change = 0;
+        if(segment_count <= TRAVEL_DISTANCE){
+            if(right_motor_count++ >= RIGHT_COUNT_TIME){
+                P6OUT &= ~R_FORWARD;
+            }
+            if(left_motor_count++ >= LEFT_COUNT_TIME){
+                P6OUT &= ~L_FORWARD;
+            }
+            if(cycle_time >= WHEEL_COUNT_TIME){
+                cycle_time = 0;
+                right_motor_count = 0;
+                left_motor_count = 0;
+                segment_count++;
+                LRmotorForward();
+            }
+        }else{
+            state = END;
+        }
+    }
+}
+
+void end_case(void){
+    Forward_Off();
+    state = WAIT;
+    event = NONE;
+}
+
+
+
+// Shape Commands
 // Circle:
 //    For Right Turn, LEFT_COUNT_TIME > RIGHT_COUNT_TIME
 //    For Left Turn, RIGHT_COUNT_TIME > LEFT_COUNT_TIME
