@@ -37,6 +37,10 @@ extern unsigned int left_motor_count;
 extern unsigned int segment_count;
 extern unsigned int backlight_status;
 
+extern unsigned int straight_step;
+extern unsigned int circle_step;
+extern unsigned int triangle_step;
+extern unsigned int figure8_step;
 
 
 /* Functions Included in this File
@@ -223,63 +227,73 @@ void end_case(void){
 // Shape Commands
 // Straight:
 void straight(void){
-    travel_distance = 50;
-    right_count_time = 10;
-    left_count_time = 10;
-    wheel_count_time = 10;
-    run_case();
+    if(straight_step == 1){
+        travel_distance = 50;
+        right_count_time = 10;
+        left_count_time = 10;
+        wheel_count_time = 10;
+        straight_step = 0;
+        run_case();
+    }
 }
 
 // Circle:
 //    For Right Turn, LEFT_COUNT_TIME > RIGHT_COUNT_TIME
 //    For Left Turn, RIGHT_COUNT_TIME > LEFT_COUNT_TIME
 void circle(void){
-    travel_distance = 75;
-    right_count_time = 1;
-    left_count_time = 10;
-    wheel_count_time = 10;
-    run_case();
+    if(circle_step==1){
+        travel_distance = 75;
+        right_count_time = 1;
+        left_count_time = 10;
+        wheel_count_time = 10;
+        run_case();
+    }
 }
 
 
 void triangle(void){
-    unsigned int i;
-    for(i = 0; i < 3; i++){
-        // Triangle Straight
-        travel_distance = 25;
-        right_count_time = 5;
-        left_count_time = 5;
+    if(triangle_step==1){
+        travel_distance = 50;
+        right_count_time = 10;
+        left_count_time = 10;
         wheel_count_time = 10;
+        triangle_step = 2;
         run_case();
-
-        // Triangle  Turn
+    }else if(triangle_step==2){
         travel_distance = 75;
-        right_count_time = 7;
-        left_count_time = 0;
+        right_count_time = 1;
+        left_count_time = 10;
         wheel_count_time = 10;
-
-        if(time_change){
-            time_change = 0;
-            if(segment_count <= travel_distance){
-                if(right_motor_count++ >= right_count_time){
-                    P6OUT &= ~R_FORWARD;
-                }
-                if(left_motor_count++ >= left_count_time){
-                    P6OUT &= ~L_FORWARD;
-                }
-                if(cycle_time >= wheel_count_time){
-                    cycle_time = 0;
-                    right_motor_count = 0;
-                    left_motor_count = 0;
-                    segment_count++;
-                    LRmotorForward();
-                }
-            }else{
-                state = END;
-            }
-        }
-
-
+        triangle_step = 3;
+        run_case();
+    }else if(triangle_step==3){
+        travel_distance = 50;
+        right_count_time = 10;
+        left_count_time = 10;
+        wheel_count_time = 10;
+        triangle_step = 4;
+        run_case();
+    }else if(triangle_step==4){
+        travel_distance = 75;
+        right_count_time = 1;
+        left_count_time = 10;
+        wheel_count_time = 10;
+        triangle_step = 5;
+        run_case();
+    }else if(triangle_step==5){
+        travel_distance = 50;
+        right_count_time = 10;
+        left_count_time = 10;
+        wheel_count_time = 10;
+        triangle_step = 6;
+        run_case();
+    }else if(triangle_step==6){
+        travel_distance = 75;
+        right_count_time = 1;
+        left_count_time = 10;
+        wheel_count_time = 10;
+        triangle_step = 0;
+        run_case();
     }
 }
 

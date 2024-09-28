@@ -57,6 +57,11 @@ unsigned int right_motor_count;
 unsigned int left_motor_count;
 unsigned int segment_count;
 
+unsigned int straight_step;
+unsigned int circle_step;
+unsigned int triangle_step;
+unsigned int figure8_step;
+
 
 void main(void){
     //    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
@@ -92,6 +97,8 @@ void main(void){
     dispEvent = STRAIGHT;
     state = WAIT;
     LRmotorStop();
+    event = NONE;
+    straight_step = 0;
     while(ALWAYS) {                      // Can the Operating system run
         Carlson_StateMachine();            // Run a Time Based State Machine
         Display_Process();                 // Update Display

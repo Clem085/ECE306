@@ -21,6 +21,11 @@ extern volatile unsigned char display_changed;
 extern unsigned char event;
 extern char display_line[4][11];
 
+extern unsigned int straight_step;
+extern unsigned int circle_step;
+extern unsigned int triangle_step;
+extern unsigned int figure8_step;
+
 // TEST
 extern int Switch1_Pressed;
 extern int Switch2_Pressed;
@@ -119,6 +124,7 @@ void Switch2_Process(void){
                 strcpy(display_line[1], "  Running ");
                 strcpy(display_line[2], " Straight ");
                 strcpy(display_line[3], "          ");
+                straight_step = 1;
                 break;
             case CIRCLE:
                 event = CIRCLE;
@@ -127,6 +133,8 @@ void Switch2_Process(void){
                 strcpy(display_line[2], "  Circle  ");
                 strcpy(display_line[3], "          ");
                 display_changed = TRUE;
+                dispEvent = STRAIGHT;
+                circle_step = 1;
                 break;
             case TRIANGLE:
                 event = TRIANGLE;
@@ -135,6 +143,8 @@ void Switch2_Process(void){
                 strcpy(display_line[2], " Triangle ");
                 strcpy(display_line[3], "          ");
                 display_changed = TRUE;
+                dispEvent = STRAIGHT;
+                triangle_step = 1;
                 break;
             case FIGURE8:
                 event = FIGURE8;
@@ -143,6 +153,8 @@ void Switch2_Process(void){
                 strcpy(display_line[2], " Figure 8 ");
                 strcpy(display_line[3], "          ");
                 display_changed = TRUE;
+                dispEvent = STRAIGHT;
+                figure8_step = 1;
                 break;
             case NONE:
                 LRmotorStop();
