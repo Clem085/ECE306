@@ -23,8 +23,11 @@ extern char display_line[4][11];
 
 extern unsigned int straight_step;
 extern unsigned int circle_step;
+extern unsigned int circle_step2;
 extern unsigned int triangle_step;
 extern unsigned int figure8_step;
+
+extern unsigned char state;
 
 // TEST
 extern int Switch1_Pressed;
@@ -88,6 +91,13 @@ void Switch1_Process(void){
                 strcpy(display_line[3], "          ");
                 display_changed = TRUE;
                 break;
+            case NONE:
+                dispEvent  = STRAIGHT;
+                strcpy(display_line[0], "          ");
+                strcpy(display_line[1], "- Select -");
+                strcpy(display_line[2], " Straight ");
+                strcpy(display_line[3], "          ");
+                display_changed = TRUE;
             default:
                 break;
             }
@@ -117,6 +127,7 @@ void Switch2_Process(void){
             count_debounce_SW2 = DEBOUNCE_RESTART;
             // Event Code
             backlight_status = 0;
+            state = WAIT;
             switch(dispEvent){
             case STRAIGHT:
                 event = STRAIGHT;
@@ -133,8 +144,9 @@ void Switch2_Process(void){
                 strcpy(display_line[2], "  Circle  ");
                 strcpy(display_line[3], "          ");
                 display_changed = TRUE;
-                dispEvent = STRAIGHT;
+                dispEvent = NONE;
                 circle_step = 1;
+                circle_step2 = 1;
                 break;
             case TRIANGLE:
                 event = TRIANGLE;
@@ -143,7 +155,7 @@ void Switch2_Process(void){
                 strcpy(display_line[2], " Triangle ");
                 strcpy(display_line[3], "          ");
                 display_changed = TRUE;
-                dispEvent = STRAIGHT;
+                dispEvent = NONE;
                 triangle_step = 1;
                 break;
             case FIGURE8:
@@ -153,7 +165,7 @@ void Switch2_Process(void){
                 strcpy(display_line[2], " Figure 8 ");
                 strcpy(display_line[3], "          ");
                 display_changed = TRUE;
-                dispEvent = STRAIGHT;
+                dispEvent = NONE;
                 figure8_step = 1;
                 break;
             case NONE:

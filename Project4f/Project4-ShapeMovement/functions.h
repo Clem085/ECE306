@@ -151,6 +151,7 @@ void figure8(void);
 // Motor Movement Cases
 void wait_case(void);
 void start_case(void);
+void run_case(void);
 void end_case(void);
 
 

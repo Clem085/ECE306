@@ -20,6 +20,7 @@
 #define STRAIGHT              ('L')
 #define CIRCLE                ('C')
 #define TRIANGLE              ('T')
+#define TRIANGLE_CURVE        ('t')
 #define FIGURE8               ('F')
 #define WAIT                  ('W')
 #define START                 ('S')

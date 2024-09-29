@@ -59,6 +59,7 @@ unsigned int segment_count;
 
 unsigned int straight_step;
 unsigned int circle_step;
+unsigned int circle_step2;
 unsigned int triangle_step;
 unsigned int figure8_step;
 
@@ -94,16 +95,16 @@ void main(void){
     // Beginning of the "While" Operating System
     //------------------------------------------------------------------------------
     backlight_status = 0;
-    dispEvent = STRAIGHT;
+    dispEvent = NONE;
     state = WAIT;
     LRmotorStop();
     event = NONE;
     straight_step = 0;
+
     while(ALWAYS) {                      // Can the Operating system run
         Carlson_StateMachine();            // Run a Time Based State Machine
         Display_Process();                 // Update Display
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-        //        New Code
         backlight_control();
         if(Last_Time_Sequence != Time_Sequence){
             Last_Time_Sequence = Time_Sequence;
