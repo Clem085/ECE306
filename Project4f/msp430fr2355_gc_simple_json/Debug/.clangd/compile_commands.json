@@ -1,0 +1,47 @@
+[
+   {
+      "directory" : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/Debug",
+      "command"   : "clang++ -I\"/home/connor/ti/ccstheia150/ccs/ccs_base/msp430/include\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/include\" -I\"/home/connor/ti/ccstheia150/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE -D__ENABLE_GUI_COMM=1 -DGLOBAL_Q=8",
+      "file"      : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/GUIComm_JSON.c"
+   },
+   {
+      "directory" : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/Debug",
+      "command"   : "clang++ -I\"/home/connor/ti/ccstheia150/ccs/ccs_base/msp430/include\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/include\" -I\"/home/connor/ti/ccstheia150/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE -D__ENABLE_GUI_COMM=1 -DGLOBAL_Q=8",
+      "file"      : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/callbacks_JSON.c"
+   },
+   {
+      "directory" : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/Debug",
+      "command"   : "clang++ -I\"/home/connor/ti/ccstheia150/ccs/ccs_base/msp430/include\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/include\" -I\"/home/connor/ti/ccstheia150/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE -D__ENABLE_GUI_COMM=1 -DGLOBAL_Q=8",
+      "file"      : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/main.c"
+   },
+   {
+      "directory" : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/Debug",
+      "command"   : "clang++ -I\"/home/connor/ti/ccstheia150/ccs/ccs_base/msp430/include\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/include\" -I\"/home/connor/ti/ccstheia150/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE -D__ENABLE_GUI_COMM=1 -DGLOBAL_Q=8",
+      "file"      : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/src/MSP430_GUI/GUI_JSON.c"
+   },
+   {
+      "directory" : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/Debug",
+      "command"   : "clang++ -I\"/home/connor/ti/ccstheia150/ccs/ccs_base/msp430/include\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/include\" -I\"/home/connor/ti/ccstheia150/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE -D__ENABLE_GUI_COMM=1 -DGLOBAL_Q=8",
+      "file"      : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/src/MSP430_GUI/jsmn/jsmn.c"
+   },
+   {
+      "directory" : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/Debug",
+      "command"   : "clang++ -I\"/home/connor/ti/ccstheia150/ccs/ccs_base/msp430/include\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/include\" -I\"/home/connor/ti/ccstheia150/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE -D__ENABLE_GUI_COMM=1 -DGLOBAL_Q=8",
+      "file"      : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/src/MSP430_HAL/HAL_GUIComm_UART_FR235x.c"
+   },
+   {
+      "directory" : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/Debug",
+      "command"   : "clang++ -I\"/home/connor/ti/ccstheia150/ccs/ccs_base/msp430/include\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/include\" -I\"/home/connor/ti/ccstheia150/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE -D__ENABLE_GUI_COMM=1 -DGLOBAL_Q=8",
+      "file"      : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/src/MSP430_HAL/HAL_IO_FR235x.c"
+   },
+   {
+      "directory" : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/Debug",
+      "command"   : "clang++ -I\"/home/connor/ti/ccstheia150/ccs/ccs_base/msp430/include\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/include\" -I\"/home/connor/ti/ccstheia150/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE -D__ENABLE_GUI_COMM=1 -DGLOBAL_Q=8",
+      "file"      : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/src/MSP430_HAL/HAL_System_FR235x.c"
+   },
+   {
+      "directory" : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/Debug",
+      "command"   : "clang++ -I\"/home/connor/ti/ccstheia150/ccs/ccs_base/msp430/include\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json\" -I\"/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/include\" -I\"/home/connor/ti/ccstheia150/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE -D__ENABLE_GUI_COMM=1 -DGLOBAL_Q=8",
+      "file"      : "/home/connor/Downloads/Programming/MSP430-EmbeddedC/Project4f/msp430fr2355_gc_simple_json/src/MSP430_HAL/HAL_Timer_FR235x.c"
+   }
+]
