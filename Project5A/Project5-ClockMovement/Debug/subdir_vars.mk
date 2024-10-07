@@ -15,7 +15,8 @@ C_SRCS += \
 ../motors.c \
 ../ports.c \
 ../switch.c \
-../system.c 
+../system.c \
+../timersB0.c 
 
 C_DEPS += \
 ./Display.d \
@@ -26,7 +27,8 @@ C_DEPS += \
 ./motors.d \
 ./ports.d \
 ./switch.d \
-./system.d 
+./system.d \
+./timersB0.d 
 
 OBJS += \
 ./Display.obj \
@@ -37,7 +39,8 @@ OBJS += \
 ./motors.obj \
 ./ports.obj \
 ./switch.obj \
-./system.obj 
+./system.obj \
+./timersB0.obj 
 
 OBJS__QUOTED += \
 "Display.obj" \
@@ -48,7 +51,8 @@ OBJS__QUOTED += \
 "motors.obj" \
 "ports.obj" \
 "switch.obj" \
-"system.obj" 
+"system.obj" \
+"timersB0.obj" 
 
 C_DEPS__QUOTED += \
 "Display.d" \
@@ -59,7 +63,8 @@ C_DEPS__QUOTED += \
 "motors.d" \
 "ports.d" \
 "switch.d" \
-"system.d" 
+"system.d" \
+"timersB0.d" 
 
 C_SRCS__QUOTED += \
 "../Display.c" \
@@ -70,6 +75,7 @@ C_SRCS__QUOTED += \
 "../motors.c" \
 "../ports.c" \
 "../switch.c" \
-"../system.c" 
+"../system.c" \
+"../timersB0.c" 
 
 

@@ -105,6 +105,7 @@ void main(void){
     motorsOFF();
     event = NONE;
     straight_step = 0;
+    enable_switches();
 
     while(ALWAYS) {                      // Can the Operating system run
         Carlson_StateMachine();            // Run a Time Based State Machine

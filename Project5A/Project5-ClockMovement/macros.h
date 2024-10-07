@@ -44,9 +44,26 @@
 #define DEBOUNCE_TIME          (12)
 #define DEBOUNCE_RESTART       (0)
 #define WAITING2START          (500) //1000 Long
+#define P4PUD (P4OUT)
+// #define SW1 (0x02) // Switch 1
 
 // Port 3 Pin 4 Behavior
 #define USE_GPIO    (0x00)
 #define USE_SMCLK   (0x01)
+
+
+// TIMERS
+    // Timer A0
+#define TB0CCR0_INTERVAL (2500) // 8,000,000 / 2 / 8 / (1 / 5msec)
+    // Others
+#define TB0CCR1_INTERVAL (2500) // 8,000,000 / 2 / 8 / (1 / 5msec)
+#define TB0CCR2_INTERVAL (2500) // 8,000,000 / 2 / 8 / (1 / 5msec)
+
+#define TIMER_B0_0_VECTOR (TIMER0_B0_VECTOR)
+#define TIMER_B0_1_OVFL_VECTOR (TIMER0_B1_VECTOR)
+
+#define HALF_SEC (500)
+#define COUNTER_RESET(0)
+
 
 #endif /* MACROS_H_ */

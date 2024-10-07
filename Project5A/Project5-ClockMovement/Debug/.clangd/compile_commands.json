@@ -43,5 +43,10 @@
       "directory" : "/home/connor/Downloads/Programming/MSP430-ECE306/Project5A/Project5-ClockMovement/Debug",
       "command"   : "clang++ -I\"/home/connor/ti/ccstheia150/ccs/ccs_base/msp430/include\" -I\"/home/connor/Downloads/Programming/MSP430-ECE306/Project5A/Project5-ClockMovement\" -I\"/home/connor/Downloads/Programming/MSP430-ECE306/Project5A/Project5-ClockMovement/include\" -I\"/home/connor/ti/ccstheia150/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE -D__ENABLE_GUI_COMM=1 -DGLOBAL_Q=8",
       "file"      : "/home/connor/Downloads/Programming/MSP430-ECE306/Project5A/Project5-ClockMovement/system.c"
+   },
+   {
+      "directory" : "/home/connor/Downloads/Programming/MSP430-ECE306/Project5A/Project5-ClockMovement/Debug",
+      "command"   : "clang++ -I\"/home/connor/ti/ccstheia150/ccs/ccs_base/msp430/include\" -I\"/home/connor/Downloads/Programming/MSP430-ECE306/Project5A/Project5-ClockMovement\" -I\"/home/connor/Downloads/Programming/MSP430-ECE306/Project5A/Project5-ClockMovement/include\" -I\"/home/connor/ti/ccstheia150/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE -D__ENABLE_GUI_COMM=1 -DGLOBAL_Q=8",
+      "file"      : "/home/connor/Downloads/Programming/MSP430-ECE306/Project5A/Project5-ClockMovement/timersB0.c"
    }
 ]

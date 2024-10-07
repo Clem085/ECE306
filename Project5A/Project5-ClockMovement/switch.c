@@ -51,6 +51,7 @@ extern unsigned int backlight_status;
 
 
 
+
 //// Physical Buttons
 // void Switch1_Shape_Process(void){
 //     //-----------------------------------------------------------------------------
@@ -223,4 +224,57 @@ void Switch1_Proj5_Process(void){
 }
 
 
+// ENABLE SWITCHES
+    // ENABLE SW1
+void enable_switch_SW1(void){
+    P5OUT |=  SW1;
+    P5DIR &= ~SW1;
+}
+    // ENABLE SW2
+void enable_switch_SW2(void){
+    P5OUT |=  SW2;
+    P5DIR &= ~SW2;
+}
+    // ENABLE BOTH
+void enable_switches(void){
+    enable_switch_SW1();
+    enable_switch_SW2();
+}
+
+
+
+// DISABLE SWITCHES
+    // DISABLE SW1
+void disable_switch_SW1(void){
+    P5OUT |=  SW1;
+    P5DIR &= ~SW1;
+}
+    // DISABLE SW2
+void disable_switch_SW2(void){
+    P5OUT |=  SW2;
+    P5DIR &= ~SW2;
+}
+    // DISABLE BOTH
+void disable_switches(void){
+    disable_switch_SW1();
+    disable_switch_SW2();
+}
+
+
+
+#pragma vector = PORT2_VECTOR
+__interrupt void switchP2_interrupt(void) {
+  // Switch 2
+  if (P2IFG & SW2) {
+    P2IFG &= ~SW2; // IFG SW2 cleared
+    // Set a variable to identify the switch is being debounced.
+    // Reset the count required of the debounce.
+    // Disable the Switch Interrupt.
+    // Clear any current timer interrupt.
+    disable_switch_SW2()
+    half_sec_delay();
+    P6OUT |= LCD_BACKLITE;
+    SW2_count_presses++;
+  }
+}
 

@@ -17,8 +17,8 @@ ORDERED_OBJS += \
 "./ports.obj" \
 "./switch.obj" \
 "./system.obj" \
+"./timersB0.obj" \
 "../Compiled/LCD.obj" \
-"../Compiled/timersB0.obj" \
 "../lnk_msp430fr2355.cmd" \
 $(GEN_CMDS__FLAG) \
 -lfrwp_init.a \
@@ -152,8 +152,8 @@ Project5-ClockMovement.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "Display.obj" "clocks.obj" "init.obj" "led.obj" "main.obj" "motors.obj" "ports.obj" "switch.obj" "system.obj" 
-	-$(RM) "Display.d" "clocks.d" "init.d" "led.d" "main.d" "motors.d" "ports.d" "switch.d" "system.d" 
+	-$(RM) "Display.obj" "clocks.obj" "init.obj" "led.obj" "main.obj" "motors.obj" "ports.obj" "switch.obj" "system.obj" "timersB0.obj" 
+	-$(RM) "Display.d" "clocks.d" "init.d" "led.d" "main.d" "motors.d" "ports.d" "switch.d" "system.d" "timersB0.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

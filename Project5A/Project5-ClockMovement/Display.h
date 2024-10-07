@@ -4,5 +4,3 @@
 void backlight_control(void);
 
 #endif /* DISPLAY_H_ */
-
-

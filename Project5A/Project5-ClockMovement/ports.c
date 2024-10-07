@@ -178,7 +178,10 @@ void Init_Port4(void){ // Configure PORT 4
     P4SEL1 &= ~SW1; // SW1 GPIO operation
     P4DIR  &= ~SW1; // Direction = input
     P4REN  |=  SW1; // Enable pullup resistor
-    P4OUT  |=  SW1;
+    P4OUT  |=  SW1; // Configure pull-up resistor SW1
+    P4IES  |=  SW1; // SW1 Hi/Lo edge interrupt
+    P4IFG  &= ~SW1; // IFG SW1 cleared
+    P4IE   |=  SW1; // SW1 interrupt Enabled
 
     P4SEL0 |= UCA1RXD; // USCI_A1 UART operation
     P4SEL1 &= ~UCA1RXD; // USCI_A1 UART operation
