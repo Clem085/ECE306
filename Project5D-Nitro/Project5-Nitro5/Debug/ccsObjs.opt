@@ -1,0 +1,14 @@
+"./Display.obj"
+"./clocks.obj"
+"./init.obj"
+"./led.obj"
+"./main.obj"
+"./motors.obj"
+"./ports.obj"
+"./switch.obj"
+"./system.obj"
+"./timersB0.obj"
+"../Compiled/LCD.obj"
+"../lnk_cc430f5123.cmd"
+-llibmath.a
+-llibc.a
