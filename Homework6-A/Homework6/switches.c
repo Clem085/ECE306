@@ -52,11 +52,13 @@ unsigned int count_debounce_SW2;
 void enable_switch_SW1(void){
     P5OUT |=  SW1;
     P5DIR &= ~SW1;
+    P4IE  |=  SW1;
 }
 // ENABLE SW2
 void enable_switch_SW2(void){
     P5OUT |=  SW2;
     P5DIR &= ~SW2;
+    P2IE  |=  SW2;
 }
 // ENABLE BOTH
 void enable_switches(void){
@@ -71,11 +73,13 @@ void enable_switches(void){
 void disable_switch_SW1(void){
     P5OUT |=  SW1;
     P5DIR &= ~SW1;
+    P4IE  &= ~SW1;
 }
 // DISABLE SW2
 void disable_switch_SW2(void){
     P5OUT |=  SW2;
     P5DIR &= ~SW2;
+    P2IE  &= ~SW2;
 }
 // DISABLE BOTH
 void disable_switches(void){

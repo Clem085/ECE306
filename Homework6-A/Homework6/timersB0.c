@@ -61,9 +61,9 @@ __interrupt void Timer0_B0_ISR(void){
     //---------------------------------------------------------------------------
     update_display = TRUE;
     Time_Sequence++;
-    count_debounce_SW1++;
-    count_debounce_SW2++;
     TB0CCR0 += TB0CCR0_INTERVAL;
+    count_debounce_SW1++; //
+    count_debounce_SW2++; //
     if(debounce_Status_SW1==OFF && debounce_Status_SW2==OFF){
         if(backlight_status){
             backlight_status = 0;
@@ -75,6 +75,23 @@ __interrupt void Timer0_B0_ISR(void){
     // Add Offset to TBCCR0
     //---------------------------------------------------------------------------
 }
+
+
+
+//#pragma vector = TIMER0_B1_VECTOR
+//__interrupt void Timer0_B_ISR(void){
+//    //-----------------------------------------------------------------------------
+//    // TimerB0 1 Interrupt handler
+//    //---------------------------------------------------------------------------
+//    update_display = TRUE;
+////    Time_Sequence++;
+//    count_debounce_SW1++;
+//    count_debounce_SW2++;
+//    TB0CCR1 += TB0CCR1_INTERVAL;
+//
+//    // Add Offset to TBCCR0
+//    //---------------------------------------------------------------------------
+//}
 
 
 

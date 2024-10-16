@@ -93,7 +93,7 @@ void main(void){
     // Place the contents of what you want on the display, in between the quotes
     // Limited to 10 characters per line
     strcpy(display_line[0], "          ");
-    strcpy(display_line[1], "Press  SW1");
+    strcpy(display_line[1], "Press a SW");
     strcpy(display_line[2], " To Begin ");
     strcpy(display_line[3], "          ");
     display_changed = TRUE;
