@@ -16,19 +16,36 @@
 //  -- -- -- -- -- -- -- -- -- -- --
 //===========================================================================
 // Includes
+//#include  "msp430.h"
+//#include  <string.h>
+//#include <switches.h>
+//#include  "functions.h"
+//#include  "LCD.h"
+//#include  "ports.h"
+//#include  "macros.h"
+//#include  "motors.h"
+//#include  "Display.h"
+//#include  "timersB0.h"
+//#include  "ThumbWheel.h"
+//#include <string.h>
+
+// #include as of 10-19-24
+    // Header Files
 #include  "msp430.h"
-#include  <string.h>
-#include <switches.h>
 #include  "functions.h"
 #include  "LCD.h"
 #include  "ports.h"
 #include  "macros.h"
 #include  "motors.h"
 #include  "Display.h"
-#include  "timersB0.h"
+#include  "timers.h"
+#include  "switches.h"
 #include  "ThumbWheel.h"
-#include <string.h>
-
+#include  "ADC.h"
+#include  "IR.h"
+    // Libraries
+#include  <string.h>
+#include  <stdio.h>
 
 // Globals
 extern char display_line[4][11];

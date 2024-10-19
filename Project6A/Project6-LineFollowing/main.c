@@ -8,22 +8,24 @@
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
+// #include as of 10-19-24
+// Header Files
 #include  "msp430.h"
-#include  <string.h>
-#include <switches.h>
 #include  "functions.h"
 #include  "LCD.h"
 #include  "ports.h"
 #include  "macros.h"
 #include  "motors.h"
 #include  "Display.h"
-#include  "timersB0.h"
+#include  "timers.h"
 #include  "switches.h"
 #include  "ThumbWheel.h"
 #include  "ADC.h"
+#include  "IR.h"
+// Libraries
+#include  <string.h>
+#include  <stdio.h>
 
-    // Libraries
-#include <stdio.h>
 
 // Function Prototypes
 void main(void);
@@ -85,8 +87,10 @@ extern volatile unsigned int ADC_Channel;
 extern volatile unsigned int ADC_Left_Detect;
 extern volatile unsigned int ADC_Right_Detect;
 extern volatile unsigned int ADC_Thumb;
+extern char IR_status;
 
 int activateSM;
+
 
 void main(void){
     //    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
@@ -102,11 +106,19 @@ void main(void){
     // previously configured port settings
     p3_4_type = USE_SMCLK;
     Init_Ports();                        // Initialize Ports
+
+
     Init_Clocks();                       // Initialize Clock System
+
+
+
     Init_Conditions();                   // Initialize Variables and Initial Conditions
     Init_Timers();                       // Initialize Timers
     Init_LCD();                          // Initialize LCD
+
     Init_ADC();                          // Initialize ADC
+
+
     // Place the contents of what you want on the display, in between the quotes
     // Limited to 10 characters per line
     strcpy(display_line[0], "          ");
@@ -120,34 +132,23 @@ void main(void){
     //------------------------------------------------------------------------------
     // Beginning of the "While" Operating System
     //------------------------------------------------------------------------------
-    backlight_status = 0;
-    dispEvent = NONE;
-    state = WAIT;
-    motorsOFF();
-    event = NONE;
-    straight_step = 0;
-    enable_switches();
-    activateSM = 0;
+//    backlight_status = 1;
+//    dispEvent = NONE;
+//    state = WAIT;
+//    motorsOFF();
+//    event = NONE;
+//    straight_step = 0;
+//    activateSM = 0;
+
+    IR_status = ON;
 
     while(ALWAYS) {                      // Can the Operating system run
-//        backlight_status = 1;
-//        StateMachine();            // Run a Time Based State Machine
         Display_Process();                 // Update Display
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
         backlight_control();
-        if(Last_Time_Sequence != Time_Sequence){
-            Last_Time_Sequence = Time_Sequence;
-            cycle_time++;
-            time_change = 1;
-        }
+        IR_control();
 
-        // Switch1_Process();
-        // Switch2_Process();
-        // Move_Shape(); //Nothing will happen UNTIL proper buttons are pressed, stored in motors.c
-        //        Switch1_Proj5_Process();
-        //        moveSeq_proj5();
-        vrfyDirection();
-        debounce();
+        vrfyDirection(); // Protects against Magic Smoke
     }
 
 
@@ -157,7 +158,6 @@ void main(void){
 
 
 }
-
 
 
 void StateMachine(void){

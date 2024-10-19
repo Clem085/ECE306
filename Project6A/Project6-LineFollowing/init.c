@@ -7,12 +7,30 @@
 //  Date: Sept 2013
 //  Compiler: Built with IAR Embedded Workbench Version: V4.10A/W32 (5.40.1)
 //===========================================================================
+//#include  "msp430.h"
+//#include  <string.h>
+//#include  "functions.h"
+//#include  "LCD.h"
+//#include  "ports.h"
+//#include "macros.h"
+
+// #include as of 10-18-24
+    // Header Files
 #include  "msp430.h"
-#include  <string.h>
 #include  "functions.h"
 #include  "LCD.h"
 #include  "ports.h"
-#include "macros.h"
+#include  "macros.h"
+#include  "motors.h"
+#include  "Display.h"
+#include  "timers.h"
+#include  "switches.h"
+#include  "ThumbWheel.h"
+#include  "ADC.h"
+    // Libraries
+#include  <string.h>
+#include  <stdio.h>
+
 
 //Variables
 extern char display_line[4][11];
@@ -20,6 +38,8 @@ extern char *display[4];
 extern volatile unsigned char update_display;
 extern volatile unsigned char display_changed;
 unsigned char display_mode;
+extern unsigned int count_debounce_SW1;
+extern unsigned int count_debounce_SW2;
 
 
 void Init_Conditions(void){
@@ -46,5 +66,8 @@ void Init_Conditions(void){
 
 // Interrupts are disabled by default, enable them.
   enable_interrupts();
+
+  count_debounce_SW1 = 0;
+  count_debounce_SW2 = 0;
 //------------------------------------------------------------------------------
 }

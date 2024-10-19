@@ -19,7 +19,7 @@ void debounceSW1(void);
 void debounceSW2(void);
 
 // DEFINES
-#define DEBOUNCE_TIME          (5)
+#define DEBOUNCE_TIME          (6)
 #define DEBOUNCE_RESTART       (0)
 
 #endif /* SWITCHES_H_ */

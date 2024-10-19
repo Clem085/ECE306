@@ -4,16 +4,34 @@
 //  Author: Connor Savugot
 //  Date: Sep 13, 2024
 //===========================================================================
+//#include  "msp430.h"
+//#include  <string.h>
+//#include <switches.h>
+//#include  "functions.h"
+//#include  "LCD.h"
+//#include  "ports.h"
+//#include  "macros.h"
+//#include  "motors.h"
+//#include  "Display.h"
+//#include "timersB0.h"
+
+// #include as of 10-19-24
+    // Header Files
 #include  "msp430.h"
-#include  <string.h>
-#include <switches.h>
 #include  "functions.h"
 #include  "LCD.h"
 #include  "ports.h"
 #include  "macros.h"
 #include  "motors.h"
 #include  "Display.h"
-#include "timersB0.h"
+#include  "timers.h"
+#include  "switches.h"
+#include  "ThumbWheel.h"
+#include  "ADC.h"
+#include  "IR.h"
+    // Libraries
+#include  <string.h>
+#include  <stdio.h>
 
 
 short int p3_4_type;
@@ -34,10 +52,10 @@ void Init_Port1(void){
     P1OUT |= RED_LED;  // RED LED
     P1DIR |= RED_LED;  // RED LED
 
-    P1SEL0 &= ~A1_SEEED; // A1_SEEED
-    P1SEL1 &= ~A1_SEEED; // A1_SEEED
-    P1OUT &= ~A1_SEEED;  // A1_SEEED
-    P1DIR |= A1_SEEED;  // A1_SEEED
+    P1SEL0 &= ~V_A1_SEEED; // A1_SEEED
+    P1SEL1 &= ~V_A1_SEEED; // A1_SEEED
+    P1OUT &= ~V_A1_SEEED;  // A1_SEEED
+    P1DIR |= V_A1_SEEED;  // A1_SEEED
 
     P1SEL0 &= ~V_DETECT_L;
     P1SEL1 &= ~V_DETECT_L;
@@ -49,10 +67,10 @@ void Init_Port1(void){
     P1OUT &= ~V_DETECT_R;
     P1DIR |= V_DETECT_R;
 
-    P1SEL0 &= ~A4_SEEED;
-    P1SEL1 &= ~A4_SEEED;
-    P1OUT &= ~A4_SEEED;
-    P1DIR |= A4_SEEED;
+    P1SEL0 &= ~V_A4_SEEED;
+    P1SEL1 &= ~V_A4_SEEED;
+    P1OUT &= ~V_A4_SEEED;
+    P1DIR |= V_A4_SEEED;
 
     P1SEL0 &= ~V_THUMB;
     P1SEL1 &= ~V_THUMB;
@@ -98,10 +116,10 @@ void Init_Port2(void){  // Configure Port 2
     P2IFG  &= ~SW2; // IFG SW1 cleared
     P2IE   |=  SW2; // SW1 interrupt Enabled
 
-    P2SEL0 &= ~IOT_RUN_CPU;
-    P2SEL1 &= ~IOT_RUN_CPU; // IOT_RUN_CPU GPIO operation
-    P2OUT  &= ~IOT_RUN_CPU; // Initial Value = Low / Off
-    P2DIR  |=  IOT_RUN_CPU; // Direction = input
+    P2SEL0 &= ~IOT_RUN_RED;
+    P2SEL1 &= ~IOT_RUN_RED; // IOT_RUN_CPU GPIO operation
+    P2OUT  &= ~IOT_RUN_RED; // Initial Value = Low / Off
+    P2DIR  |=  IOT_RUN_RED; // Direction = input
 
     P2SEL0 &= ~DAC_ENB; // DAC_ENB GPIO operation
     P2SEL1 &= ~DAC_ENB; // DAC_ENB GPIO operation
@@ -121,22 +139,22 @@ void Init_Port3(){ //Configure Port 3
     P3OUT  &= ~TEST_PROBE;
     P3DIR  |= TEST_PROBE;
 
-    P3SEL0 &= ~OA20;
-    P3SEL1 &= ~OA20;
-    P3OUT  &= ~OA20;
-    P3DIR  |= OA20;
+    P3SEL0 &= ~OA2O;
+    P3SEL1 &= ~OA2O;
+    P3OUT  &= ~OA2O;
+    P3DIR  |=  OA2O;
 
     P3SEL0 &= ~OA2N;
     P3SEL1 &= ~OA2N;
     P3OUT  &= ~OA2N;
-    P3DIR  |= OA2N;
+    P3DIR  |=  OA2N;
 
     switch(p3_4_type){
     case USE_GPIO:
         P3SEL0 &= ~SMCLK_OUT;
         P3SEL1 &= ~SMCLK_OUT;
         P3OUT  &= ~SMCLK_OUT;
-        P3DIR  |= SMCLK_OUT;
+        P3DIR  &= ~SMCLK_OUT;
         break;
 
     case USE_SMCLK:
@@ -154,20 +172,20 @@ void Init_Port3(){ //Configure Port 3
         break;
     }
 
-    P3SEL0 &= ~DAC_CTRL;
-    P3SEL1 &= ~DAC_CTRL;
-    P3OUT  &= ~DAC_CTRL;
-    P3DIR  |= DAC_CTRL;
+    P3SEL0 &= ~DAC_CNTL;
+    P3SEL1 &= ~DAC_CNTL;
+    P3OUT  &= ~DAC_CNTL;
+    P3DIR  |=  DAC_CNTL;
 
-    P3SEL0 &= ~IOT_LINK_CPU;
-    P3SEL1 &= ~IOT_LINK_CPU;
-    P3OUT  &= ~IOT_LINK_CPU;
-    P3DIR  |= IOT_LINK_CPU;
+    P3SEL0 &= ~IOT_LINK_GRN;
+    P3SEL1 &= ~IOT_LINK_GRN;
+    P3OUT  &= ~IOT_LINK_GRN;
+    P3DIR  |=  IOT_LINK_GRN;
 
-    P3SEL0 &= ~IOT_RN_CPU;
-    P3SEL1 &= ~IOT_RN_CPU;
-    P3OUT  &= ~IOT_RN_CPU;
-    P3DIR  |= IOT_RN_CPU;
+    P3SEL0 &= ~IOT_EN;
+    P3SEL1 &= ~IOT_EN;
+    P3OUT  &= ~IOT_EN;
+    P3DIR  |=  IOT_EN;
 }
 
 void Init_Port4(void){ // Configure PORT 4
@@ -215,27 +233,27 @@ void Init_Port5(void){ //Configure Port 5
     P5SEL0 &= ~V_BAT;
     P5SEL1 &= ~V_BAT;
     P5OUT  &= ~V_BAT;
-    P5DIR  |= V_BAT;
+    P5DIR  |=  V_BAT;
 
-    P5SEL0 &= ~V_5;
-    P5SEL1 &= ~V_5;
-    P5OUT  &= ~V_5;
-    P5DIR  |= V_5;
+    P5SEL0 &= ~V_5_0;
+    P5SEL1 &= ~V_5_0;
+    P5OUT  &= ~V_5_0;
+    P5DIR  |=  V_5_0;
 
-    P5SEL0 &= ~CV_DAC;
-    P5SEL1 &= ~CV_DAC;
-    P5OUT  &= ~CV_DAC;
-    P5DIR  |= CV_DAC;
+    P5SEL0 &= ~V_DAC;
+    P5SEL1 &= ~V_DAC;
+    P5OUT  &= ~V_DAC;
+    P5DIR  |=  V_DAC;
 
-    P5SEL0 &= ~V3_3;
-    P5SEL1 &= ~V3_3;
-    P5OUT  &= ~V3_3;
-    P5DIR  |= V3_3;
+    P5SEL0 &= ~V_3_3;
+    P5SEL1 &= ~V_3_3;
+    P5OUT  &= ~V_3_3;
+    P5DIR  |=  V_3_3;
 
-    P5SEL0 &= ~IOT_BOOT_CPU;
-    P5SEL1 &= ~IOT_BOOT_CPU;
-    P5OUT  &= ~IOT_BOOT_CPU;
-    P5DIR  |= IOT_BOOT_CPU;
+    P5SEL0 &= ~IOT_BOOT;
+    P5SEL1 &= ~IOT_BOOT;
+    P5OUT  &= ~IOT_BOOT;
+    P5DIR  |=  IOT_BOOT;
 }
 
 

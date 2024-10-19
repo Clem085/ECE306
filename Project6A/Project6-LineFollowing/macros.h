@@ -59,8 +59,8 @@
     // Timer A0
 #define TB0CCR0_INTERVAL (25000) // 8,000,000 / 8 / 8 / (1000 / 200msec)
     // Others
-#define TB0CCR1_INTERVAL (2500) // 8,000,000 / 2 / 8 / (1 / 5msec)
-#define TB0CCR2_INTERVAL (2500) // 8,000,000 / 2 / 8 / (1 / 5msec)
+#define TB0CCR1_INTERVAL (25000) // 8,000,000 / 8 / 8 / (1000 / 200msec)
+#define TB0CCR2_INTERVAL (25000) // 8,000,000 / 8 / 8 / (1000 / 200msec)
 
 #define TIMER_B0_0_VECTOR (TIMER0_B0_VECTOR)
 #define TIMER_B0_1_OVFL_VECTOR (TIMER0_B1_VECTOR)

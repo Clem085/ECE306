@@ -5,22 +5,41 @@
  *      Author: jammi
  */
 
-// Includes
-// Custom
-#include "Display.h"
-#include "LCD.h"
-#include "functions.h"
-#include "macros.h"
-#include "motors.h"
-#include "msp430.h"
-#include "ports.h"
-#include "switches.h"
-#include "timersB0.h"
-#include "ThumbWheel.h"
+//// Includes
+//// Custom
+//#include "Display.h"
+//#include "LCD.h"
+//#include "functions.h"
+//#include "macros.h"
+//#include "motors.h"
+//#include "msp430.h"
+//#include "ports.h"
+//#include "switches.h"
+//#include "timers.h"
+//#include "ThumbWheel.h"
+//
+//// Libraries
+//#include <string.h>
+//#include <stdio.h>
 
-// Libraries
-#include <string.h>
-#include <stdio.h>
+
+// #include as of 10-19-24
+    // Header Files
+#include  "msp430.h"
+#include  "functions.h"
+#include  "LCD.h"
+#include  "ports.h"
+#include  "macros.h"
+#include  "motors.h"
+#include  "Display.h"
+#include  "timers.h"
+#include  "switches.h"
+#include  "ThumbWheel.h"
+#include  "ADC.h"
+#include  "IR.h"
+    // Libraries
+#include  <string.h>
+#include  <stdio.h>
 
 // Globals
 unsigned int thousands;
@@ -37,6 +56,7 @@ void HexToBCD(int hex_value){
     for(i=0; i < 4; i++) {
         adc_char[i] = '0';
     }
+    value = 0;
     while (hex_value > 999){
         hex_value = hex_value - 1000;
         value = value + 1;

@@ -1,15 +1,6 @@
-/*
- * timers.h
- *
- *  Created on: Oct 11, 2024
- *      Author: jammi
- */
+#ifndef TIMERSB0_H_
+#define TIMERSB0_H_
 
-#ifndef TIMERS_H_
-#define TIMERS_H_
+void half_sec_delay(void);
 
-
-
-
-
-#endif /* TIMERS_H_ */
+#endif /* TIMERSB0_H_ */
