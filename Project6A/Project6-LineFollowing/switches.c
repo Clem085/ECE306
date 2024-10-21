@@ -19,7 +19,7 @@
 //#include  "Display.h"
 //#include "timersB0.h"
 
-// #include as of 10-19-24
+// #include as of 10-21-24
 // Header Files
 #include  "msp430.h"
 #include  "functions.h"
@@ -30,7 +30,6 @@
 #include  "Display.h"
 #include  "timers.h"
 #include  "switches.h"
-#include  "ThumbWheel.h"
 #include  "ADC.h"
 #include  "IR.h"
 // Libraries
@@ -50,10 +49,10 @@ extern unsigned int circle_step2;
 extern unsigned int triangle_step;
 extern unsigned int figure8_step;
 
-extern unsigned char state;
+
 
 // TEST
-extern unsigned int backlight_status;
+extern char backlight_status;
 extern volatile unsigned int Time_Sequence;
 extern int activateSM;
 
@@ -103,51 +102,7 @@ unsigned int count_debounce_SW2;
 //
 
 
-//-----------------------------------------------------------------------------
-// Port 4 interrupt for switch 1, it is disabled for the duration
-// of the debounce time. Debounce time is set for 1 second
-#pragma vector=PORT4_VECTOR
-__interrupt void switch1_interrupt(void) {
-    // Switch 1
-    if (P4IFG & SW1) {
 
-        P4IE &= ~SW1;
-        P4IFG &= ~SW1;
-
-        TB0CCTL1 &= ~CCIFG;             // Clear SW1 debounce interrupt flag
-        TB0CCR1 = TB0CCR1_INTERVAL;     // CCR1 add offset
-        TB0CCTL1 |= CCIE;               // CCR1 enable interrupt
-
-        //SW1 FUNCTIONS:
-
-//        TB0CCTL0 &= ~CCIE;
-//        P6OUT &= ~LCD_BACKLITE;
-
-    }
-    //-----------------------------------------------------------------------------
-}
-//-----------------------------------------------------------------------------
-// Port 2 interrupt for switch 2, it is disabled for the duration
-// of the debounce time. Debounce time is set for 1 second
-#pragma vector=PORT2_VECTOR
-__interrupt void switch2_interrupt(void) {
-    // Switch 2
-    if (P2IFG & SW2) {
-
-        P2IE &= ~SW2;
-        P2IFG &= ~SW2;
-
-        TB0CCTL2 &= ~CCIFG;             // Clear SW2 debounce interrupt flag
-        TB0CCR2 = TB0CCR2_INTERVAL;     // CCR2 add offset
-        TB0CCTL2 |= CCIE;               // CCR2 enable interrupt
-
-        //SW2 FUNCTIONS:
-
-//        TB0CCTL0 &= ~CCIE;
-//        P6OUT &= ~LCD_BACKLITE;
-    }
-    //-----------------------------------------------------------------------------
-}
 
 
 //void debounce(void){

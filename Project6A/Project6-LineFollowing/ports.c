@@ -15,8 +15,8 @@
 //#include  "Display.h"
 //#include "timersB0.h"
 
-// #include as of 10-19-24
-    // Header Files
+// #include as of 10-21-24
+// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -26,10 +26,9 @@
 #include  "Display.h"
 #include  "timers.h"
 #include  "switches.h"
-#include  "ThumbWheel.h"
 #include  "ADC.h"
 #include  "IR.h"
-    // Libraries
+// Libraries
 #include  <string.h>
 #include  <stdio.h>
 
@@ -46,46 +45,68 @@ void Init_Ports(){
     Init_Port6();
 }
 
+//void Init_Port1(void){
+//    P1SEL0 &= ~RED_LED; // RED LED
+//    P1SEL1 &= ~RED_LED; // RED LED
+//    P1OUT |= RED_LED;  // RED LED
+//    P1DIR |= RED_LED;  // RED LED
+//
+//    P1SEL0 &= ~V_A1_SEEED; // A1_SEEED
+//    P1SEL1 &= ~V_A1_SEEED; // A1_SEEED
+//    P1OUT &= ~V_A1_SEEED;  // A1_SEEED
+//    P1DIR |= V_A1_SEEED;  // A1_SEEED
+//
+//    P1SEL0 &= ~V_DETECT_L;
+//    P1SEL1 &= ~V_DETECT_L;
+//    P1OUT &= ~V_DETECT_L;
+//    P1DIR |= V_DETECT_L;
+//
+//    P1SEL0 &= ~V_DETECT_R;
+//    P1SEL1 &= ~V_DETECT_R;
+//    P1OUT &= ~V_DETECT_R;
+//    P1DIR |= V_DETECT_R;
+//
+//    P1SEL0 &= ~V_A4_SEEED;
+//    P1SEL1 &= ~V_A4_SEEED;
+//    P1OUT &= ~V_A4_SEEED;
+//    P1DIR |= V_A4_SEEED;
+//
+//    P1SEL0 &= ~V_THUMB;
+//    P1SEL1 &= ~V_THUMB;
+//    P1OUT &= ~V_THUMB;
+//    P1DIR |= V_THUMB;
+//
+//    P1SEL0 &= ~UCA0TXD;
+//    P1SEL1 &= ~UCA0TXD;
+//    P1OUT &= ~UCA0TXD;
+//    P1DIR |= UCA0TXD;
+//
+//    P1SEL0 &= ~UCA0RXD;
+//    P1SEL1 &= ~UCA0RXD;
+//    P1OUT &= ~UCA0RXD;
+//    P1DIR |= UCA0RXD;
+//}
+
+// Code from Analog IO Main Slides
 void Init_Port1(void){
-    P1SEL0 &= ~RED_LED; // RED LED
-    P1SEL1 &= ~RED_LED; // RED LED
-    P1OUT |= RED_LED;  // RED LED
-    P1DIR |= RED_LED;  // RED LED
+    P1OUT = 0x00;
+    P1DIR = 0x00;
 
-    P1SEL0 &= ~V_A1_SEEED; // A1_SEEED
-    P1SEL1 &= ~V_A1_SEEED; // A1_SEEED
-    P1OUT &= ~V_A1_SEEED;  // A1_SEEED
-    P1DIR |= V_A1_SEEED;  // A1_SEEED
+    P1SEL0 &= ~RED_LED; // Set RED_LED as GP I/O
+    P1SEL1 &= ~RED_LED; // Set RED_LED as GP I/O
+    P1OUT |= RED_LED; // Set Red LED On
+    P1DIR |= RED_LED; // Set Red LED direction to output
 
-    P1SEL0 &= ~V_DETECT_L;
-    P1SEL1 &= ~V_DETECT_L;
-    P1OUT &= ~V_DETECT_L;
-    P1DIR |= V_DETECT_L;
+    P1SELC |= V_A1_SEEED; // ADC input for A1_SEEED
+    P1SELC |= V_DETECT_L; // ADC input for V_DETECT_L
+    P1SELC |= V_DETECT_R; // ADC input for V_DETECT_R
+    P1SELC |= V_A4_SEEED; // ADC input for V_A4_SEEED
+    P1SELC |= V_THUMB; // ADC input for V_THUMB
 
-    P1SEL0 &= ~V_DETECT_R;
-    P1SEL1 &= ~V_DETECT_R;
-    P1OUT &= ~V_DETECT_R;
-    P1DIR |= V_DETECT_R;
-
-    P1SEL0 &= ~V_A4_SEEED;
-    P1SEL1 &= ~V_A4_SEEED;
-    P1OUT &= ~V_A4_SEEED;
-    P1DIR |= V_A4_SEEED;
-
-    P1SEL0 &= ~V_THUMB;
-    P1SEL1 &= ~V_THUMB;
-    P1OUT &= ~V_THUMB;
-    P1DIR |= V_THUMB;
-
-    P1SEL0 &= ~UCA0TXD;
-    P1SEL1 &= ~UCA0TXD;
-    P1OUT &= ~UCA0TXD;
-    P1DIR |= UCA0TXD;
-
-    P1SEL0 &= ~UCA0RXD;
-    P1SEL1 &= ~UCA0RXD;
-    P1OUT &= ~UCA0RXD;
-    P1DIR |= UCA0RXD;
+    P1SEL0 |= UCA0TXD; // UCA0TXD pin
+    P1SEL1 &= ~UCA0TXD; // UCA0TXD pin
+    P1SEL0 |= UCA0RXD; // UCA0RXD pin
+    P1SEL1 &= ~UCA0RXD; // UCA0RXD pin
 }
 
 void Init_Port2(void){  // Configure Port 2
@@ -229,33 +250,48 @@ void Init_Port4(void){ // Configure PORT 4
 
 
 
-void Init_Port5(void){ //Configure Port 5
-    P5SEL0 &= ~V_BAT;
-    P5SEL1 &= ~V_BAT;
-    P5OUT  &= ~V_BAT;
-    P5DIR  |=  V_BAT;
+//void Init_Port5(void){ //Configure Port 5
+//    P5SEL0 &= ~V_BAT;
+//    P5SEL1 &= ~V_BAT;
+//    P5OUT  &= ~V_BAT;
+//    P5DIR  |=  V_BAT;
+//
+//    P5SEL0 &= ~V_5_0;
+//    P5SEL1 &= ~V_5_0;
+//    P5OUT  &= ~V_5_0;
+//    P5DIR  |=  V_5_0;
+//
+//    P5SEL0 &= ~V_DAC;
+//    P5SEL1 &= ~V_DAC;
+//    P5OUT  &= ~V_DAC;
+//    P5DIR  |=  V_DAC;
+//
+//    P5SEL0 &= ~V_3_3;
+//    P5SEL1 &= ~V_3_3;
+//    P5OUT  &= ~V_3_3;
+//    P5DIR  |=  V_3_3;
+//
+//    P5SEL0 &= ~IOT_BOOT;
+//    P5SEL1 &= ~IOT_BOOT;
+//    P5OUT  &= ~IOT_BOOT;
+//    P5DIR  |=  IOT_BOOT;
+//}
 
-    P5SEL0 &= ~V_5_0;
-    P5SEL1 &= ~V_5_0;
-    P5OUT  &= ~V_5_0;
-    P5DIR  |=  V_5_0;
+// Code from Analog IO Main Slides
+void Init_Port5(void){
+    P5OUT = 0x00;
+    P5DIR = 0x00;
 
-    P5SEL0 &= ~V_DAC;
-    P5SEL1 &= ~V_DAC;
-    P5OUT  &= ~V_DAC;
-    P5DIR  |=  V_DAC;
+    P5SELC |= V_BAT; // ADC input for V_BAT
+    P5SELC |= V_5_0; // ADC input for V_BAT
+    P5SELC |= V_DAC; // ADC input for V_DAC
+    P5SELC |= V_3_3; // ADC input for V_3_3
+    P5SEL0 &= ~IOT_BOOT; // IOT_BOOT GPIO operation
+    P5SEL1 &= ~IOT_BOOT; // IOT_BOOT GPIO operation
+    P5OUT |= IOT_BOOT; // Set Output value inactive
+    P5DIR |= IOT_BOOT; // Set direction to output
 
-    P5SEL0 &= ~V_3_3;
-    P5SEL1 &= ~V_3_3;
-    P5OUT  &= ~V_3_3;
-    P5DIR  |=  V_3_3;
-
-    P5SEL0 &= ~IOT_BOOT;
-    P5SEL1 &= ~IOT_BOOT;
-    P5OUT  &= ~IOT_BOOT;
-    P5DIR  |=  IOT_BOOT;
 }
-
 
 void Init_Port6(void){ //Configure Port 6
     P6SEL0 &= ~LCD_BACKLITE;

@@ -16,11 +16,13 @@
 #define TRUE                 (0x01) //
 
 // STATES ======================================================================
-#define NONE                  ('N')
-#define WAIT                  ('W')
-#define START                 ('S')
-#define RUN                   ('R')
-#define END                   ('E')
+
+// All Deprecated
+//#define NONE                  ('N')
+//#define WAIT                  ('W')
+//#define START                 ('S')
+//#define RUN                   ('R')
+//#define END                   ('E')
 
 // EVENTS
     // Project 4
@@ -32,9 +34,20 @@
 // #define FIGURE8C1             ('F')
 // #define FIGURE8C2             ('f')
     // Project 5
-#define FWD                    ('f')
-#define REV                    ('r')
-#define SPIN                   ('s')
+//#define FWD                    ('f')
+//#define REV                    ('r')
+//#define SPIN                   ('s')
+
+
+// States
+#define IDLE                    ('I')
+#define WAIT                    ('W')
+#define FWD                     ('F')
+#define BLACKLINE               ('B')
+#define WAIT2                   ('w')
+#define TURNL                   ('T')
+#define LINE1                   ('L')
+#define LINE2                   ('l')
 
 // Switches
 #define PRESSED                (0)

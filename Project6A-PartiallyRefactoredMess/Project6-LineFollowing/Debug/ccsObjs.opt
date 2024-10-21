@@ -1,0 +1,17 @@
+"./ADC.obj"
+"./Display.obj"
+"./IR.obj"
+"./ThumbWheel.obj"
+"./clocks.obj"
+"./init.obj"
+"./led.obj"
+"./main.obj"
+"./motors.obj"
+"./ports.obj"
+"./switches.obj"
+"./system.obj"
+"./timers.obj"
+"../Compiled/LCD.obj"
+"../lnk_msp430fr2355.cmd"
+-lfrwp_init.a
+-llibc.a

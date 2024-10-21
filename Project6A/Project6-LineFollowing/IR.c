@@ -5,8 +5,8 @@
  *      Author: jammi
  */
 
-// #include as of 10-19-24
-    // Header Files
+// #include as of 10-21-24
+// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -16,10 +16,9 @@
 #include  "Display.h"
 #include  "timers.h"
 #include  "switches.h"
-#include  "ThumbWheel.h"
 #include  "ADC.h"
 #include  "IR.h"
-    // Libraries
+// Libraries
 #include  <string.h>
 #include  <stdio.h>
 

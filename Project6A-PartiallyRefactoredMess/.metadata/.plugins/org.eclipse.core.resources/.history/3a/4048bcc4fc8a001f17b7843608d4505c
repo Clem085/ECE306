@@ -1,0 +1,53 @@
+/*
+ * ThumbWheel.c
+ *
+ *  Created on: Oct 14, 2024
+ *      Author: jammi
+ */
+
+// Includes
+    // Custom
+#include "Display.h"
+#include "LCD.h"
+#include "functions.h"
+#include "macros.h"
+#include "motors.h"
+#include "msp430.h"
+#include "ports.h"
+#include "switches.h"
+#include "timersB0.h"
+#include "ThumbWheel.h"
+
+    // Libraries
+#include <string.h>
+#include <stdio.h>
+
+// Globals
+unsigned int thousands;
+unsigned int hundreds;
+unsigned int tens;
+unsigned int ones;
+
+void HexToBCD(int hexValue){
+    if (hexValue <= 0x0FFF) {
+        // Hex value is in range
+        if(hexValue >= 0x03E8){       // 3E8[HEX] = 1000[DEC]
+            hexValue -= 1000;
+            thousands++;
+        }else if(hexValue >= 0x0064){ // 64[HEX] = 100[DEC]
+            hexValue -= 100;
+            hundreds++;
+        }else if(hexValue >= 0x000A){ // A[HEX] = 10[DEC]
+            hexValue -= 10;
+            tens++;
+        }else if(hexValue >= 0x0001){ // 1[HEX] = 1[DEC]
+            hexValue -= 1;
+            ones++;
+        }else{
+            // Hex Value = 0
+            // Return thousands, hundreds, tens, ones as Globals
+        }
+    }
+}
+
+

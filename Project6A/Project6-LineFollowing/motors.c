@@ -13,8 +13,8 @@
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
  */
 
-// #include as of 10-19-24
-    // Header Files
+// #include as of 10-21-24
+// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -24,13 +24,11 @@
 #include  "Display.h"
 #include  "timers.h"
 #include  "switches.h"
-#include  "ThumbWheel.h"
 #include  "ADC.h"
 #include  "IR.h"
-    // Libraries
+// Libraries
 #include  <string.h>
 #include  <stdio.h>
-
 
 // Globals
 extern unsigned char state;
@@ -47,7 +45,7 @@ extern unsigned int cycle_time;
 extern unsigned int right_motor_count;
 extern unsigned int left_motor_count;
 extern unsigned int segment_count;
-extern unsigned int backlight_status;
+extern char backlight_status;
 
 extern unsigned int straight_step;
 extern unsigned int circle_step;
@@ -374,152 +372,152 @@ void motorsOFF(void){
 // PROJECT 5 - MOVEMENT SEQUENCE
 // --------------------------------------------------------------
 // ----- MOVEMENT SEQUENCES -----
-void moveSeq_proj5(void){
-    // STATE CASES
-    switch(state){
-    case  WAIT:
-        switch(event){
-        case FORWARD:
-            secTime = 2;
-            break;
-        case REVERSE:
-            secTime = 2;
-            break;
-        case SPIN:
-            secTime = 2;
-            break;
-        case NONE:
-            secTime = 0;
-            break;
-        default:
-            break;
-        }    
-        wait_case_proj5();
-        break;
-        case  START:
-            start_case_proj5();
-            break;
-        case  RUN:
-            // EVENT CASES
-            switch(event){
-            case FORWARD:
-                travel_distance = 10;
-                right_count_time = 10;
-                left_count_time = 9;
-                wheel_count_time = 10;
-                LeftDir = FORWARD;
-                RightDir = FORWARD;
-                run_case_proj5();
-                break;
-            case REVERSE:
-                travel_distance = 10;
-                right_count_time = 10;
-                left_count_time = 9;
-                wheel_count_time = 10;
-                LeftDir = REVERSE;
-                RightDir = REVERSE;
-                run_case_proj5();
-                break;
-            case SPIN:
-                travel_distance = 10;
-                right_count_time = 10;
-                left_count_time = 10;
-                wheel_count_time = 10;
-                LeftDir = REVERSE;
-                RightDir = FORWARD;
-                run_case_proj5();
-                break;
-            case NONE:
-                LRmotorStop();
-                break;
-            default:
-                break;
-            }
-            break;
-            case  END:
-                end_case_proj5();
-                break;
-            default: break;
-    }
-
-
-}
+//void moveSeq_proj5(void){
+//    // STATE CASES
+//    switch(state){
+//    case  WAIT:
+//        switch(event){
+//        case FORWARD:
+//            secTime = 2;
+//            break;
+//        case REVERSE:
+//            secTime = 2;
+//            break;
+//        case SPIN:
+//            secTime = 2;
+//            break;
+//        case NONE:
+//            secTime = 0;
+//            break;
+//        default:
+//            break;
+//        }
+//        wait_case_proj5();
+//        break;
+//        case  START:
+//            start_case_proj5();
+//            break;
+//        case  RUN:
+//            // EVENT CASES
+//            switch(event){
+//            case FORWARD:
+//                travel_distance = 10;
+//                right_count_time = 10;
+//                left_count_time = 9;
+//                wheel_count_time = 10;
+//                LeftDir = FORWARD;
+//                RightDir = FORWARD;
+//                run_case_proj5();
+//                break;
+//            case REVERSE:
+//                travel_distance = 10;
+//                right_count_time = 10;
+//                left_count_time = 9;
+//                wheel_count_time = 10;
+//                LeftDir = REVERSE;
+//                RightDir = REVERSE;
+//                run_case_proj5();
+//                break;
+//            case SPIN:
+//                travel_distance = 10;
+//                right_count_time = 10;
+//                left_count_time = 10;
+//                wheel_count_time = 10;
+//                LeftDir = REVERSE;
+//                RightDir = FORWARD;
+//                run_case_proj5();
+//                break;
+//            case NONE:
+//                LRmotorStop();
+//                break;
+//            default:
+//                break;
+//            }
+//            break;
+//            case  END:
+//                end_case_proj5();
+//                break;
+//            default: break;
+//    }
+//
+//
+//}
 
 
 // ----- STATE CASES -----
-// WAIT CASE
-void wait_case_proj5(void){
-    unsigned int i;
-    for(i = 0; i < secTime; i++){
-        if(time_change){
-            time_change = 0;
-            if(delay_start++ >= WAITING2START){
-                delay_start = 0;
-                state = START;
-            }
-        }
-    }
-}
-
-// START CASE
-void start_case_proj5(void){
-    cycle_time = 0;
-    right_motor_count = 0;
-    left_motor_count = 0;
-    segment_count = 0;
-    state = RUN;
-}
-
-// RUN CASE
-void run_case_proj5(void){
-    if(time_change){
-        unsigned int i;
-        for(i = 0; i < secTime; i++){
-            time_change = 0;
-            if(segment_count <= travel_distance){
-                if(right_motor_count++ >= right_count_time){
-                    P6OUT &= ~R_FORWARD;
-                }
-                if(left_motor_count++ >= left_count_time){
-                    P6OUT &= ~L_FORWARD;
-                }
-                if(cycle_time >= wheel_count_time){
-                    cycle_time = 0;
-                    right_motor_count = 0;
-                    left_motor_count = 0;
-                    segment_count++;
-                    LRmotorForward();
-                }
-            }else{
-                state = END;
-            }
-
-        }
-    }
-}
-
-// END CASE
-void end_case_proj5(void){
-    LRmotorStop();
-    state = WAIT;
-    switch(event){
-    case FORWARD:
-        forward_proj5();
-        break;
-    case REVERSE:
-
-        break;
-
-    default: break;
-    }
-
-}
-
-
-
-void forward_proj5(void){
-    LRFwdON();
-}
+//// WAIT CASE
+//void wait_case_proj5(void){
+//    unsigned int i;
+//    for(i = 0; i < secTime; i++){
+//        if(time_change){
+//            time_change = 0;
+//            if(delay_start++ >= WAITING2START){
+//                delay_start = 0;
+//                state = START;
+//            }
+//        }
+//    }
+//}
+//
+//// START CASE
+//void start_case_proj5(void){
+//    cycle_time = 0;
+//    right_motor_count = 0;
+//    left_motor_count = 0;
+//    segment_count = 0;
+//    state = RUN;
+//}
+//
+//// RUN CASE
+//void run_case_proj5(void){
+//    if(time_change){
+//        unsigned int i;
+//        for(i = 0; i < secTime; i++){
+//            time_change = 0;
+//            if(segment_count <= travel_distance){
+//                if(right_motor_count++ >= right_count_time){
+//                    P6OUT &= ~R_FORWARD;
+//                }
+//                if(left_motor_count++ >= left_count_time){
+//                    P6OUT &= ~L_FORWARD;
+//                }
+//                if(cycle_time >= wheel_count_time){
+//                    cycle_time = 0;
+//                    right_motor_count = 0;
+//                    left_motor_count = 0;
+//                    segment_count++;
+//                    LRmotorForward();
+//                }
+//            }else{
+//                state = END;
+//            }
+//
+//        }
+//    }
+//}
+//
+//// END CASE
+//void end_case_proj5(void){
+//    LRmotorStop();
+//    state = WAIT;
+//    switch(event){
+//    case FORWARD:
+//        forward_proj5();
+//        break;
+//    case REVERSE:
+//
+//        break;
+//
+//    default: break;
+//    }
+//
+//}
+//
+//
+//
+//void forward_proj5(void){
+//    LRFwdON();
+//}
 
 
 
@@ -535,28 +533,6 @@ void forward_proj5(void){
 
 
 void vrfyDirection(void){
-    //    if(((P6IN & L_FORWARD) && (P6IN & L_REVERSE))){
-    //        // ISSUE: Both Left Forward and Reverse are on
-    //        P1OUT |= RED_LED;
-    //        motorsOFF(); // Turns off both left and right motor for the forward and reverse direction
-    //        strcpy(display_line[0], " Error!!! ");
-    //        strcpy(display_line[1], "MagicSmoke");
-    //        strcpy(display_line[2], "  L_FWD & ");
-    //        strcpy(display_line[3], "   L_REV  ");
-    //        display_changed = TRUE;
-    //        backlight_status = 1;
-    //    }
-    //    if((P6IN & R_FORWARD) && (P6IN & R_REVERSE)){
-    //        // ISSUE: Both Left Forward and Reverse are on
-    //        P1OUT |= RED_LED;
-    //        motorsOFF(); // Turns off both left and right motor for the forward and reverse direction
-    //        strcpy(display_line[0], " Error!!! ");
-    //        strcpy(display_line[1], "MagicSmoke");
-    //        strcpy(display_line[2], "  R_FWD & ");
-    //        strcpy(display_line[3], "   R_REV  ");
-    //        display_changed = TRUE;
-    //        backlight_status = 1;
-    //    }
     if(((P6IN & L_FORWARD) && (P6IN & L_REVERSE)) || ((P6IN & R_FORWARD) && (P6IN & R_REVERSE))){
         // ISSUE: Both Left Forward and Reverse are on
         P1OUT |= RED_LED;

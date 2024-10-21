@@ -29,8 +29,8 @@
 //#include  "ThumbWheel.h"
 //#include <string.h>
 
-// #include as of 10-19-24
-    // Header Files
+// #include as of 10-21-24
+// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -40,10 +40,9 @@
 #include  "Display.h"
 #include  "timers.h"
 #include  "switches.h"
-#include  "ThumbWheel.h"
 #include  "ADC.h"
 #include  "IR.h"
-    // Libraries
+// Libraries
 #include  <string.h>
 #include  <stdio.h>
 
@@ -51,8 +50,11 @@
 extern char display_line[4][11];
 extern volatile unsigned char display_changed;
 extern volatile unsigned char update_display;
-extern unsigned int backlight_status;
 extern int Switch_Counter1;
+
+
+
+
 
 char tempLine0[11];
 char tempLine1[11];
@@ -78,13 +80,14 @@ void backlight_control(void){
         0: Backlight OFF
         1: Backlight ON
      */
-    if(backlight_status == 0){
+    if(backlight_status == OFF){
         P6OUT  &= ~LCD_BACKLITE;
     }
-    else{
+    else{// backlight_status = ON
         P6OUT  |=  LCD_BACKLITE;
     }
 }
+
 
 
 

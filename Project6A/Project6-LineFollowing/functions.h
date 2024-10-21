@@ -128,6 +128,9 @@ void five_msec_sleep(unsigned int msec);
 void measure_delay(void);
 void out_control_words(void);
 
+// Main Functions
+void updates(void);
+
 
 
 

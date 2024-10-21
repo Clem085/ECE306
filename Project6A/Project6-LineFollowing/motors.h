@@ -63,4 +63,15 @@ void forward_proj5(void);
 void motorDirection(void);
 
 
+// PWM Motor Controls
+#define PWM_PERIOD          (TB3CCR0)
+#define LCD_BACKLITE_DIMING (TB3CCR1)
+#define RIGHT_FORWARD_SPEED (TB3CCR2)
+#define LEFT_FORWARD_SPEED  (TB3CCR3)
+#define RIGHT_REVERSE_SPEED (TB3CCR4)
+#define LEFT_REVERSE_SPEED  (TB3CCR5)
+
+
+
+
 #endif /* MOTORS_H_ */

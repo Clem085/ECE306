@@ -11,7 +11,7 @@
 //#include "timers.h"
 
 
-// #include as of 10-19-24
+// #include as of 10-21-24
 // Header Files
 #include  "msp430.h"
 #include  "functions.h"
@@ -22,7 +22,6 @@
 #include  "Display.h"
 #include  "timers.h"
 #include  "switches.h"
-#include  "ThumbWheel.h"
 #include  "ADC.h"
 #include  "IR.h"
 // Libraries
@@ -30,11 +29,11 @@
 #include  <stdio.h>
 
 // Globals
-volatile unsigned int Time_Sequence;
+extern volatile unsigned int Time_Sequence;
 volatile char one_time;
 unsigned int counter_B0;
 unsigned int delay_time;
-extern unsigned int backlight_status;
+extern char backlight_status;
 extern int Switch_Counter1;
 extern volatile unsigned char update_display;
 
@@ -73,66 +72,11 @@ void Init_Timer_B0(void) {
     TB0CTL &= ~TBIE;  // Disable Overflow Interrupt
     TB0CTL &= ~TBIFG; // Clear Overflow Interrupt flag
 
+
 }
 //----------------------------------------------------------------------------
 
-#pragma vector = TIMER0_B0_VECTOR
-__interrupt void Timer0_B0_ISR(void){
-    //-----------------------------------------------------------------------------
-    // TimerB0 0 Interrupt handler
-    //---------------------------------------------------------------------------
-    update_display = TRUE;
-    Time_Sequence++;
-//    P6OUT ^= LCD_BACKLITE;
-    TB0CCR0 += TB0CCR0_INTERVAL;
-}
 
-#pragma vector=TIMER0_B1_VECTOR
-__interrupt void TIMER0_B1_ISR(void){
-    //---------------------------------------------------------------------------
-    // TimerB0 1-2, Overflow Interrupt Vector (TBIV) handler
-    //---------------------------------------------------------------------------
-    switch(__even_in_range(TB0IV,14)){
-    case  0: break;                    // No interrupt
-    case  2:                           // CCR1 Used for SW1 Debounce
-        count_debounce_SW1++;
-        if (count_debounce_SW1 >= DEBOUNCE_TIME){
-            count_debounce_SW1 = 0;
-
-            TB0CCTL1 &= ~CCIE;
-            P4IFG &= ~SW1;
-            P4IE  |= SW1;
-
-//            TB0CCTL0 |= CCIE;
-        }
-
-        TB0CCR1 += TB0CCR1_INTERVAL;
-
-
-        break;
-
-    case  4:                           // CCR2 Used for SW2 Debounce
-        count_debounce_SW2++;
-        if (count_debounce_SW2 >= DEBOUNCE_TIME){
-            count_debounce_SW2 = 0;
-
-            TB0CCTL2 &= ~CCIE;
-            P2IFG &= ~SW2;
-            P2IE  |=  SW2;
-
-//            TB0CCTL0 |= CCIE;
-        }
-
-
-        TB0CCR2 += TB0CCR2_INTERVAL;
-
-        break;
-
-    case 14:                           // overflow available for greater than 1 second timer
-        break;
-    default: break;
-    }
-}
 
 
 

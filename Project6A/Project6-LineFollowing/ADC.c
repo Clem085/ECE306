@@ -15,11 +15,10 @@
 //#include  "Display.h"
 //#include  "timersB0.h"
 //#include  "switches.h"
-//#include  "ThumbWheel.h"
 //#include  "ADC.h"
 
-// #include as of 10-19-24
-    // Header Files
+// #include as of 10-21-24
+// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -29,23 +28,29 @@
 #include  "Display.h"
 #include  "timers.h"
 #include  "switches.h"
-#include  "ThumbWheel.h"
 #include  "ADC.h"
 #include  "IR.h"
-    // Libraries
+// Libraries
 #include  <string.h>
 #include  <stdio.h>
 
 
 
-extern unsigned int backlight_status;
+extern char backlight_status;
+//extern char state;
 
 volatile unsigned int ADC_Channel;
 volatile unsigned int ADC_Left_Detect;
 volatile unsigned int ADC_Right_Detect;
 volatile unsigned int ADC_Thumb;
 
-extern char adc_char[10];
+char adc_char[10];
+
+
+// Globals
+//char ADC_Update;
+//volatile unsigned int ADC_Value;
+
 
 // Init ADC
 void Init_ADC(void){
@@ -86,63 +91,56 @@ void Init_ADC(void){
 
 }
 
+//Hex to BCD Conversion
+// Convert a Hex number to a BCD for display on an LCD or monitor
+void HexToBCD(int hex_value){
+    int value;
+    int i;
+    for(i=0; i < 4; i++) {
+        adc_char[i] = '0';
+    }
+    value = 0;
+    while (hex_value > 999){
+        hex_value = hex_value - 1000;
+        value = value + 1;
+        adc_char[0] = 0x30 + value;
+    }
+    value = 0;
+    while (hex_value > 99){
+        hex_value = hex_value - 100;
+        value = value + 1;
+        adc_char[1] = 0x30 + value;
+    }
+    value = 0;
+    while (hex_value > 9){
+        hex_value = hex_value - 10;
+        value = value + 1;
+        adc_char[2] = 0x30 + value;
+    }
+    adc_char[3] = 0x30 + hex_value;
+}
 
-
-//#pragma vector=ADC_VECTOR
-//__interrupt void ADC_ISR(void){
-//    backlight_status = ON;
-//    switch(__even_in_range(ADCIV,ADCIV_ADCIFG)){
-//    case ADCIV_NONE:
-//        break;
-//    case ADCIV_ADCOVIFG:   // When a conversion result is written to the ADCMEM0
-//        // before its previous conversion result was read.
-//        break;
-//    case ADCIV_ADCTOVIFG:   // ADC conversion-time overflow
-//        break;
-//    case ADCIV_ADCHIIFG:    // Window comparator interrupt flags
-//        break;
-//    case ADCIV_ADCLOIFG:    // Window comparator interrupt flag
-//        break;
-//    case ADCIV_ADCINIFG:    // Window comparator interrupt flag
-//        break;
-//    case ADCIV_ADCIFG:      // ADCMEM0 memory register with the conversion result
-//        ADCCTL0 &= ~ADCENC;                          // Disable ENC bit.
-//        switch (ADC_Channel++){
-//        case 0x00:                                   // Channel A2 Interrupt
-//            ADC_Left_Detect = ADCMEM0;               // Move result into Global Values
-//            ADC_Left_Detect = ADC_Left_Detect << 1;  // Divide the result by 4
+//// DECPRECATED - Good Coding Practices = Bad RESULTS
+//// ADC Process
+//void ADC_Process(void){
+//    if(ADC_Update && state!=WAIT2){
+//        ADC_Update = 0;
+//        switch (ADC_Channel){
+//        case 0x00: // Left_Detect
 //            HexToBCD(ADC_Left_Detect);
 //            dispPrint(adc_char,2);
-//            ADCMCTL0 &= ~ADCINCH_2;                  // Disable Last channel A2
-//            ADCMCTL0 |=  ADCINCH_3;                  // Enable Next channel A3
 //            break;
-//        case 0x01:                                   // Channel A3 Interrupt
-//            ADC_Right_Detect = ADCMEM0;              // Move result into Global Values
-//            ADC_Right_Detect = ADC_Right_Detect >> 2;// Divide the result by 2
+//        case 0x01: // Right Detect
 //            HexToBCD(ADC_Right_Detect);
 //            dispPrint(adc_char,3);
-//            ADCMCTL0 &= ~ADCINCH_3;                  // Disable Last channel A2
-//            ADCMCTL0 |=  ADCINCH_5;                  // Enable Next channel A1
 //            break;
-//        case 0x02:                                   // Channel A1 Interrupt
-//            ADC_Thumb = ADCMEM0;                     // Move result into Global Values
-//            ADC_Thumb = ADC_Thumb >> 2;              // Divide the result by 4
+//        case 0x02: // Thumb Wheel
 //            HexToBCD(ADC_Thumb);
 //            dispPrint(adc_char,4);
-//            ADCMCTL0 &= ~ADCINCH_5;                  // Disable Last channel A?
-//            ADCMCTL0 |= ADCINCH_2;                   // Enable Next [First] channel 2
-//            ADC_Channel=0;
-//            break;
-//        default:
-//            break;
+//        default: break;
+//
 //        }
-//        ADCCTL0 |= ADCENC;                          // Enable Conversions
-//        ADCCTL0 |= ADCSC;
-//        break;
-//    default:
-//        break;
+//
 //    }
 //}
-
-// Turn On IR Sensor
 

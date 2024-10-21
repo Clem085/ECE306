@@ -8,8 +8,12 @@
 #ifndef ADC_H_
 #define ADC_H_
 
-void Init_ADC(void);
 
+
+
+void Init_ADC(void);
+void HexToBCD(int);
+void ADC_Process(void);
 
 
 #endif /* ADC_H_ */
