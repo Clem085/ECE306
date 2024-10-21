@@ -25,7 +25,6 @@
 #include  <string.h>
 #include  <stdio.h>
 
-
 // Function Prototypes
 void main(void);
 void Init_Conditions(void);
@@ -77,20 +76,20 @@ unsigned int figure8_step;
 extern short int p3_4_type;
 char state;
 
-
 extern volatile unsigned int ADC_Channel;
 extern volatile unsigned int ADC_Left_Detect;
 extern volatile unsigned int ADC_Right_Detect;
 extern volatile unsigned int ADC_Thumb;
 extern char IR_status;
+extern char IR_changed;
 //extern char ADC_Update = TRUE;;
 
 int activateSM;
 char state;
 //volatile unsigned int State_Sequence;
 
-
-void main(void){
+void main(void)
+{
     //    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
 
     //------------------------------------------------------------------------------
@@ -105,11 +104,10 @@ void main(void){
     p3_4_type = USE_GPIO;
     Init_Ports();                        // Initialize Ports
     Init_Clocks();                       // Initialize Clock System
-    Init_Conditions();                   // Initialize Variables and Initial Conditions
+    Init_Conditions();            // Initialize Variables and Initial Conditions
     Init_Timers();                       // Initialize Timers
     Init_LCD();                          // Initialize LCD
     Init_ADC();                          // Initialize ADC
-
 
     // Place the contents of what you want on the display, in between the quotes
     // Limited to 10 characters per line
@@ -120,7 +118,6 @@ void main(void){
     update_display = TRUE;
     display_changed = TRUE;
     //  Display_Update(0,0,0,0);
-
 
     //------------------------------------------------------------------------------
     // Beginning of the "While" Operating System
@@ -136,23 +133,20 @@ void main(void){
     backlight_status = OFF;
     state = IDLE;
 
-    while(ALWAYS) {                      // Can the Operating system run
+    while (ALWAYS)
+    {                      // Can the Operating system run
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
         updates();                // Checks all Update Flags
-
 
         vrfyDirection(); // Protects against Magic Smoke
     }
 
-
-
     //------------------------------------------------------------------------------
-
-
 
 }
 
-void updates(void){
+void updates(void)
+{
     // Updates
     Display_Process();
     StateMachine();
@@ -162,11 +156,16 @@ void updates(void){
     IR_control();
 }
 
-void StateMachine(void){
-    switch(state){
+void StateMachine(void)
+{
+    switch (state)
+    {
     case IDLE:
-        motorsOFF();
-        strcpy(display_line[0], "   IDLE   ");
+        if(!IR_changed){
+            strcpy(display_line[0], "   IDLE   ");
+        }
+
+        PWM1_BOTH_OFF(); // motorsOFF();
         display_changed = TRUE;
         update_display = TRUE;
         //        ADC_Update = TRUE; = TRUE;
@@ -178,29 +177,31 @@ void StateMachine(void){
         display_changed = TRUE;
         update_display = TRUE;
         //        ADC_Update = TRUE; = TRUE;
-        switch(Time_Sequence){   // Time_Sequence-State_Sequence
+        switch (Time_Sequence)
+        {   // Time_Sequence-State_Sequence
         case 10: // Wait for 1 Second
-            motorsOFF();
+            PWM1_BOTH_OFF(); // motorsOFF();
             state = FWD;
             break;
-        default: break;
+        default:
+            break;
         }
         break;
 
     case FWD:
-        LRFwdON();
+        PWM1_BOTH_FWD(); // LRFwdON();
         strcpy(display_line[0], "   FWD    ");
         display_changed = TRUE;
         update_display = TRUE;
         //        ADC_Update = TRUE; = TRUE;
-        if((ADC_Left_Detect >= 700) && (ADC_Right_Detect >= 700)){
+        if ((ADC_Left_Detect >= IR_MAGIC_NUM) && (ADC_Right_Detect >= IR_MAGIC_NUM)){
             state = BLACKLINE; // Black Line Detected
-            motorsOFF();
+            PWM1_BOTH_OFF(); // motorsOFF();
         }
         break;
 
     case BLACKLINE:
-        motorsOFF();
+        PWM1_BOTH_OFF(); // motorsOFF();
         strcpy(display_line[0], " BLACKLINE");
         display_changed = TRUE;
         update_display = TRUE;
@@ -210,78 +211,84 @@ void StateMachine(void){
         break;
 
     case WAIT2:
-        motorsOFF();
-        strcpy(display_line[0], "          ");
-        strcpy(display_line[1], "Black Line");
-        strcpy(display_line[2], " Detected ");
-        strcpy(display_line[3], "          ");
+        PWM1_BOTH_OFF(); // motorsOFF();
+        if(Time_Sequence < 30){
+            strcpy(display_line[0], "          ");
+            strcpy(display_line[1], "Black Line");
+            strcpy(display_line[2], " Detected ");
+            strcpy(display_line[3], "          ");
+        }
         display_changed = TRUE;
         update_display = TRUE;
-        switch(Time_Sequence){ // Time_Sequence-State_Sequence
+        switch (Time_Sequence){ // Time_Sequence-State_Sequence
         case 30: // Wait for 3 Second
-            state = TURNL;
             strcpy(display_line[0], "          ");
             strcpy(display_line[1], "          ");
             strcpy(display_line[2], "          ");
             strcpy(display_line[3], "          ");
             display_changed = TRUE;
             update_display = TRUE;
+            PWM1_BOTH_FWD();
+            if ((ADC_Left_Detect < IR_MAGIC_NUM) && (ADC_Right_Detect < IR_MAGIC_NUM)){
+                Time_Sequence = 0;
+                state = TURNL; // Black Line Detected
+                PWM1_RIGHT_OFF(); // motorsOFF();
+            }
             break;
-        default: break;
+        default:
+            break;
         }
+
         break;
 
     case TURNL:
-        LeftFwdON();
+        PWM1_LEFT_FWD(); // LeftFwdON();
         strcpy(display_line[0], " TURN LEFT");
         display_changed = TRUE;
         update_display = TRUE;
         //        ADC_Update = TRUE; = TRUE;
-        if((ADC_Left_Detect >= 700) && (ADC_Right_Detect >= 700)){
+        if ((ADC_Left_Detect >= IR_MAGIC_NUM) && (ADC_Right_Detect >= IR_MAGIC_NUM))
+        {
             state = LINE1; // Black Line Detected
-            motorsOFF();
+            PWM1_BOTH_OFF(); // motorsOFF();
+            Time_Sequence = 0;
         }
         break;
     case LINE1:
-        RightFwdON();
         strcpy(display_line[0], "   LINE1  ");
         display_changed = TRUE;
         update_display = TRUE;
         //        ADC_Update = TRUE; = TRUE;
-        if((ADC_Left_Detect >= 700) && (ADC_Right_Detect >= 700) && (Time_Sequence >= 10)){
-            state = LINE2; // Black Line Detected
+        if ((ADC_Left_Detect >= IR_MAGIC_NUM) && (ADC_Right_Detect >= IR_MAGIC_NUM)
+                && (Time_Sequence >= 10))
+        {
+            state = DONE; // Black Line Detected
             Time_Sequence = 0; //  State_Sequence = Time_Sequence;
-            motorsOFF();
+            PWM1_BOTH_OFF(); // motorsOFF();
         }
-    case LINE2:
-        LeftFwdON();
-        strcpy(display_line[0], "   LINE2  ");
+    case DONE:
+        strcpy(display_line[0], "   DONE   ");
         display_changed = TRUE;
         update_display = TRUE;
-        //        ADC_Update = TRUE; = TRUE;
-        if((ADC_Left_Detect >= 700) && (ADC_Right_Detect >= 700) && (Time_Sequence >= 10)){
-            Time_Sequence = 0; //  State_Sequence = Time_Sequence;
-            state = LINE1; // Black Line Detected
-            motorsOFF();
-        }
+        break;
+//    case DONE:
+//        LeftFwdON();
+//        strcpy(display_line[0], "   LINE2  ");
+//        display_changed = TRUE;
+//        update_display = TRUE;
+//        //        ADC_Update = TRUE; = TRUE;
+//        if ((ADC_Left_Detect >= IR_MAGIC_NUM) && (ADC_Right_Detect >= IR_MAGIC_NUM)
+//                && (Time_Sequence >= 10))
+//        {
+//            Time_Sequence = 0; //  State_Sequence = Time_Sequence;
+//            state = LINE1; // Black Line Detected
+//            motorsOFF();
+//        }
 
-    default: break;
+    default:
+        break;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Project 5
 //void StateMachine(void){
@@ -383,5 +390,4 @@ void StateMachine(void){
 //        }
 //    }
 //}
-
 

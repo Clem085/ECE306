@@ -48,6 +48,7 @@
 #define TURNL                   ('T')
 #define LINE1                   ('L')
 #define LINE2                   ('l')
+#define DONE                    ('D')
 
 // Switches
 #define PRESSED                (0)
@@ -67,16 +68,8 @@
 #define USE_GPIO    (0x00)
 #define USE_SMCLK   (0x01)
 
+#define IR_MAGIC_NUM (300)
 
-// TIMERS
-    // Timer A0
-#define TB0CCR0_INTERVAL (25000) // 8,000,000 / 8 / 8 / (1000 / 200msec)
-    // Others
-#define TB0CCR1_INTERVAL (25000) // 8,000,000 / 8 / 8 / (1000 / 200msec)
-#define TB0CCR2_INTERVAL (25000) // 8,000,000 / 8 / 8 / (1000 / 200msec)
-
-#define TIMER_B0_0_VECTOR (TIMER0_B0_VECTOR)
-#define TIMER_B0_1_OVFL_VECTOR (TIMER0_B1_VECTOR)
 
 #define HALF_SEC (500)
 #define COUNTER_RESET (0)

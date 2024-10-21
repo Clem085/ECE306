@@ -25,6 +25,7 @@
 // IR_status Variable
 // Change this turn toggle the IR emitter LED on or off
 char IR_status;
+char IR_changed;
 
 // Controls IR LED
 void IR_control(void){

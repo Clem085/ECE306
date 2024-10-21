@@ -67,42 +67,82 @@ unsigned char RightDir;
 unsigned int secTime; // Define in NEW Clocks File
 
 
+// PWM Variables
 
-////////////////////////////////////////////////////////////////
-// DEPRECATED - LEFT FOR REFERENCE ONLY
-// FORWARD Commands
-void LRmotorForward(void){
-    //  Select and Turn Off Backlight
-    //    backlightControl(0);
 
-    //  Turn ON Motors
-    P6SEL0 &= ~R_FORWARD;
-    P6SEL1 &= ~R_FORWARD;
-    P6OUT  |=  R_FORWARD;
-    P6DIR  |=  R_FORWARD;
 
-    P6SEL0 &= ~L_FORWARD;
-    P6SEL1 &= ~L_FORWARD;
-    P6OUT  |=  L_FORWARD;
-    P6DIR  |=  L_FORWARD;
+
+// Magic Smoke Detector
+void vrfyDirection(void){
+    if(((P6IN & L_FORWARD) && (P6IN & L_REVERSE)) || ((P6IN & R_FORWARD) && (P6IN & R_REVERSE))){
+        // ISSUE: Both Left Forward and Reverse are on
+        P1OUT |= RED_LED;
+        motorsOFF(); // Turns off both left and right motor for the forward and reverse direction
+        strcpy(display_line[0], " Error!!! ");
+        strcpy(display_line[1], "MagicSmoke");
+        strcpy(display_line[2], "Move Fwd &");
+        strcpy(display_line[3], "Move Rev! ");
+        display_changed = TRUE;
+        backlight_status = 1;
+    }
 }
 
-// STOP Commands
-void LRmotorStop(void){
-    //  Turn OFF Motors
-    P6SEL0 &= ~R_FORWARD;
-    P6SEL1 &= ~R_FORWARD;
-    P6OUT  &= ~R_FORWARD;
-    P6DIR  &= ~R_FORWARD;
 
-    P6SEL0 &= ~L_FORWARD;
-    P6SEL1 &= ~L_FORWARD;
-    P6OUT  &= ~L_FORWARD;
-    P6DIR  &= ~L_FORWARD;
+// --------------------------------------------------------------
+// PWM1 // ALWAYS SLOW
+//// FORWARD
+void PWM1_LEFT_FWD(void){
+    LEFT_REVERSE_SPEED = PWM1_WHEEL_OFF;
+    LEFT_FORWARD_SPEED = PWM1_SLOW;
+//    PWM1_RIGHT_OFF();
 }
-// DEPRECATED - LEFT FOR REFERENCE ONLY
-////////////////////////////////////////////////////////////////
+void PWM1_RIGHT_FWD(void){
+    RIGHT_REVERSE_SPEED = PWM1_WHEEL_OFF;
+    RIGHT_FORWARD_SPEED = PWM1_SLOW;
+//    PWM1_LEFT_OFF();
+}
+void PWM1_BOTH_FWD(void){
+    LEFT_REVERSE_SPEED = PWM1_WHEEL_OFF;
+    RIGHT_REVERSE_SPEED = PWM1_WHEEL_OFF;
+    LEFT_FORWARD_SPEED = PWM1_SLOW;
+    RIGHT_FORWARD_SPEED = PWM1_SLOW;
+}
 
+// OFF
+void PWM1_LEFT_OFF(void){
+    LEFT_REVERSE_SPEED = PWM1_WHEEL_OFF;
+    LEFT_FORWARD_SPEED = PWM1_WHEEL_OFF;
+//    PWM1_RIGHT_OFF();
+}
+void PWM1_RIGHT_OFF(void){
+    RIGHT_REVERSE_SPEED = PWM1_WHEEL_OFF;
+    RIGHT_FORWARD_SPEED = PWM1_WHEEL_OFF;
+//    PWM1_LEFT_OFF();
+}
+void PWM1_BOTH_OFF(void){
+    LEFT_REVERSE_SPEED = PWM1_WHEEL_OFF;
+    LEFT_FORWARD_SPEED = PWM1_WHEEL_OFF;
+    RIGHT_REVERSE_SPEED = PWM1_WHEEL_OFF;
+    RIGHT_FORWARD_SPEED = PWM1_WHEEL_OFF;
+}
+
+// REVERSE
+void PWM1_LEFT_REV(void){
+    LEFT_FORWARD_SPEED = PWM1_WHEEL_OFF;
+    LEFT_REVERSE_SPEED = PWM1_SLOW;
+//    PWM1_RIGHT_OFF();
+}
+void PWM1_RIGHT_REV(void){
+    RIGHT_FORWARD_SPEED = PWM1_WHEEL_OFF;
+    RIGHT_REVERSE_SPEED = PWM1_SLOW;
+//    PWM1_LEFT_OFF();
+}
+void PWM1_BOTH_REV(void){
+    LEFT_FORWARD_SPEED = PWM1_WHEEL_OFF;
+    RIGHT_FORWARD_SPEED = PWM1_WHEEL_OFF;
+    LEFT_REVERSE_SPEED = PWM1_SLOW;
+    RIGHT_REVERSE_SPEED = PWM1_SLOW;
+}
 
 
 
@@ -170,6 +210,55 @@ void motorsOFF(void){
 }
 //--------------------------------------------------------------
 // END OF BASIC MOVEMENT
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////
+// DEPRECATED - LEFT FOR REFERENCE ONLY
+// FORWARD Commands
+void LRmotorForward(void){
+    //  Select and Turn Off Backlight
+    //    backlightControl(0);
+
+    //  Turn ON Motors
+    P6SEL0 &= ~R_FORWARD;
+    P6SEL1 &= ~R_FORWARD;
+    P6OUT  |=  R_FORWARD;
+    P6DIR  |=  R_FORWARD;
+
+    P6SEL0 &= ~L_FORWARD;
+    P6SEL1 &= ~L_FORWARD;
+    P6OUT  |=  L_FORWARD;
+    P6DIR  |=  L_FORWARD;
+}
+
+// STOP Commands
+void LRmotorStop(void){
+    //  Turn OFF Motors
+    P6SEL0 &= ~R_FORWARD;
+    P6SEL1 &= ~R_FORWARD;
+    P6OUT  &= ~R_FORWARD;
+    P6DIR  &= ~R_FORWARD;
+
+    P6SEL0 &= ~L_FORWARD;
+    P6SEL1 &= ~L_FORWARD;
+    P6OUT  &= ~L_FORWARD;
+    P6DIR  &= ~L_FORWARD;
+}
+// DEPRECATED - LEFT FOR REFERENCE ONLY
+////////////////////////////////////////////////////////////////
+
+
+
+
+
 
 
 
@@ -532,18 +621,6 @@ void motorsOFF(void){
 
 
 
-void vrfyDirection(void){
-    if(((P6IN & L_FORWARD) && (P6IN & L_REVERSE)) || ((P6IN & R_FORWARD) && (P6IN & R_REVERSE))){
-        // ISSUE: Both Left Forward and Reverse are on
-        P1OUT |= RED_LED;
-        motorsOFF(); // Turns off both left and right motor for the forward and reverse direction
-        strcpy(display_line[0], " Error!!! ");
-        strcpy(display_line[1], "MagicSmoke");
-        strcpy(display_line[2], "Move Fwd &");
-        strcpy(display_line[3], "Move Rev! ");
-        display_changed = TRUE;
-        backlight_status = 1;
-    }
-}
+
 
 
