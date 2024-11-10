@@ -58,10 +58,10 @@ extern int Switch_Counter1;
 
 
 
-char tempLine0[11];
-char tempLine1[11];
-char tempLine2[11];
-char tempLine3[11];
+//char tempLine0[11];
+//char tempLine1[11];
+//char tempLine2[11];
+//char tempLine3[11];
 
 extern char adc_char[10];
 
@@ -75,20 +75,30 @@ void Display_Process(void){
     }
 }
 
-// Controls Display Backlight
-void backlight_control(void){
-    /*  Parameter Values
-    action
-        0: Backlight OFF
-        1: Backlight ON
-     */
-    if(backlight_status == OFF){
-        P6OUT  &= ~LCD_BACKLITE;
-    }
-    else{// backlight_status = ON
-        P6OUT  |=  LCD_BACKLITE;
-    }
+// PWM Backlight Control
+void PWM_backlight(void){
+    double backlight_value;
+    backlight_value = (light_percent / 100.00)*PERCENT_100;
+    LCD_BACKLITE_DIMING = backlight_value;
 }
+
+// DEPRECATED - REPLACED BY PWM
+//// Controls Display Backlight
+//void backlight_control(void){
+//    /*  Parameter Values
+//    action
+//        0: Backlight OFF
+//        1: Backlight ON
+//     */
+//    if(backlight_status == OFF){
+//        P6OUT  &= ~LCD_BACKLITE;
+//    }
+//    else{// backlight_status = ON
+//        P6OUT  |=  LCD_BACKLITE;
+//    }
+//}
+
+
 
 
 

@@ -25,7 +25,8 @@
 #include  <string.h>
 #include  <stdio.h>
 
-
+// Internal Globals
+char DAC_overflow_counter;
 
 // External Globals
 extern volatile unsigned char update_display;
@@ -47,6 +48,8 @@ extern char IR_status;
 extern char IR_changed;
 extern char ADC_Update;
 extern char ADC_Display;
+
+extern unsigned int DAC_data;
 
 // Timers
 #pragma vector = TIMER0_B0_VECTOR
@@ -131,160 +134,223 @@ __interrupt void TIMER0_B1_ISR(void){
 //}
 
 
-    // Switches
-    //-----------------------------------------------------------------------------
-    // Port 4 interrupt for switch 1, it is disabled for the duration
-    // of the debounce time. Debounce time is set for 1 second
+// Switches
+//-----------------------------------------------------------------------------
+// Port 4 interrupt for switch 1, it is disabled for the duration
+// of the debounce time. Debounce time is set for 1 second
 #pragma vector=PORT4_VECTOR
-    __interrupt void switch1_interrupt(void) {
-        // Switch 1
-        if (P4IFG & SW1) {
+__interrupt void switch1_interrupt(void) {
+    // Switch 1
+    if (P4IFG & SW1) {
 
-            P4IE &= ~SW1;
-            P4IFG &= ~SW1;
+        P4IE &= ~SW1;
+        P4IFG &= ~SW1;
 
-            TB0CCTL1 &= ~CCIFG;             // Clear SW1 debounce interrupt flag
-            TB0CCR1 = TB0CCR1_INTERVAL;     // CCR1 add offset
-            TB0CCTL1 |= CCIE;               // CCR1 enable interrupt
+        TB0CCTL1 &= ~CCIFG;             // Clear SW1 debounce interrupt flag
+        TB0CCR1 = TB0CCR1_INTERVAL;     // CCR1 add offset
+        TB0CCTL1 |= CCIE;               // CCR1 enable interrupt
 
-            //SW1 FUNCTIONS:
-
-        }
-        //-----------------------------------------------------------------------------
+        //SW1 FUNCTIONS:
+        ADC_Display ^= TRUE;
     }
     //-----------------------------------------------------------------------------
-    // Port 2 interrupt for switch 2, it is disabled for the duration
-    // of the debounce time. Debounce time is set for 1 second
+}
+//-----------------------------------------------------------------------------
+// Port 2 interrupt for switch 2, it is disabled for the duration
+// of the debounce time. Debounce time is set for 1 second
 #pragma vector=PORT2_VECTOR
-    __interrupt void switch2_interrupt(void) {
-        // Switch 2
-        if (P2IFG & SW2) {
+__interrupt void switch2_interrupt(void) {
+    // Switch 2
+    if (P2IFG & SW2) {
 
-            P2IE &= ~SW2;
-            P2IFG &= ~SW2;
+        P2IE &= ~SW2;
+        P2IFG &= ~SW2;
 
-            TB0CCTL2 &= ~CCIFG;             // Clear SW2 debounce interrupt flag
-            TB0CCR2 = TB0CCR2_INTERVAL;     // CCR2 add offset
-            TB0CCTL2 |= CCIE;               // CCR2 enable interrupt
+        TB0CCTL2 &= ~CCIFG;             // Clear SW2 debounce interrupt flag
+        TB0CCR2 = TB0CCR2_INTERVAL;     // CCR2 add offset
+        TB0CCTL2 |= CCIE;               // CCR2 enable interrupt
 
-            //SW2 FUNCTIONS:
-            //        // Implement Later
-            //        ADC_Update ^= 1; // Toggles the State of ADC_Update, Makes ADC Values Appear/Disappear on LCD
-            //        if(!ADC_Update){
-            //            strcpy(display_line[0], "          ");
-            //            strcpy(display_line[1], "          ");
-            //            strcpy(display_line[2], "          ");
-            //            strcpy(display_line[3], "          ");
-            //            update_display =TRUE;
-            //            backlight_status = OFF;
-            //        }
-            if(IR_status == OFF){
-                IR_changed = TRUE;
-                strcpy(display_line[0], "  IR ON   ");
-                strcpy(display_line[1], "          ");
-                strcpy(display_line[2], "          ");
-                strcpy(display_line[3], "          ");
-                update_display = TRUE;
-                IR_status = ON;
-            }
-            else{// IR_status = ON
-                IR_changed = TRUE;
-                strcpy(display_line[0], "  IR OFF  ");
-                strcpy(display_line[1], "          ");
-                strcpy(display_line[2], "          ");
-                strcpy(display_line[3], "          ");
-                update_display =TRUE;
-                IR_status = OFF;
-            }
-
-
+        //SW2 FUNCTIONS:
+        //        // Implement Later
+        //        ADC_Update ^= 1; // Toggles the State of ADC_Update, Makes ADC Values Appear/Disappear on LCD
+        //        if(!ADC_Update){
+        //            strcpy(display_line[0], "          ");
+        //            strcpy(display_line[1], "          ");
+        //            strcpy(display_line[2], "          ");
+        //            strcpy(display_line[3], "          ");
+        //            update_display =TRUE;
+        //            backlight_status = OFF;
+        //        }
+        if(IR_status == OFF){
+            IR_changed = TRUE;
+            strcpy(display_line[0], "  IR ON   ");
+            strcpy(display_line[1], "          ");
+            strcpy(display_line[2], "          ");
+            strcpy(display_line[3], "          ");
+            update_display = TRUE;
+            IR_status = ON;
         }
-        //-----------------------------------------------------------------------------
+        else{// IR_status = ON
+            IR_changed = TRUE;
+            strcpy(display_line[0], "  IR OFF  ");
+            strcpy(display_line[1], "          ");
+            strcpy(display_line[2], "          ");
+            strcpy(display_line[3], "          ");
+            update_display =TRUE;
+            IR_status = OFF;
+        }
+
+
     }
+    //-----------------------------------------------------------------------------
+}
 
 
 
 
+//// DAC Interrupt
+// The interrupt is not used
+#pragma vector = SAC1_SAC3_VECTOR
+__interrupt void SAC3_ISR(void){
+    switch(__even_in_range(SAC0IV,SACIV_4)){
+    case SACIV_0: break;
+    case SACIV_2: break;
+    case SACIV_4:
+        //   DAC_data++;
+        //   DAC_data &= 0xFFF;
+        //   SAC3DAT = DAC_data;                 // DAC12 output positive ramp
+        break;
+    case 14:
+        // Overflow Occurred
+        if(DAC_overflow_counter++ >= 3){
+            // The following line should be done in a timer overflow interrupt [after 2 or 3 overflows]
+            P2OUT   |=  DAC_ENB;                  // Value = High [enabled]
+            // Each time through the overflow time after enable, subtract 50 from DAC_data
+            DAC_data = 4000;
+            SAC3DAT  = DAC_data;                  // Stepping DAC Output
+            // Somewhere around 1200 will be about 6v. You will need to measure it.
+            DAC_overflow_counter = 0;
+        }
+    default: break;
+    }
+}
 
 
 
 
-
-    // ADC Interrupt
+// ADC Interrupt
 #pragma vector=ADC_VECTOR
-    __interrupt void ADC_ISR(void){
-        if(ADC_Display){
-            //    backlight_status = ON;
-            switch(__even_in_range(ADCIV,ADCIV_ADCIFG)){
-            case ADCIV_NONE:
-                break;
-            case ADCIV_ADCOVIFG:   // When a conversion result is written to the ADCMEM0
-                // before its previous conversion result was read.
-                break;
-            case ADCIV_ADCTOVIFG:   // ADC conversion-time overflow
-                break;
-            case ADCIV_ADCHIIFG:    // Window comparator interrupt flags
-                break;
-            case ADCIV_ADCLOIFG:    // Window comparator interrupt flag
-                break;
-            case ADCIV_ADCINIFG:    // Window comparator interrupt flag
-                break;
-            case ADCIV_ADCIFG:      // ADCMEM0 memory register with the conversion result
-                ADCCTL0 &= ~ADCENC;                          // Disable ENC bit.
-                switch (ADC_Channel++){
-                case 0x00:                                   // Channel A2 Interrupt
-                    ADCMCTL0 &= ~ADCINCH_2;                  // Disable Last channel A2
-                    ADCMCTL0 |=  ADCINCH_3;                  // Enable Next channel A3
+__interrupt void ADC_ISR(void){
+    //    backlight_status = ON;
+    switch(__even_in_range(ADCIV,ADCIV_ADCIFG)){
+    case ADCIV_NONE:
+        break;
+    case ADCIV_ADCOVIFG:   // When a conversion result is written to the ADCMEM0
+        // before its previous conversion result was read.
+        break;
+    case ADCIV_ADCTOVIFG:   // ADC conversion-time overflow
+        break;
+    case ADCIV_ADCHIIFG:    // Window comparator interrupt flags
+        break;
+    case ADCIV_ADCLOIFG:    // Window comparator interrupt flag
+        break;
+    case ADCIV_ADCINIFG:    // Window comparator interrupt flag
+        break;
+    case ADCIV_ADCIFG:      // ADCMEM0 memory register with the conversion result
+        ADCCTL0 &= ~ADCENC;                          // Disable ENC bit.
+        switch (ADC_Channel++){
+        case 0x00:                                   // Channel A2 Interrupt
+            ADCMCTL0 &= ~ADCINCH_2;                  // Disable Last channel A2
+            ADCMCTL0 |=  ADCINCH_3;                  // Enable Next channel A3
 
-                    ADC_Left_Detect = ADCMEM0;               // Move result into Global Values
-                    ADC_Left_Detect = ADC_Left_Detect >> 2;  // Divide the result by 4
+            ADC_Left_Detect = ADCMEM0;               // Move result into Global Values
+            ADC_Left_Detect = ADC_Left_Detect >> 2;  // Divide the result by 4
 
-    //                if(state != WAIT2 && state != BLACKLINE){
-    //                HexToBCD(ADC_Left_Detect);
-    //                dispPrint(adc_char,2);
-    //                }
-
-                    ADC_Update = TRUE;
-
-                    break;
-
-                case 0x01:                                   // Channel A3 Interrupt
-                    ADCMCTL0 &= ~ADCINCH_3;                  // Disable Last channel A2
-                    ADCMCTL0 |=  ADCINCH_5;                  // Enable Next channel A1
-
-                    ADC_Right_Detect = ADCMEM0;              // Move result into Global Values
-                    ADC_Right_Detect = ADC_Right_Detect >> 2;// Divide the result by 4
-    //                if(state != WAIT2 && state != BLACKLINE){
-    //                HexToBCD(ADC_Right_Detect);
-    //                dispPrint(adc_char,3);
-    //                }
-                    ADC_Update = TRUE;
-
-                    break;
-
-                case 0x02:                                   // Channel A1 Interrupt
-                    ADCMCTL0 &= ~ADCINCH_5;                  // Disable Last channel A?
-                    ADCMCTL0 |= ADCINCH_2;                   // Enable Next [First] channel 2
-
-                    ADC_Thumb = ADCMEM0;                     // Move result into Global Values
-                    ADC_Thumb = ADC_Thumb >> 2;              // Divide the result by 4
-    //                if(state != WAIT2 && state != BLACKLINE){
-    //                HexToBCD(ADC_Thumb);
-    //                dispPrint(adc_char,4);
-    //                }
-                    ADC_Update = TRUE;
-
-                    ADC_Channel = 0;
-                    break;
-
-                default:
-                    break;
+            if(ADC_Update){
+                HexToBCD(ADC_Left_Detect);
+                if(ADC_Display){
+                    dispPrint(adc_char,2);
                 }
-                ADCCTL0 |= ADCENC;                          // Enable Conversions
-                ADCCTL0 |= ADCSC;
-                break;
-                default:
-                    break;
             }
+
+            //            ADC_Update = TRUE;
+
+            break;
+
+        case 0x01:                                   // Channel A3 Interrupt
+            ADCMCTL0 &= ~ADCINCH_3;                  // Disable Last channel A2
+            ADCMCTL0 |=  ADCINCH_5;                  // Enable Next channel A1
+
+            ADC_Right_Detect = ADCMEM0;              // Move result into Global Values
+            ADC_Right_Detect = ADC_Right_Detect >> 2;// Divide the result by 4
+            if(ADC_Update){
+                HexToBCD(ADC_Right_Detect);
+                if(ADC_Display){
+                    dispPrint(adc_char,3);
+                }
+            }
+            //            ADC_Update = TRUE;
+
+            break;
+
+        case 0x02:                                   // Channel A1 Interrupt
+            ADCMCTL0 &= ~ADCINCH_5;                  // Disable Last channel A?
+            ADCMCTL0 |= ADCINCH_2;                   // Enable Next [First] channel 2
+
+            ADC_Thumb = ADCMEM0;                     // Move result into Global Values
+            ADC_Thumb = ADC_Thumb >> 2;              // Divide the result by 4
+            if(ADC_Update){
+                HexToBCD(ADC_Thumb);
+                if(ADC_Display){
+                    dispPrint(adc_char,4);
+                }
+            }
+            //            ADC_Update = TRUE;
+
+            ADC_Channel = 0;
+            break;
+
+        default:
+            break;
         }
+        ADCCTL0 |= ADCENC;                          // Enable Conversions
+        ADCCTL0 |= ADCSC;
+        break;
+        default:
+            break;
     }
+}
+
+
+////-----------------------------------------------------------------------------
+////  The eUSCI_Ahas only one interrupt vector that is shared for transmission and for reception.
+//#pragma vector=EUSCI_A0_VECTOR
+//__interrupt void eUSCI_A0_ISR(void){
+//    unsigned int temp;
+//    switch(__even_in_range(UCA0IV,0x08)){
+//    case 0:                                     // Vector 0 -no interrupt
+//        break;
+//    case 2:                                     // Vector 2 -RXIFG
+//        temp = usb_rx_ring_wr++;
+//        IOT_2_PC[temp] = UCA0RXBUF; // Rx -> IOT_2_PC character array
+//        //      USB_Char_Rx[temp] = UCA0RXBUF; // Replaced by Code above based on Slide 6 of Lecture 13 - eUSCI0 to eUSCI1 The Big Picture
+//        if (usb_rx_ring_wr >= (sizeof(USB_Char_Rx))){
+//            usb_rx_ring_wr= BEGINNING;             // Circular buffer back to beginning
+//        }
+//        UCA0TXBUF = IOT_2_PC[temp]; // Transmit out the same port
+//        // ^^^ Added code based on Slide 6 of Lecture 13 - eUSCI0 to eUSCI1 The Big Picture
+//        break;
+//    case 4:                                     // Vector 4 –TXIFG
+//        //////////////////////////////////////////////////////////////////////////////////////////////////////
+//        //Added Based on Lecture 13 - eUSCI0 to eUSCI1 The Big Picture Slide 13
+//        UCA0TXBUF = process_buffer[pb_index];  // Transmit Current Indexed value
+//        process_buffer[pb_index++] = NULL;     // Null Location of Transmitted value
+//        if(process_buffer[pb_index] == NULL){  // Is the next pb_index location NULL - End of Command
+//            UCA0IE &= ~UCTXIE;                   // Disable TX interrupt
+//        }
+//        //////////////////////////////////////////////////////////////////////////////////////////////////////
+//        break;
+//    default: break;
+//    }
+//}
+////----------------------------------------------------------------------------

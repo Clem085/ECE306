@@ -76,7 +76,6 @@ unsigned int triangle_step;
 unsigned int figure8_step;
 
 extern short int p3_4_type;
-char state;
 
 extern volatile unsigned int ADC_Channel;
 extern volatile unsigned int ADC_Left_Detect;
@@ -86,6 +85,7 @@ extern char IR_status;
 extern char IR_changed;
 extern char ADC_Update;
 extern char ADC_Display;
+extern char light_percent;
 
 int activateSM;
 char state;
@@ -111,6 +111,8 @@ void main(void)
     Init_Timers();                       // Initialize Timers
     Init_LCD();                          // Initialize LCD
     Init_ADC();                          // Initialize ADC
+//    Init_DAC();                          // Initialize DAC
+//    Init_Serial_UCA0(0);                  // Initialize Serial
 
     // Place the contents of what you want on the display, in between the quotes
     // Limited to 10 characters per line
@@ -132,11 +134,11 @@ void main(void)
     update_display = TRUE;
     display_changed = TRUE;
 
-    IR_status = ON;
-    backlight_status = OFF;
-    state = WAIT;
     ADC_Update = FALSE;
     ADC_Display = FALSE;
+    IR_status = ON;
+    state = WAIT;
+    light_percent = 80;
 
     while (ALWAYS){                      // Can the Operating system run
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
@@ -145,9 +147,8 @@ void main(void)
         StateMachine();
 
         // Controls
-        backlight_control();
         IR_control();
-        ADC_control();
+        PWM_backlight();
         vrfyDirection(); // Protects against Magic Smoke
     }
 
@@ -162,6 +163,7 @@ void StateMachine(void){
         strcpy(display_line[0], "  Waiting ");
         update_display = 1;
         display_changed = 1;
+
         break;
     case RECEIVE:
         strcpy(display_line[0], "  Receive ");

@@ -42,6 +42,12 @@ extern volatile unsigned char display_changed;
 unsigned char display_mode;
 extern unsigned int count_debounce_SW1;
 extern unsigned int count_debounce_SW2;
+extern char IR_status;
+extern char ADC_Update;
+extern char ADC_Display;
+extern char state;
+extern char light_percent;
+extern char DAC_overflow_counter;
 
 
 void Init_Conditions(void){
@@ -71,5 +77,10 @@ void Init_Conditions(void){
 
   count_debounce_SW1 = 0;
   count_debounce_SW2 = 0;
+  DAC_overflow_counter = 0;
+
+  P1OUT  &= ~RED_LED; // Set Red LED Off
+  P6OUT  &= ~GRN_LED; // Set Green LED Off
+
 //------------------------------------------------------------------------------
 }

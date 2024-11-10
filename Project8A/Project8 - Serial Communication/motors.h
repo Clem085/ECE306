@@ -83,11 +83,11 @@ void PWM1_BOTH_REV(void);
 
 // PWM Motor Controls
 #define PWM_PERIOD          (TB3CCR0)
-#define LCD_BACKLITE_DIMING (TB3CCR1)
 #define RIGHT_FORWARD_SPEED (TB3CCR2)
 #define LEFT_FORWARD_SPEED  (TB3CCR3)
 #define RIGHT_REVERSE_SPEED (TB3CCR4)
 #define LEFT_REVERSE_SPEED  (TB3CCR5)
+// PWD Display Control moved to Display.h
 
 // PWM1 Values
 // REMEMBER
@@ -102,6 +102,7 @@ void PWM1_BOTH_REV(void);
 #define PWM1_FAST            (50000)
 #define PWM1_PERCENT_100     (50000)
 #define PWM1_PERCENT_80      (45000)
+#define PWM1_PERCENT_0       (0)
 
 
 

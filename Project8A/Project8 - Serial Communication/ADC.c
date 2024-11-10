@@ -147,24 +147,24 @@ void HexToBCD(int hex_value){
 //    }
 //}
 
-void ADC_control(void){
-    if(ADC_Update && ADC_Display){
-        switch(ADC_Channel){
-        case 0x00:
-            HexToBCD(ADC_Left_Detect);
-            dispPrint(adc_char,2);
-            break;
-        case 0x01:
-            HexToBCD(ADC_Right_Detect);
-            dispPrint(adc_char,3);
-            break;
-        case 0x02:
-            HexToBCD(ADC_Thumb);
-            dispPrint(adc_char,4);
-            break;
-        default:
-            break;
-        }
-    }
-}
+//void ADC_control(void){
+//    if(ADC_Update && ADC_Display){
+//        switch(ADC_Channel){
+//        case 0x00:
+//            HexToBCD(ADC_Left_Detect);
+//            dispPrint(adc_char,2);
+//            break;
+//        case 0x01:
+//            HexToBCD(ADC_Right_Detect);
+//            dispPrint(adc_char,3);
+//            break;
+//        case 0x02:
+//            HexToBCD(ADC_Thumb);
+//            dispPrint(adc_char,4);
+//            break;
+//        default:
+//            break;
+//        }
+//    }
+//}
 
