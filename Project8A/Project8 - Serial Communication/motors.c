@@ -1,20 +1,14 @@
-/* Program Information Header
+/* Motors Program Information
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
   File Name : motors.c
-  Description:  This file contains the code to control the motors
-      >>> Motors Forward
-          Motors Stop
-          Circle
-          Triangle
-          Figure8
-
+  Description:  This file contains the code to control the motors using PWM
   Programmer: Connor Savugot
-  Date: Sep 20, 2024
+  Date Created: Sep 20, 2024
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
- */
+*/
 
-// #include as of 11-08-24
-// Header Files
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -23,54 +17,18 @@
 #include  "motors.h"
 #include  "Display.h"
 #include  "timers.h"
+#include  "interrupts.h"
 #include  "switches.h"
 #include  "ADC.h"
 #include  "IR.h"
 #include  "serial.h"
 #include  "DAC.h"
-// Libraries
+#include  "menu.h"
+//// Libraries
 #include  <string.h>
 #include  <stdio.h>
 
-// Globals
-extern unsigned char state;
-extern unsigned char event;
-extern char display_line[4][11];
-extern unsigned int travel_distance;
-extern unsigned int right_count_time;
-extern unsigned int left_count_time;
-extern unsigned int wheel_count_time;
-
-extern unsigned int time_change;
-extern unsigned int delay_start;
-extern unsigned int cycle_time;
-extern unsigned int right_motor_count;
-extern unsigned int left_motor_count;
-extern unsigned int segment_count;
-extern char backlight_status;
-
-extern unsigned int straight_step;
-extern unsigned int circle_step;
-extern unsigned int triangle_step;
-extern unsigned int figure8_step;
-
-// Globals
-extern unsigned char dispEvent;
-extern volatile unsigned char display_changed;
-extern unsigned char event;
-extern char display_line[4][11];
-
-
-// Motor Polarity/Direction
-unsigned char LeftDir;
-unsigned char RightDir;
-
-// TIME
-unsigned int secTime; // Define in NEW Clocks File
-
-
-// PWM Variables
-
+// Global Variables declared and referenced in Header file
 
 
 

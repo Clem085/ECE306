@@ -1,17 +1,15 @@
 //===========================================================================
-//  File Name: DAC.h
-//  Description: Header file for DAC.c - Contains Globals, Macros, & function declarations
-//  Author: Connor Savugot
-//  Date: Nov 8, 2024
+//  File Name: menu.h
+//  Description: Header file for menu.c - Contains Globals, Macros, & function declarations
+//  Programmer: Connor Savugot
+//  Date Created: Nov 10, 2024
 //===========================================================================
 
-#ifndef DAC_H_
-#define DAC_H_
-
+#ifndef MENU_H_
+#define MENU_H_
 
 // Global Variables
 //// Internally Defined
-unsigned int DAC_data;
 //// Externally Defined
 
 
@@ -21,10 +19,6 @@ unsigned int DAC_data;
 
 
 // Function Declarations
-void Init_DAC(void);
 
 
-
-
-
-#endif /* DAC_H_ */
+#endif /* MENU_H_ */

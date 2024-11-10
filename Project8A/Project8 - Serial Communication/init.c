@@ -1,21 +1,14 @@
-//===========================================================================
-//  File Name : init.c
-//
-//  Description: This file contains the Initialization sequences for many of the boards and processes used in this project.
-//      Note: This Code was originally stored in main.c. Moved to separate file as instructed in Project 2
-//  Author: Jim Carlson
-//  Date: Sept 2013
-//  Compiler: Built with IAR Embedded Workbench Version: V4.10A/W32 (5.40.1)
-//===========================================================================
-//#include  "msp430.h"
-//#include  <string.h>
-//#include  "functions.h"
-//#include  "LCD.h"
-//#include  "ports.h"
-//#include "macros.h"
+/* Initialize Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : init.c
+  Description:  This file contains the Initialization sequences for many of the boards and processes used in this project.
+  Programmer: Connor Savugot
+  Date Created: Sep 12, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
 
-// #include as of 11-08-24
-// Header Files
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -24,17 +17,20 @@
 #include  "motors.h"
 #include  "Display.h"
 #include  "timers.h"
+#include  "interrupts.h"
 #include  "switches.h"
 #include  "ADC.h"
 #include  "IR.h"
 #include  "serial.h"
 #include  "DAC.h"
-// Libraries
+#include  "menu.h"
+//// Libraries
 #include  <string.h>
 #include  <stdio.h>
 
 
 //Variables
+// No Header File.
 extern char display_line[4][11];
 extern char *display[4];
 extern volatile unsigned char update_display;

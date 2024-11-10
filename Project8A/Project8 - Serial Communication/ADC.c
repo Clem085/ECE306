@@ -1,24 +1,14 @@
-/*
- * adc.c
- *
- *  Created on: Oct 14, 2024
- *      Author: jammi
- */
-//#include  "msp430.h"
-//#include  <string.h>
-//#include <switches.h>
-//#include  "functions.h"
-//#include  "LCD.h"
-//#include  "ports.h"
-//#include  "macros.h"
-//#include  "motors.h"
-//#include  "Display.h"
-//#include  "timersB0.h"
-//#include  "switches.h"
-//#include  "ADC.h"
+/* ADC Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : ADC.c
+  Description:  This file contains the code to control the ADC (Analog to Digital Converter)
+  Programmer: Connor Savugot
+  Date Created: Oct 14, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
 
-// #include as of 11-08-24
-// Header Files
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -27,31 +17,18 @@
 #include  "motors.h"
 #include  "Display.h"
 #include  "timers.h"
+#include  "interrupts.h"
 #include  "switches.h"
 #include  "ADC.h"
 #include  "IR.h"
 #include  "serial.h"
 #include  "DAC.h"
-// Libraries
+#include  "menu.h"
+//// Libraries
 #include  <string.h>
 #include  <stdio.h>
 
-
-
-extern char backlight_status;
-//extern char state;
-
-
-// Globals
-//volatile unsigned int ADC_Value;
-volatile unsigned int ADC_Channel;
-volatile unsigned int ADC_Left_Detect;
-volatile unsigned int ADC_Right_Detect;
-volatile unsigned int ADC_Thumb;
-char ADC_Update;
-char ADC_Display;
-char adc_char[10];
-
+// Global Variables declared and referenced in Header file
 
 
 

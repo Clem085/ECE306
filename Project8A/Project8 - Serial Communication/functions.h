@@ -81,14 +81,7 @@ void LCD_iot_meassage_print(int nema_index);
 // Menu
 void Menu_Process(void);
 
-// Ports
-void Init_Ports(void);
-void Init_Port1(void);
-void Init_Port2(void);
-void Init_Port3(void);
-void Init_Port4(void);
-void Init_Port5(void);
-void Init_Port6(void);
+
 
 // SPI
 void Init_SPI_B1(void);
@@ -115,12 +108,7 @@ void Switch2_Process(void);
 void menu_act(void);
 void menu_select(void);
 
-// Timers
-void Init_Timers(void);
-void Init_Timer_B0(void);
-void Init_Timer_B1(void);
-void Init_Timer_B2(void);
-void Init_Timer_B3(void);
+
 
 void usleep(unsigned int usec);
 void usleep10(unsigned int usec);

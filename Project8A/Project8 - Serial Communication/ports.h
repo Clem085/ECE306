@@ -1,13 +1,21 @@
 //===========================================================================
 //  File Name : ports.h
-//
 //  Description: Macro Configurations for Ports
 //               This header file contains the port register definitions
-//  Author: Jim Carlson
-//  Date: Sept 2013
-//  Compiler: Built with IAR Embedded Workbench Version: V4.10A/W32 (5.40.1)
+//  Programmer: Connor Savugot
+//  Date Created: Oct 14, 2024
 //===========================================================================
+#ifndef PORTS_H_
+#define PORTS_H_
 
+// Global Variables
+//// Internally Defined
+short int p3_4_type;
+//// Externally Defined
+
+
+
+// Macro Definitions
 #define FALSE                  (0x00) //
 #define TRUE                   (0x01) //
 #define MOTOR                  (0x00) //
@@ -17,17 +25,12 @@
 #define PWM_MODE               (0x01) // GREEN LED 1
 #define WHEEL_OFF              (0x00)
 #define WHEEL_PERIOD          (10000)
-//#define RIGHT_FORWARD_SPEED (TB3CCR2)
-//#define RIGHT_REVERSE_SPEED (TB3CCR3)
-//#define LEFT_FORWARD_SPEED  (TB3CCR4)
-//#define LEFT_REVERSE_SPEED  (TB3CCR5)
 
 #define LCD_BACKLITE_BRIGHTNESS (TB3CCR1)
 #define RIGHT_FORWARD_SPEED     (TB3CCR2)
 #define LEFT_FORWARD_SPEED      (TB3CCR3)
 #define RIGHT_REVERSE_SPEED     (TB3CCR4)
 #define LEFT_REVERSE_SPEED      (TB3CCR5)
-
 
 #define STEP                   (2000)
 #define FORWARD                (0x00) // FORWARD
@@ -88,3 +91,19 @@
 #define L_REVERSE              (0x10) // 6.3 P6_4_PWM
 #define P6_5                   (0x20) // 6.5
 #define GRN_LED                (0x40) // 6.6 GREEN LED
+
+
+
+// Function Declarations
+// Initialize Ports
+void Init_Ports(void);
+void Init_Port1(void);
+void Init_Port2(void);
+void Init_Port3(void);
+void Init_Port4(void);
+void Init_Port5(void);
+void Init_Port6(void);
+
+
+
+#endif /* PORTS_H_ */

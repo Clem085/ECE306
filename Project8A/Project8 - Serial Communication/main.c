@@ -1,15 +1,14 @@
-//------------------------------------------------------------------------------
-//
-//  Description: This file contains the Main Routine - "While" Operating System
-//
-//  Jim Carlson
-//  Jan 2023
-//  Built with Code Composer Version: CCS12.4.0.00007_win64
-//------------------------------------------------------------------------------
+/* Main Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : main.c
+  Description:  This file contains the Main Routine - "While" Operating System
+  Programmer: Connor Savugot
+  Date Created: Oct 14, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
 
-//------------------------------------------------------------------------------
-// #include as of 11-08-24
-// Header Files
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -18,12 +17,14 @@
 #include  "motors.h"
 #include  "Display.h"
 #include  "timers.h"
+#include  "interrupts.h"
 #include  "switches.h"
 #include  "ADC.h"
 #include  "IR.h"
 #include  "serial.h"
 #include  "DAC.h"
-// Libraries
+#include  "menu.h"
+//// Libraries
 #include  <string.h>
 #include  <stdio.h>
 
@@ -91,8 +92,7 @@ int activateSM;
 char state;
 //volatile unsigned int State_Sequence;
 
-void main(void)
-{
+void main(void){
     //    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
 
     //------------------------------------------------------------------------------
@@ -134,17 +134,18 @@ void main(void)
     update_display = TRUE;
     display_changed = TRUE;
 
-    ADC_Update = FALSE;
-    ADC_Display = FALSE;
+    ADC_Update = TRUE;
+    ADC_Display = TRUE;
     IR_status = ON;
     state = WAIT;
     light_percent = 80;
-
+//    menu = RESISTOR;
     while (ALWAYS){                      // Can the Operating system run
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
         // Updates
         Display_Process();
-        StateMachine();
+//        StateMachine();
+//        HW9_StateMachine();
 
         // Controls
         IR_control();
@@ -155,6 +156,13 @@ void main(void)
     //------------------------------------------------------------------------------
 
 }
+// Homework 9 State Machine
+//void HW9_StateMachine(void){
+//    switch(state){
+//
+//    }
+//}
+
 
 // Project 8 State Machine
 void StateMachine(void){

@@ -1,22 +1,14 @@
-//===========================================================================
-//  File Name : ports.c
-//  Description:  This file contains the port initializations for all 6 ports
-//  Author: Connor Savugot
-//  Date: Sep 13, 2024
-//===========================================================================
-//#include  "msp430.h"
-//#include  <string.h>
-//#include <switches.h>
-//#include  "functions.h"
-//#include  "LCD.h"
-//#include  "ports.h"
-//#include  "macros.h"
-//#include  "motors.h"
-//#include  "Display.h"
-//#include "timersB0.h"
+/* Port Initialization Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : ports.c
+  Description:  This file contains the port initializations for all 6 ports
+  Programmer: Connor Savugot
+  Date Created: Sep 13, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
 
-// #include as of 11-08-24
-// Header Files
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -25,17 +17,18 @@
 #include  "motors.h"
 #include  "Display.h"
 #include  "timers.h"
+#include  "interrupts.h"
 #include  "switches.h"
 #include  "ADC.h"
 #include  "IR.h"
 #include  "serial.h"
 #include  "DAC.h"
-// Libraries
+#include  "menu.h"
+//// Libraries
 #include  <string.h>
 #include  <stdio.h>
 
-
-short int p3_4_type;
+// Global Variables declared and referenced in Header file
 
 //Init_Ports
 void Init_Ports(){

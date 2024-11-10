@@ -1,13 +1,14 @@
-/*
- * interrupts.c
- *
- *  Created on: Oct 21, 2024
- *      Author: jammi
- */
+/* Interrupts Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : interrupts.c
+  Description:  This file contains the code to control all ISR (Interrupt Service Routines)
+  Programmer: Connor Savugot
+  Date Created: Oct 21, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
 
-
-// #include as of 11-08-24
-// Header Files
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -16,40 +17,20 @@
 #include  "motors.h"
 #include  "Display.h"
 #include  "timers.h"
+#include  "interrupts.h"
 #include  "switches.h"
 #include  "ADC.h"
 #include  "IR.h"
 #include  "serial.h"
 #include  "DAC.h"
-// Libraries
+#include  "menu.h"
+//// Libraries
 #include  <string.h>
 #include  <stdio.h>
 
-// Internal Globals
-char DAC_overflow_counter;
+// Global Variables declared and referenced in Header file
 
-// External Globals
-extern volatile unsigned char update_display;
 
-volatile unsigned int Time_Sequence;
-extern char display_line[4][11];
-extern volatile unsigned char display_changed;
-extern unsigned int count_debounce_SW1;
-extern unsigned int count_debounce_SW2;
-
-extern volatile unsigned int ADC_Channel;
-extern volatile unsigned int ADC_Left_Detect;
-extern volatile unsigned int ADC_Right_Detect;
-extern volatile unsigned int ADC_Thumb;
-extern char state;
-//extern volatile unsigned int State_Sequence;
-extern char adc_char[10];
-extern char IR_status;
-extern char IR_changed;
-extern char ADC_Update;
-extern char ADC_Display;
-
-extern unsigned int DAC_data;
 
 // Timers
 #pragma vector = TIMER0_B0_VECTOR

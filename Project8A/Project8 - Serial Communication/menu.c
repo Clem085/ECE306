@@ -1,9 +1,9 @@
-/* IR Program Information
+/* Menu Program Information
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-  File Name : IR.c
-  Description:  This file contains the code to control the IR LED (Infrared Emitter LED)
+  File Name : menu.c
+  Description:  This file contains the code to control Menu on LCD Display (Homework 9)
   Programmer: Connor Savugot
-  Date Created: Oct 19, 2024
+  Date Created: Nov 10, 2024
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 */
 
@@ -31,19 +31,4 @@
 // Global Variables declared and referenced in Header file
 
 
-
-// Controls IR LED
-void IR_control(void){
-    /*  Parameter Values
-    action
-        '0': Backlight OFF
-        '1': Backlight ON
-     */
-    if(IR_status == OFF){
-        P2OUT  &= ~IR_LED;
-    }
-    else{// IR_status = ON
-        P2OUT  |=  IR_LED;
-    }
-}
-
+// Functions

@@ -1,26 +1,18 @@
-/* Program Information Header
+/* Switches Program Information Header
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
   File Name : switches.c
-  Description:  This file contains the code to control the 3 switches on the MSP430 Board
-      >>> As of now, Switch 1 (S1) is used to select a shape to draw. Switch 2 (S2) is used to confirm the Shape. Switch 1 (S1) is unused.
+  Description:  This file contains the code to control the 2 buttons (SW1 & SW2) on the MSP430 Board
   Programmer: Connor Savugot
-  Date: Sep 20, 2024
+//  Date Created: Sep 20, 2024
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
- */
-// Includes
-//#include  "msp430.h"
-//#include  <string.h>
-//#include "switches.h"
-//#include  "functions.h"
-//#include  "LCD.h"
-//#include  "ports.h"
-//#include  "macros.h"
-//#include  "motors.h"
-//#include  "Display.h"
-//#include "timersB0.h"
+*/
 
-// #include as of 11-08-24
-// Header Files
+/////////////// DEPRECATED CODE /////////////// DEPRECATED CODE ///////////////
+// This code was used BEFORE ISR's were implemented to better handle switches
+/////////////// DEPRECATED CODE /////////////// DEPRECATED CODE ///////////////
+
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -29,14 +21,18 @@
 #include  "motors.h"
 #include  "Display.h"
 #include  "timers.h"
+#include  "interrupts.h"
 #include  "switches.h"
 #include  "ADC.h"
 #include  "IR.h"
 #include  "serial.h"
 #include  "DAC.h"
-// Libraries
+#include  "menu.h"
+//// Libraries
 #include  <string.h>
 #include  <stdio.h>
+
+// Global Variables declared and referenced in Header file
 
 
 // Globals
@@ -44,16 +40,11 @@ extern unsigned char dispEvent;
 extern volatile unsigned char display_changed;
 extern unsigned char event;
 extern char display_line[4][11];
-
 extern unsigned int straight_step;
 extern unsigned int circle_step;
 extern unsigned int circle_step2;
 extern unsigned int triangle_step;
 extern unsigned int figure8_step;
-
-
-
-// TEST
 extern char backlight_status;
 extern volatile unsigned int Time_Sequence;
 extern int activateSM;

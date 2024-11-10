@@ -1,12 +1,14 @@
-/*
- * DAC.c
- *
- *  Created on: Nov 8, 2024
- *      Author: jammi
- */
+/* DAC Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : DAC.c
+  Description:  This file contains the code to control the DAC (Digital to Analog Converter)
+  Programmer: Connor Savugot
+  Date Created: Nov 8, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
 
-// #include as of 11-08-24
-// Header Files
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -15,14 +17,20 @@
 #include  "motors.h"
 #include  "Display.h"
 #include  "timers.h"
+#include  "interrupts.h"
 #include  "switches.h"
 #include  "ADC.h"
 #include  "IR.h"
 #include  "serial.h"
 #include  "DAC.h"
-// Libraries
+#include  "menu.h"
+//// Libraries
 #include  <string.h>
 #include  <stdio.h>
+
+// Global Variables declared and referenced in Header file
+
+
 
 //------------------------------------------------------------------------------
 //  MSP430FR235x Demo - SAC-L3, DAC Buffer Mode
@@ -41,10 +49,6 @@
 //            |                   |
 //            |                   |
 //------------------------------------------------------------------------------
-
-
-unsigned int DAC_data;
-
 void Init_DAC(void){
     DAC_data = 4000;
     SAC3DAT  = DAC_data;                  // Initial DAC data

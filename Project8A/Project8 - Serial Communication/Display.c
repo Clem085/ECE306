@@ -1,36 +1,14 @@
-//===========================================================================
-//  File Name : Display.c
-//  Description: This file contains code to control the Display
-//      Note: This Code was originally stored in main.c. Moved to separate file as instructed in Project 2
-//  Author: Jim Carlson
-//  Date: Jan 2023
-//  -- -- -- -- -- -- -- -- -- -- --
-//  Revision Log
-//  9/20/2024
-//      Programmer: Connor Savugot
-//      Revision: Added 1 new Functions
-//          backlight(action);
-//  9/24/2024
-//      Programmer: Connor Savugot
-//      Revision: Optimized backlight to be more memory efficient by using only global variables
-//  -- -- -- -- -- -- -- -- -- -- --
-//===========================================================================
-// Includes
-//#include  "msp430.h"
-//#include  <string.h>
-//#include <switches.h>
-//#include  "functions.h"
-//#include  "LCD.h"
-//#include  "ports.h"
-//#include  "macros.h"
-//#include  "motors.h"
-//#include  "Display.h"
-//#include  "timersB0.h"
-//#include  "ThumbWheel.h"
-//#include <string.h>
+/* Display Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : Display.c
+  Description:  This file contains the code to control the LCD Display
+  Programmer: Connor Savugot
+  Date Created: Sep 20, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
 
-// #include as of 11-08-24
-// Header Files
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -39,31 +17,20 @@
 #include  "motors.h"
 #include  "Display.h"
 #include  "timers.h"
+#include  "interrupts.h"
 #include  "switches.h"
 #include  "ADC.h"
 #include  "IR.h"
 #include  "serial.h"
 #include  "DAC.h"
-// Libraries
+#include  "menu.h"
+//// Libraries
 #include  <string.h>
 #include  <stdio.h>
 
-// Globals
-extern char display_line[4][11];
-extern volatile unsigned char display_changed;
-extern volatile unsigned char update_display;
-extern int Switch_Counter1;
+// Global Variables declared and referenced in Header file
 
 
-
-
-
-//char tempLine0[11];
-//char tempLine1[11];
-//char tempLine2[11];
-//char tempLine3[11];
-
-extern char adc_char[10];
 
 void Display_Process(void){
     if(update_display){

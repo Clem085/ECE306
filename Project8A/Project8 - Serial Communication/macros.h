@@ -60,6 +60,9 @@
 #define RECEIVE                 ('R')
 #define TRANSMIT                ('T')
 
+// Homework 9 States
+
+
 // Switches
 #define PRESSED                (0)
 #define RELEASED               (1)

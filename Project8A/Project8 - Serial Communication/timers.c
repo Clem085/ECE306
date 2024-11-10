@@ -1,18 +1,14 @@
-//// Includes
-//#include "Display.h"
-//#include "LCD.h"
-//#include "functions.h"
-//#include "macros.h"
-//#include "motors.h"
-//#include "msp430.h"
-//#include "ports.h"
-//#include <string.h>
-//#include "switches.h"
-//#include "timers.h"
+/* Timers Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : timers.c
+  Description:  This file contains the code to control all Timers
+  Programmer: Connor Savugot
+  Date Created: Oct 9, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
 
-
-// #include as of 11-08-24
-// Header Files
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
@@ -21,33 +17,20 @@
 #include  "motors.h"
 #include  "Display.h"
 #include  "timers.h"
+#include  "interrupts.h"
 #include  "switches.h"
 #include  "ADC.h"
 #include  "IR.h"
 #include  "serial.h"
 #include  "DAC.h"
-// Libraries
+#include  "menu.h"
+//// Libraries
 #include  <string.h>
 #include  <stdio.h>
 
-// Globals
-extern volatile unsigned int Time_Sequence;
-volatile char one_time;
-unsigned int counter_B0;
-unsigned int delay_time;
-extern char backlight_status;
-extern int Switch_Counter1;
-extern volatile unsigned char update_display;
+// Global Variables declared and referenced in Header file
 
-extern int activateSM;
-extern char display_line[4][11];
-extern volatile unsigned char display_changed;
 
-// Debounce Vars
-extern char debounce_Status_SW1;
-extern char debounce_Status_SW2;
-extern unsigned int count_debounce_SW1;
-extern unsigned int count_debounce_SW2;
 
 void Init_Timers(void) {
     Init_Timer_B0();
