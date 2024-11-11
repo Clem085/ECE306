@@ -29,6 +29,7 @@ extern char ADC_Update;
 extern char ADC_Display;
 extern unsigned int DAC_data;
 extern char menu;
+extern char menuType;
 
 
 

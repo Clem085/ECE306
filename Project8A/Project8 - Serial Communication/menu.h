@@ -11,17 +11,23 @@
 // Global Variables
 //// Internally Defined
 char menu;
+char menuType;
+int ADC_Outer;
+int ADC_Inner;
 //// Externally Defined
 extern volatile unsigned int ADC_Thumb;
 
 
 // Macro Definitions
-//// Menu States
-#define IDLE        ('I')
+//// Menu Types
+#define OUTER_MENU  ('M')
+#define INNER_MENU  ('m')
+//// Outer Menu States
 #define RESISTOR    ('R')
 #define SHAPES      ('S')
 #define SONG        ('s')
-//// Colors
+//// Inner Menu States
+////// Colors
 #define BLACK       (0)
 #define BROWN       (1)
 #define RED         (2)
@@ -32,10 +38,10 @@ extern volatile unsigned int ADC_Thumb;
 #define VIOLET      (7)
 #define GRAY        (8)
 #define WHITE       (9)
+////
 
 
 // Function Declarations
-void menuSelect(void);
 void menuScroll(void);
 
 #endif /* MENU_H_ */

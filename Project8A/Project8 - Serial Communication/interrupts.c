@@ -138,23 +138,25 @@ __interrupt void switch1_interrupt(void) {
         strcpy(display_line[2], "          ");
         strcpy(display_line[3], "          ");
         display_changed = TRUE;
-        P1OUT ^= RED_LED; // Toggle Red LED ON/OFF
-        switch(menu){
-            case IDLE:
-                menu = RESISTOR;
-                break;
-            case RESISTOR:
-                menu = SHAPES;
-                break;
-            case SHAPES:
-                menu = SONG;
-                break;
-            case SONG:
-                menu = RESISTOR;
-                break;
-            default:
-                break;
-            }
+
+        menuType = INNER_MENU;
+//        P1OUT ^= RED_LED; // Toggle Red LED ON/OFF
+//        switch(menu){
+//            case IDLE:
+//                menu = RESISTOR;
+//                break;
+//            case RESISTOR:
+//                menu = SHAPES;
+//                break;
+//            case SHAPES:
+//                menu = SONG;
+//                break;
+//            case SONG:
+//                menu = RESISTOR;
+//                break;
+//            default:
+//                break;
+//            }
     }
     //-----------------------------------------------------------------------------
 }
@@ -174,6 +176,11 @@ __interrupt void switch2_interrupt(void) {
         TB0CCTL2 |= CCIE;               // CCR2 enable interrupt
 
         //SW2 FUNCTIONS:
+        menuType = OUTER_MENU;
+
+
+
+
         //        // Implement Later
         //        ADC_Update ^= 1; // Toggles the State of ADC_Update, Makes ADC Values Appear/Disappear on LCD
         //        if(!ADC_Update){
@@ -184,24 +191,26 @@ __interrupt void switch2_interrupt(void) {
         //            update_display =TRUE;
         //            backlight_status = OFF;
         //        }
-        if(IR_status == OFF){
-            IR_changed = TRUE;
-            strcpy(display_line[0], "  IR ON   ");
-            strcpy(display_line[1], "          ");
-            strcpy(display_line[2], "          ");
-            strcpy(display_line[3], "          ");
-            update_display = TRUE;
-            IR_status = ON;
-        }
-        else{// IR_status = ON
-            IR_changed = TRUE;
-            strcpy(display_line[0], "  IR OFF  ");
-            strcpy(display_line[1], "          ");
-            strcpy(display_line[2], "          ");
-            strcpy(display_line[3], "          ");
-            update_display =TRUE;
-            IR_status = OFF;
-        }
+
+        // Project 7
+//        if(IR_status == OFF){
+//            IR_changed = TRUE;
+//            strcpy(display_line[0], "  IR ON   ");
+//            strcpy(display_line[1], "          ");
+//            strcpy(display_line[2], "          ");
+//            strcpy(display_line[3], "          ");
+//            update_display = TRUE;
+//            IR_status = ON;
+//        }
+//        else{// IR_status = ON
+//            IR_changed = TRUE;
+//            strcpy(display_line[0], "  IR OFF  ");
+//            strcpy(display_line[1], "          ");
+//            strcpy(display_line[2], "          ");
+//            strcpy(display_line[3], "          ");
+//            update_display =TRUE;
+//            IR_status = OFF;
+//        }
 
 
     }

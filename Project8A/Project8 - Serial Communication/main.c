@@ -143,14 +143,13 @@ void main(void){
     IR_status = ON;
     state = WAIT;
     light_percent = 80;
-    menu = IDLE;
+    menuType = OUTER_MENU;
     while (ALWAYS){                      // Can the Operating system run
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
         // Updates
         Display_Process();
-        StateMachine();
+//        StateMachine();
 
-        menuSelect();
         menuScroll();
 
 
