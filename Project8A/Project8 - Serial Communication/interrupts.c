@@ -132,7 +132,29 @@ __interrupt void switch1_interrupt(void) {
         TB0CCTL1 |= CCIE;               // CCR1 enable interrupt
 
         //SW1 FUNCTIONS:
-        ADC_Display ^= TRUE;
+        // Homework 9 Button Function
+        strcpy(display_line[0], "          ");
+        strcpy(display_line[1], "          ");
+        strcpy(display_line[2], "          ");
+        strcpy(display_line[3], "          ");
+        display_changed = TRUE;
+        P1OUT ^= RED_LED; // Toggle Red LED ON/OFF
+        switch(menu){
+            case IDLE:
+                menu = RESISTOR;
+                break;
+            case RESISTOR:
+                menu = SHAPES;
+                break;
+            case SHAPES:
+                menu = SONG;
+                break;
+            case SONG:
+                menu = RESISTOR;
+                break;
+            default:
+                break;
+            }
     }
     //-----------------------------------------------------------------------------
 }
@@ -246,12 +268,9 @@ __interrupt void ADC_ISR(void){
 
             ADC_Left_Detect = ADCMEM0;               // Move result into Global Values
             ADC_Left_Detect = ADC_Left_Detect >> 2;  // Divide the result by 4
-
-            if(ADC_Update){
+            if(ADC_Update && ADC_Display){
                 HexToBCD(ADC_Left_Detect);
-                if(ADC_Display){
-                    dispPrint(adc_char,2);
-                }
+                dispPrint(adc_char,2);
             }
 
             //            ADC_Update = TRUE;
@@ -264,11 +283,9 @@ __interrupt void ADC_ISR(void){
 
             ADC_Right_Detect = ADCMEM0;              // Move result into Global Values
             ADC_Right_Detect = ADC_Right_Detect >> 2;// Divide the result by 4
-            if(ADC_Update){
+            if(ADC_Update && ADC_Display){
                 HexToBCD(ADC_Right_Detect);
-                if(ADC_Display){
-                    dispPrint(adc_char,3);
-                }
+                dispPrint(adc_char,3);
             }
             //            ADC_Update = TRUE;
 
@@ -280,11 +297,9 @@ __interrupt void ADC_ISR(void){
 
             ADC_Thumb = ADCMEM0;                     // Move result into Global Values
             ADC_Thumb = ADC_Thumb >> 2;              // Divide the result by 4
-            if(ADC_Update){
+            if(ADC_Update && ADC_Display){
                 HexToBCD(ADC_Thumb);
-                if(ADC_Display){
-                    dispPrint(adc_char,4);
-                }
+                dispPrint(adc_char,4);
             }
             //            ADC_Update = TRUE;
 

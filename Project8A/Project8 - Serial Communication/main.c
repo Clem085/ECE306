@@ -87,10 +87,14 @@ extern char IR_changed;
 extern char ADC_Update;
 extern char ADC_Display;
 extern char light_percent;
+extern char menu;
+
 
 int activateSM;
 char state;
 //volatile unsigned int State_Sequence;
+
+
 
 void main(void){
     //    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
@@ -135,17 +139,20 @@ void main(void){
     display_changed = TRUE;
 
     ADC_Update = TRUE;
-    ADC_Display = TRUE;
+    ADC_Display = FALSE;
     IR_status = ON;
     state = WAIT;
     light_percent = 80;
-//    menu = RESISTOR;
+    menu = IDLE;
     while (ALWAYS){                      // Can the Operating system run
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
         // Updates
         Display_Process();
-//        StateMachine();
-//        HW9_StateMachine();
+        StateMachine();
+
+        menuSelect();
+        menuScroll();
+
 
         // Controls
         IR_control();
@@ -156,12 +163,6 @@ void main(void){
     //------------------------------------------------------------------------------
 
 }
-// Homework 9 State Machine
-//void HW9_StateMachine(void){
-//    switch(state){
-//
-//    }
-//}
 
 
 // Project 8 State Machine

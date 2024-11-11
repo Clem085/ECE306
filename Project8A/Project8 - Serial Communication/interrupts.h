@@ -28,6 +28,7 @@ extern char IR_changed;
 extern char ADC_Update;
 extern char ADC_Display;
 extern unsigned int DAC_data;
+extern char menu;
 
 
 

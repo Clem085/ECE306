@@ -110,28 +110,28 @@ void PWM_backlight(void){
 //    }
 //}
 
-
+// Aligns text to Middle of Display
 void dispPrint(char *line, char lineToUpdate) {
     char tempLine[11]; // Temporary line buffer
     int lineIndex = -1; // Index of the line to be updated
 
     // Determine which line to update based on the input character (1-4)
     switch (lineToUpdate) {
-        case 1:
+        case '1':
             lineIndex = 0;
             break;
-        case 2:
+        case '2':
             lineIndex = 1;
             break;
-        case 3:
+        case '3':
             lineIndex = 2;
             break;
-        case 4:
+        case '4':
             lineIndex = 3;
             break;
         default:
             // Handle invalid input
-            strcpy(display_line[0], " Invalid  ");
+            strcpy(display_line[0], "-Invalid--");
             display_changed = TRUE;
             return;
     }
