@@ -143,7 +143,7 @@ void main(void){
     IR_status = ON;
     state = WAIT;
     light_percent = 80;
-    menuType = OUTER_MENU;
+    menuType = IDLE;
     while (ALWAYS){                      // Can the Operating system run
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
         // Updates

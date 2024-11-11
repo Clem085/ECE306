@@ -5,7 +5,7 @@
   Programmer: Connor Savugot
   Date Created: Oct 21, 2024
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-*/
+ */
 
 // #include as of 11-10-24
 //// Header Files
@@ -133,30 +133,29 @@ __interrupt void switch1_interrupt(void) {
 
         //SW1 FUNCTIONS:
         // Homework 9 Button Function
-        strcpy(display_line[0], "          ");
-        strcpy(display_line[1], "          ");
-        strcpy(display_line[2], "          ");
-        strcpy(display_line[3], "          ");
         display_changed = TRUE;
-
-        menuType = INNER_MENU;
-//        P1OUT ^= RED_LED; // Toggle Red LED ON/OFF
-//        switch(menu){
-//            case IDLE:
-//                menu = RESISTOR;
-//                break;
-//            case RESISTOR:
-//                menu = SHAPES;
-//                break;
-//            case SHAPES:
-//                menu = SONG;
-//                break;
-//            case SONG:
-//                menu = RESISTOR;
-//                break;
-//            default:
-//                break;
-//            }
+        if(menuType == OUTER_MENU){
+            menuType = INNER_MENU;
+        }else{// menuType == IDLE
+            menuType = OUTER_MENU;
+        }
+        //        P1OUT ^= RED_LED; // Toggle Red LED ON/OFF
+        //        switch(menu){
+        //            case IDLE:
+        //                menu = RESISTOR;
+        //                break;
+        //            case RESISTOR:
+        //                menu = SHAPES;
+        //                break;
+        //            case SHAPES:
+        //                menu = SONG;
+        //                break;
+        //            case SONG:
+        //                menu = RESISTOR;
+        //                break;
+        //            default:
+        //                break;
+        //            }
     }
     //-----------------------------------------------------------------------------
 }
@@ -176,6 +175,11 @@ __interrupt void switch2_interrupt(void) {
         TB0CCTL2 |= CCIE;               // CCR2 enable interrupt
 
         //SW2 FUNCTIONS:
+        strcpy(display_line[0], "          ");
+        strcpy(display_line[1], "          ");
+        strcpy(display_line[2], "          ");
+        strcpy(display_line[3], "          ");
+        display_changed = TRUE;
         menuType = OUTER_MENU;
 
 
@@ -193,24 +197,24 @@ __interrupt void switch2_interrupt(void) {
         //        }
 
         // Project 7
-//        if(IR_status == OFF){
-//            IR_changed = TRUE;
-//            strcpy(display_line[0], "  IR ON   ");
-//            strcpy(display_line[1], "          ");
-//            strcpy(display_line[2], "          ");
-//            strcpy(display_line[3], "          ");
-//            update_display = TRUE;
-//            IR_status = ON;
-//        }
-//        else{// IR_status = ON
-//            IR_changed = TRUE;
-//            strcpy(display_line[0], "  IR OFF  ");
-//            strcpy(display_line[1], "          ");
-//            strcpy(display_line[2], "          ");
-//            strcpy(display_line[3], "          ");
-//            update_display =TRUE;
-//            IR_status = OFF;
-//        }
+        //        if(IR_status == OFF){
+        //            IR_changed = TRUE;
+        //            strcpy(display_line[0], "  IR ON   ");
+        //            strcpy(display_line[1], "          ");
+        //            strcpy(display_line[2], "          ");
+        //            strcpy(display_line[3], "          ");
+        //            update_display = TRUE;
+        //            IR_status = ON;
+        //        }
+        //        else{// IR_status = ON
+        //            IR_changed = TRUE;
+        //            strcpy(display_line[0], "  IR OFF  ");
+        //            strcpy(display_line[1], "          ");
+        //            strcpy(display_line[2], "          ");
+        //            strcpy(display_line[3], "          ");
+        //            update_display =TRUE;
+        //            IR_status = OFF;
+        //        }
 
 
     }
@@ -279,9 +283,8 @@ __interrupt void ADC_ISR(void){
             ADC_Left_Detect = ADC_Left_Detect >> 2;  // Divide the result by 4
             if(ADC_Update && ADC_Display){
                 HexToBCD(ADC_Left_Detect);
-                dispPrint(adc_char,2);
+                dispPrint(adc_char,'2');
             }
-
             //            ADC_Update = TRUE;
 
             break;
@@ -294,7 +297,7 @@ __interrupt void ADC_ISR(void){
             ADC_Right_Detect = ADC_Right_Detect >> 2;// Divide the result by 4
             if(ADC_Update && ADC_Display){
                 HexToBCD(ADC_Right_Detect);
-                dispPrint(adc_char,3);
+                dispPrint(adc_char,'3');
             }
             //            ADC_Update = TRUE;
 
@@ -308,9 +311,25 @@ __interrupt void ADC_ISR(void){
             ADC_Thumb = ADC_Thumb >> 2;              // Divide the result by 4
             if(ADC_Update && ADC_Display){
                 HexToBCD(ADC_Thumb);
-                dispPrint(adc_char,4);
+                dispPrint(adc_char,'4');
             }
             //            ADC_Update = TRUE;
+
+
+
+            ADC_Temp = ADC_Thumb >> 5;
+//            HexToBCD(ADC_Temp);
+//            dispPrint(adc_char,'3');
+//            HexToBCD(ADC_Prev);
+//            dispPrint(adc_char,'4');
+//            if(ADC_Temp > ADC_Prev){
+//                ADC_Prev = ADC_Temp;
+//                ADC_Changed = TRUE;
+//            }
+
+            if(ADC_Prev == 8192){
+                ADC_Prev = ADC_Temp;
+            }
 
             ADC_Channel = 0;
             break;

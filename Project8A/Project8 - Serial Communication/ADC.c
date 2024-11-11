@@ -69,6 +69,7 @@ void Init_ADC(void){
     ADCCTL0  |=  ADCENC;
     ADCCTL0  |=  ADCSC;
 
+    ADC_Prev = 8192;
 }
 
 //Hex to BCD Conversion
