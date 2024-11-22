@@ -1,0 +1,8 @@
+
+**** Build of configuration Debug for project HW_06.cc ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 14 all -O 
+ 
+gmake[1]: 'HW_06.cc.out' is up to date.
+
+**** Build Finished ****

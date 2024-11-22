@@ -35,28 +35,49 @@
 // Global Variables declared and referenced in Header file
 
 
-// Globals
-extern unsigned char dispEvent;
-extern volatile unsigned char display_changed;
-extern unsigned char event;
-extern char display_line[4][11];
-extern unsigned int straight_step;
-extern unsigned int circle_step;
-extern unsigned int circle_step2;
-extern unsigned int triangle_step;
-extern unsigned int figure8_step;
-extern char backlight_status;
-extern volatile unsigned int Time_Sequence;
-extern int activateSM;
+void SW1_Project8(void){
+    // Transmit Mode
+    state = TRANSMIT;
 
+    clear_display = 1;
+    USCI_A0_transmit();
+}
 
-// Debounce Vars
-//char debounce_Status_SW1 = OFF;
-//char debounce_Status_SW2 = OFF;
-unsigned int count_debounce_SW1;
-unsigned int count_debounce_SW2;
+void SW2_Project8(){    // Toggle Baudrate
+//    state = SEARCH;
+    baud_flag = 1;
 
+    if (baud_toggle) {
+        baud_toggle = 0;
+        UCA0BRW = 17;                   //460,800 baud
+        UCA0MCTLW = 0x4A00;
+    }
+    else {
+        baud_toggle = 1;
+        UCA0BRW = 4;                    // 115,200 baud
+        UCA0MCTLW = 0x5551;
+    }
+    clear_display = 1;
+}
 
+void SW1_Homework9(void){
+    display_changed = TRUE;
+    if(menuType == OUTER_MENU){
+        menuType = INNER_MENU;
+        songInit = TRUE;
+    }else{// menuType == IDLE
+        menuType = OUTER_MENU;
+    }
+}
+
+void SW2_Homework9(void){
+    strcpy(display_line[0], "          ");
+    strcpy(display_line[1], "          ");
+    strcpy(display_line[2], "          ");
+    strcpy(display_line[3], "          ");
+    display_changed = TRUE;
+    menuType = OUTER_MENU;
+}
 //// ENABLE SWITCHES
 //// ENABLE SW1
 //void enable_switch_SW1(void){

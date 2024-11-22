@@ -5,7 +5,7 @@
   Programmer: Connor Savugot
   Date Created: Oct 14, 2024
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-*/
+ */
 
 // #include as of 11-10-24
 //// Header Files
@@ -88,10 +88,14 @@ extern char ADC_Update;
 extern char ADC_Display;
 extern char light_percent;
 extern char menu;
+extern char baud_toggle;
 
 
 int activateSM;
+unsigned int transmit_count;
 char state;
+unsigned int clear_display;
+
 //volatile unsigned int State_Sequence;
 
 
@@ -115,8 +119,8 @@ void main(void){
     Init_Timers();                       // Initialize Timers
     Init_LCD();                          // Initialize LCD
     Init_ADC();                          // Initialize ADC
-//    Init_DAC();                          // Initialize DAC
-//    Init_Serial_UCA0(0);                  // Initialize Serial
+    //    Init_DAC();                          // Initialize DAC
+    Init_Serial_UCA0();                  // Initialize Serial
 
     // Place the contents of what you want on the display, in between the quotes
     // Limited to 10 characters per line
@@ -137,21 +141,21 @@ void main(void){
     strcpy(display_line[3], "          ");
     update_display = TRUE;
     display_changed = TRUE;
-
     ADC_Update = TRUE;
     ADC_Display = FALSE;
     IR_status = ON;
     state = WAIT;
     light_percent = 80;
     menuType = IDLE;
+
+    baud_toggle = 0;
+
+    wabe();
     while (ALWAYS){                      // Can the Operating system run
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
         // Updates
         Display_Process();
-//        StateMachine();
-
-        menuScroll();
-
+        StateMachine(); // Project 8 State Machine
 
         // Controls
         IR_control();
@@ -166,26 +170,96 @@ void main(void){
 
 // Project 8 State Machine
 void StateMachine(void){
-    switch(state){
-    case WAIT:
-        strcpy(display_line[0], "  Waiting ");
-        update_display = 1;
-        display_changed = 1;
+    if(baud_flag){
+        Init_Serial_UCA0();
+        baud_flag = 0;
+    }
 
+    switch (state) {
+    case WAIT:
+        strcpy(display_line[0], "  WAITING ");
+        strcpy(display_line[1], "          ");
+        if (!baud_toggle){
+            strcpy(display_line[2], "  115200  ");
+        }
+        else {
+            strcpy(display_line[2], "  460800  ");
+        }
+        strcpy(display_line[3], "          ");
+        display_changed = TRUE;
         break;
     case RECEIVE:
-        strcpy(display_line[0], "  Receive ");
-        update_display = 1;
-        display_changed = 1;
+        strcpy(display_line[0], "  RECEIVE ");
+        strcpy(display_line[2], "          ");
+        //
+        unsigned int i = 0;
+        unsigned int k = 0;
+        for (i = 0; i < sizeof(Rx_display) && k < sizeof(display_line[3]) - 1; i++) {
+            // Check if the character is a digit
+            if (Rx_display[i] >= '0' && Rx_display[i] <= '9') {
+                // Write the digit to display_line[3] in a circular buffer style
+                display_line[3][k] = Rx_display[i];
+                k = (k + 1) % 16; // Loop back to the beginning after 16 characters
+            }
+
+            // Stop if we encounter "CL/" followed by CR or CRLF
+            if (Rx_display[i] == 'C' && Rx_display[i + 1] == 'L' && Rx_display[i + 2] == '/' &&
+                    (Rx_display[i + 3] == 0x0D || (Rx_display[i + 3] == 0x0D && Rx_display[i + 4] == 0x0A))) {
+                // Move index past "CL/" and CR or CRLF and stop processing
+                i += (Rx_display[i + 3] == 0x0D && Rx_display[i + 4] == 0x0A) ? 4 : 3;
+                break;
+            }
+        }
+
+        // Null-terminate the line to ensure it’s a valid string
+//        display_line[3][k] = '\0';
+
+        display_changed = TRUE;
         break;
+
     case TRANSMIT:
-        strcpy(display_line[0], "  Waiting ");
-        update_display = 1;
-        display_changed = 1;
-        break;
-    default:
-        break;
+        strcpy(display_line[0], " TRANSMIT ");
+        if(baud_toggle){
+            strcpy(display_line[3], Rx_display);
+        }else{
+            unsigned int j = 0;
+            unsigned int l = 0;
+            for (j = 0; j < sizeof(Rx_display) && l < sizeof(display_line[3]) - 1; j++) {
+                // Check if the character is a digit
+                if (Rx_display[j] >= '0' && Rx_display[j] <= '9') {
+                    // Write the digit to display_line[1] in a circular buffer style
+                    display_line[1][l] = Rx_display[j];
+                    l = (l + 1) % 16; // Loop back to the beginning after 16 characters
+                }
+
+                // Stop if we encounter "CL/" followed by CR or CRLF
+                if (Rx_display[j] == 'C' && Rx_display[j + 1] == 'L' && Rx_display[j + 2] == '/' &&
+                        (Rx_display[j + 3] == 0x0D || (Rx_display[j + 3] == 0x0D && Rx_display[j + 4] == 0x0A))) {
+                    // Move index past "CL/" and CR or CRLF and stop processing
+                    j += (Rx_display[j + 3] == 0x0D && Rx_display[j + 4] == 0x0A) ? 4 : 3;
+                    break;
+                }
+            }
+
+            // Null-terminate the line to ensure it’s a valid string
+            display_line[1][l] = '\0';
+        }
+
+        strcpy(display_line[2], "          ");
+        strcpy(display_line[3], "          ");
+        display_changed = TRUE;
+        if (transmit_count >= 15){
+            state = WAIT;
+            transmit_count = 0;
+            int ride = 0;
+            while (Rx_display[ride] != 0x00){
+                Rx_display[ride++] = 0;
+            }
+        }
+        ;
+    default: break;
     }
+
 }
 
 

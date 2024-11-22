@@ -27,7 +27,7 @@ extern unsigned int figure8_step;
 extern char backlight_status;
 extern volatile unsigned int Time_Sequence;
 extern int activateSM;
-
+extern char baud_flag;
 
 // Macro Definitions
 #define DEBOUNCE_TIME          (6)
@@ -37,6 +37,10 @@ extern int activateSM;
 
 // Function Declarations
 void Switch1_Proj5_Process(void);
+void SW1_Project8(void);
+void SW1_Homework9(void);
+void SW2_Project8(void);
+void SW2_Homework9(void);
 // Enable Switches
 void enable_switch_SW1(void);
 void enable_switch_SW2(void);

@@ -132,30 +132,9 @@ __interrupt void switch1_interrupt(void) {
         TB0CCTL1 |= CCIE;               // CCR1 enable interrupt
 
         //SW1 FUNCTIONS:
-        // Homework 9 Button Function
-        display_changed = TRUE;
-        if(menuType == OUTER_MENU){
-            menuType = INNER_MENU;
-        }else{// menuType == IDLE
-            menuType = OUTER_MENU;
-        }
-        //        P1OUT ^= RED_LED; // Toggle Red LED ON/OFF
-        //        switch(menu){
-        //            case IDLE:
-        //                menu = RESISTOR;
-        //                break;
-        //            case RESISTOR:
-        //                menu = SHAPES;
-        //                break;
-        //            case SHAPES:
-        //                menu = SONG;
-        //                break;
-        //            case SONG:
-        //                menu = RESISTOR;
-        //                break;
-        //            default:
-        //                break;
-        //            }
+        //        SW1_Homework9();
+        SW1_Project8();
+
     }
     //-----------------------------------------------------------------------------
 }
@@ -175,15 +154,7 @@ __interrupt void switch2_interrupt(void) {
         TB0CCTL2 |= CCIE;               // CCR2 enable interrupt
 
         //SW2 FUNCTIONS:
-        strcpy(display_line[0], "          ");
-        strcpy(display_line[1], "          ");
-        strcpy(display_line[2], "          ");
-        strcpy(display_line[3], "          ");
-        display_changed = TRUE;
-        menuType = OUTER_MENU;
-
-
-
+        SW2_Project8();
 
         //        // Implement Later
         //        ADC_Update ^= 1; // Toggles the State of ADC_Update, Makes ADC Values Appear/Disappear on LCD
@@ -224,32 +195,32 @@ __interrupt void switch2_interrupt(void) {
 
 
 
-//// DAC Interrupt
-// The interrupt is not used
-#pragma vector = SAC1_SAC3_VECTOR
-__interrupt void SAC3_ISR(void){
-    switch(__even_in_range(SAC0IV,SACIV_4)){
-    case SACIV_0: break;
-    case SACIV_2: break;
-    case SACIV_4:
-        //   DAC_data++;
-        //   DAC_data &= 0xFFF;
-        //   SAC3DAT = DAC_data;                 // DAC12 output positive ramp
-        break;
-    case 14:
-        // Overflow Occurred
-        if(DAC_overflow_counter++ >= 3){
-            // The following line should be done in a timer overflow interrupt [after 2 or 3 overflows]
-            P2OUT   |=  DAC_ENB;                  // Value = High [enabled]
-            // Each time through the overflow time after enable, subtract 50 from DAC_data
-            DAC_data = 4000;
-            SAC3DAT  = DAC_data;                  // Stepping DAC Output
-            // Somewhere around 1200 will be about 6v. You will need to measure it.
-            DAC_overflow_counter = 0;
-        }
-    default: break;
-    }
-}
+////// DAC Interrupt
+//// The interrupt is not used
+//#pragma vector = SAC1_SAC3_VECTOR
+//__interrupt void SAC3_ISR(void){
+//    switch(__even_in_range(SAC0IV,SACIV_4)){
+//    case SACIV_0: break;
+//    case SACIV_2: break;
+//    case SACIV_4:
+//        //   DAC_data++;
+//        //   DAC_data &= 0xFFF;
+//        //   SAC3DAT = DAC_data;                 // DAC12 output positive ramp
+//        break;
+//    case 14:
+//        // Overflow Occurred
+//        if(DAC_overflow_counter++ >= 3){
+//            // The following line should be done in a timer overflow interrupt [after 2 or 3 overflows]
+//            P2OUT   |=  DAC_ENB;                  // Value = High [enabled]
+//            // Each time through the overflow time after enable, subtract 50 from DAC_data
+//            DAC_data = 4000;
+//            SAC3DAT  = DAC_data;                  // Stepping DAC Output
+//            // Somewhere around 1200 will be about 6v. You will need to measure it.
+//            DAC_overflow_counter = 0;
+//        }
+//    default: break;
+//    }
+//}
 
 
 
@@ -318,14 +289,14 @@ __interrupt void ADC_ISR(void){
 
 
             ADC_Temp = ADC_Thumb >> 5;
-//            HexToBCD(ADC_Temp);
-//            dispPrint(adc_char,'3');
-//            HexToBCD(ADC_Prev);
-//            dispPrint(adc_char,'4');
-//            if(ADC_Temp > ADC_Prev){
-//                ADC_Prev = ADC_Temp;
-//                ADC_Changed = TRUE;
-//            }
+            //            HexToBCD(ADC_Temp);
+            //            dispPrint(adc_char,'3');
+            //            HexToBCD(ADC_Prev);
+            //            dispPrint(adc_char,'4');
+            //            if(ADC_Temp > ADC_Prev){
+            //                ADC_Prev = ADC_Temp;
+            //                ADC_Changed = TRUE;
+            //            }
 
             if(ADC_Prev == 8192){
                 ADC_Prev = ADC_Temp;
@@ -346,35 +317,75 @@ __interrupt void ADC_ISR(void){
 }
 
 
-////-----------------------------------------------------------------------------
-////  The eUSCI_Ahas only one interrupt vector that is shared for transmission and for reception.
-//#pragma vector=EUSCI_A0_VECTOR
-//__interrupt void eUSCI_A0_ISR(void){
-//    unsigned int temp;
-//    switch(__even_in_range(UCA0IV,0x08)){
-//    case 0:                                     // Vector 0 -no interrupt
-//        break;
-//    case 2:                                     // Vector 2 -RXIFG
-//        temp = usb_rx_ring_wr++;
-//        IOT_2_PC[temp] = UCA0RXBUF; // Rx -> IOT_2_PC character array
-//        //      USB_Char_Rx[temp] = UCA0RXBUF; // Replaced by Code above based on Slide 6 of Lecture 13 - eUSCI0 to eUSCI1 The Big Picture
-//        if (usb_rx_ring_wr >= (sizeof(USB_Char_Rx))){
-//            usb_rx_ring_wr= BEGINNING;             // Circular buffer back to beginning
-//        }
-//        UCA0TXBUF = IOT_2_PC[temp]; // Transmit out the same port
-//        // ^^^ Added code based on Slide 6 of Lecture 13 - eUSCI0 to eUSCI1 The Big Picture
-//        break;
-//    case 4:                                     // Vector 4 –TXIFG
-//        //////////////////////////////////////////////////////////////////////////////////////////////////////
-//        //Added Based on Lecture 13 - eUSCI0 to eUSCI1 The Big Picture Slide 13
-//        UCA0TXBUF = process_buffer[pb_index];  // Transmit Current Indexed value
-//        process_buffer[pb_index++] = NULL;     // Null Location of Transmitted value
-//        if(process_buffer[pb_index] == NULL){  // Is the next pb_index location NULL - End of Command
-//            UCA0IE &= ~UCTXIE;                   // Disable TX interrupt
-//        }
-//        //////////////////////////////////////////////////////////////////////////////////////////////////////
-//        break;
-//    default: break;
-//    }
-//}
-////----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+//  The eUSCI_A has only one interrupt vector that is shared for transmission and for reception.
+#pragma vector = EUSCI_A0_VECTOR
+__interrupt void eUSCI_A0_ISR(void) {
+    switch (__even_in_range(UCA0IV, 0x08)) {
+    case 0:  // No interrupt
+        break;
+
+    case 2:  // RXIFG - Receive interrupt
+        state = RECEIVE;
+        iot_receive = UCA0RXBUF;
+
+        // Store received byte in buffers and wrap around if necessary
+        Rx_display[iot_rx_wr] = iot_receive;
+        IOT_Ring_Rx[iot_rx_wr] = iot_receive;
+        iot_rx_wr = (iot_rx_wr + 1) % sizeof(IOT_Ring_Rx);  // Circular buffer wrap-around
+
+        break;
+
+    case 4:  // TXIFG - Transmit interrupt
+        if (iot_TX_buf[iot_tx] != '\0') {      // Check for end of transmission
+            UCA0TXBUF = iot_TX_buf[iot_tx++];  // Transmit current byte and increment index
+        } else {
+            UCA0IE &= ~UCTXIE;                 // Disable TX interrupt after last byte
+            iot_tx = 0;                        // Reset index for next transmission
+            transmit_done = 1;
+            clear_display = 0;
+        }
+        break;
+
+    default:
+        break;
+    }
+}
+//----------------------------------------------------------------------------
+
+
+
+#pragma vector = EUSCI_A1_VECTOR
+__interrupt void eUSCI_A1_ISR(void){                // This interrupt is the interrupt relating to serial communication port UCA1
+    //----------------------------------------------
+    // interrupt transmits and receives through UCA1
+
+    char usb_value;
+    switch(__even_in_range(UCA1IV, 0x08)){
+    case 0: break;                  //vector 0 - not interrupt
+
+    case 2:{                                    //Vector 2 - RX1IFG
+        iot_receive = UCA1RXBUF;
+        IOT_Ring_Rx[iot_rx_wr++] = iot_receive; // Add to Ring Buffer
+        if(iot_rx_wr >= sizeof(IOT_Ring_Rx)){
+            iot_rx_wr = BEGINNING;
+        }
+
+        //        UCA1IE |= UCTXIE;
+        //        UCA1TXBUF = iot_receive;
+    }break;
+
+    case 4:{                                    // Vector 4 - TX1IFG
+        UCA1TXBUF = iot_TX_buf[iot_tx];
+        iot_TX_buf[iot_tx++] = 0;
+        if(iot_TX_buf[iot_tx] == 0x00){
+            UCA1IE &= ~UCTXIE;
+            iot_tx = 0;
+            transmit_done = 1;
+            clear_display = 0;
+        }
+    }break;
+
+    default: break;
+    }
+}

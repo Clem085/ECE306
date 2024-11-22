@@ -30,8 +30,10 @@ extern char ADC_Display;
 extern unsigned int DAC_data;
 extern char menu;
 extern char menuType;
-
-
+extern char songInit;
+extern unsigned int clear_display;
+extern volatile char Rx_display[16];
+extern char baud_flag;
 
 // Macro Definitions
 

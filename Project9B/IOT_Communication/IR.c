@@ -1,0 +1,49 @@
+/* IR Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : IR.c
+  Description:  This file contains the code to control the IR LED (Infrared Emitter LED)
+  Programmer: Connor Savugot
+  Date Created: Oct 19, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
+
+// #include as of 11-10-24
+//// Header Files
+#include  "msp430.h"
+#include  "functions.h"
+#include  "LCD.h"
+#include  "ports.h"
+#include  "macros.h"
+#include  "motors.h"
+#include  "Display.h"
+#include  "timers.h"
+#include  "interrupts.h"
+#include  "switches.h"
+#include  "ADC.h"
+#include  "IR.h"
+#include  "serial.h"
+#include  "DAC.h"
+#include  "menu.h"
+//// Libraries
+#include  <string.h>
+#include  <stdio.h>
+
+// Global Variables declared and referenced in Header file
+
+
+
+// Controls IR LED
+void IR_control(void){
+    /*  Parameter Values
+    action
+        '0': Backlight OFF
+        '1': Backlight ON
+     */
+    if(IR_status == OFF){
+        P2OUT  &= ~IR_LED;
+    }
+    else{// IR_status = ON
+        P2OUT  |=  IR_LED;
+    }
+}
+
