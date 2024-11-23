@@ -40,7 +40,7 @@ extern char baud_flag;
 //extern volatile unsigned int usb_rx_ring_wr;
 
 // Macro Definitions
-
+#define OVERFLOW (14)
 
 
 // Function Declarations

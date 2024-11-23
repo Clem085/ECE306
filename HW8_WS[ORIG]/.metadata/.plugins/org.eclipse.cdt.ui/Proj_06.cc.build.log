@@ -1,8 +1,0 @@
-
-**** Build of configuration Debug for project Proj_06.cc ****
-
-"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 14 all -O 
- 
-gmake[1]: 'Proj_06.cc.out' is up to date.
-
-**** Build Finished ****

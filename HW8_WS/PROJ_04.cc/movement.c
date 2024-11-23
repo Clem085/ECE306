@@ -1,10 +1,4 @@
-//------------------------------------------------------------------------------
-//  Description: Runs car straight
-//
-//  Corinne McGuire
-//  Date: 9/30 Fall 2024
-//  Built with Code Composer Version: CCS12.4.0.00007_win64
-//------------------------------------------------------------------------------
+
 
 // Run time is the overall running time, based off of the value that wheeltime counts to
 // if roff is 10 and wheel time is 14, right wheel is on for 10 of the 14 counts

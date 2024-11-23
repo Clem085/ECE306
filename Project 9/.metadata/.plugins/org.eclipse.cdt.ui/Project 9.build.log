@@ -22,59 +22,80 @@ Invoking: MSP430 Compiler
 "../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
 "../main.c", line 356: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
 "../main.c", line 357: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
-"../main.c", line 447: warning #225-D: function "dispPrint" declared implicitly
-"../main.c", line 471: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
-"../main.c", line 473: warning #225-D: function "dispPrint" declared implicitly
-"../main.c", line 485: warning #225-D: function "motor_run_backward" declared implicitly
-"../main.c", line 486: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
-"../main.c", line 499: warning #225-D: function "motor_run_right" declared implicitly
-"../main.c", line 500: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
-"../main.c", line 514: warning #225-D: function "motor_run_left" declared implicitly
-"../main.c", line 515: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 391: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 452: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 476: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 478: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 490: warning #225-D: function "motor_run_backward" declared implicitly
+"../main.c", line 491: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 504: warning #225-D: function "motor_run_right" declared implicitly
+"../main.c", line 505: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 519: warning #225-D: function "motor_run_left" declared implicitly
+"../main.c", line 520: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
 "../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
 "../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 399: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 400: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 407: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 408: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 415: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 416: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 423: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 424: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 432: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 433: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
 "../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
 "../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 399: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 400: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 407: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 408: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 415: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 416: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 423: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 424: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 432: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 433: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
 "../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
 "../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
-"../main.c", line 545: warning #161-D: declaration is incompatible with previous "dispPrint" (declared at line 447)
-"../main.c", line 575: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 576: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
-"../main.c", line 587: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
-"../main.c", line 593: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
-"../main.c", line 575: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
-"../main.c", line 576: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
-"../main.c", line 587: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 399: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 400: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 407: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 408: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 415: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 416: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 423: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 424: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 432: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 433: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 399: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 400: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 407: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 408: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 415: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 416: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 423: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 424: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 432: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 433: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 399: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 400: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 407: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 408: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 415: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 416: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 423: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 424: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 432: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 433: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 550: warning #161-D: declaration is incompatible with previous "dispPrint" (declared at line 391)
+"../main.c", line 580: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 581: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 592: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 598: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 580: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 581: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 592: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
 "../main.c", line 50: remark #1535-D: (ULP 8.1) variable "wheel_move" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
 "../main.c", line 58: remark #1535-D: (ULP 8.1) variable "forward" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
 Finished building: "../main.c"

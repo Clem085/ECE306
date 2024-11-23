@@ -191,33 +191,65 @@
 
 
 
-//// DAC Interrupt
-//// The interrupt is not used
+// DAC Interrupt
+///// No idea why this code is written this way or where it came from....
 //#pragma vector = SAC1_SAC3_VECTOR
 //__interrupt void SAC3_ISR(void){
-//    switch(__even_in_range(SAC0IV,SACIV_4)){
-//    case SACIV_0: break;
-//    case SACIV_2: break;
-//    case SACIV_4:
-//        //   DAC_data++;
-//        //   DAC_data &= 0xFFF;
-//        //   SAC3DAT = DAC_data;                 // DAC12 output positive ramp
-//        break;
-//    case 14:
-//        // Overflow Occurred
-//        if(DAC_overflow_counter++ >= 3){
-//            // The following line should be done in a timer overflow interrupt [after 2 or 3 overflows]
-//            P2OUT   |=  DAC_ENB;                  // Value = High [enabled]
-//            // Each time through the overflow time after enable, subtract 50 from DAC_data
-//            DAC_data = 4000;
-//            SAC3DAT  = DAC_data;                  // Stepping DAC Output
-//            // Somewhere around 1200 will be about 6v. You will need to measure it.
-//            DAC_overflow_counter = 0;
-//        }
-//    default: break;
-//    }
+//   switch(__even_in_range(SAC0IV,SACIV_4)){
+//   case SACIV_0: break;
+//   case SACIV_2: break;
+//   case SACIV_4:
+////          DAC_data++;
+//       //   DAC_data &= 0xFFF;
+//       //   SAC3DAT = DAC_data;                 // DAC12 output positive ramp
+//       break;
+//   case 14:
+//       // Overflow Occurred
+//       if(DAC_overflow_counter++ >= 3){
+//           // The following line should be done in a timer overflow interrupt [after 2 or 3 overflows]
+//           P2OUT   |=  DAC_ENB;                  // Value = High [enabled]
+//           // Each time through the overflow time after enable, subtract 50 from DAC_data
+//           DAC_data = 4000;
+//           SAC3DAT  = DAC_data;                  // Stepping DAC Output
+//           // Somewhere around 1200 will be about 6v. You will need to measure it.
+//           DAC_overflow_counter = 0;
+//       }
+//   default: break;
+//   }
 //}
 
+//// From DAC.c
+// // The following line should be done in a timer overflow interrupt [after 2 or 3 overflows]
+//   P2OUT   |=  DAC_ENB;                  // Value = High [enabled]
+// // Each time through the overflow time after enable, subtract 50 from DAC_data
+//   DAC_data = 4000;
+//   SAC3DAT  = DAC_data;                  // Stepping DAC Output
+// // Somewhere around 1200 will be about 6v. You will need to measure it.
+
+// // The interrupt is not used, only overflow???
+#pragma vector = SAC1_SAC3_VECTOR
+__interrupt void SAC3_ISR(void){
+    switch(__even_in_range(SAC0IV,SACIV_4)){
+    case SACIV_0: break;
+    case SACIV_2: break;
+    case SACIV_4:
+//        DAC_data++;
+//        DAC_data &= 0xFFF;
+//        SAC3DAT = DAC_data;                 // DAC12 output positive ramp
+        break;
+    case OVERFLOW: // OVERFLOW = 14
+        if(DAC_overflow_counter++ >= 3){
+            P2OUT   |=  DAC_ENB;                  // Value = High [enabled]
+            if(DAC_data > 1200){
+                DAC_data -= 50;
+            }
+            SAC3DAT  = DAC_data;                  // Stepping DAC Output
+            DAC_overflow_counter = 0;
+        }
+        break;
+    default: break;
+    }
+}
 
 
 

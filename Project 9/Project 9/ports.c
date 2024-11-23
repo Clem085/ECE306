@@ -1,9 +1,4 @@
-/*
- * ports.c
- *
- *  Created on: Jan 25, 2024
- *      Author: varun
- */
+
 
 #include  "msp430.h"
 #include  "functions.h"

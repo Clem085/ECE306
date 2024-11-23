@@ -294,6 +294,7 @@ void Init_Port5(void){
 
 }
 
+
 void Init_Port6(void){ //Configure Port 6
     P6SEL0 |=  LCD_BACKLITE;
     P6SEL1 &= ~LCD_BACKLITE;

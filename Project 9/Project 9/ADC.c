@@ -1,9 +1,4 @@
-/*
- * ADC.c
- *
- *  Created on: Mar 1, 2024
- *      Author: varun
- */
+
 
 
 #include  "msp430.h"

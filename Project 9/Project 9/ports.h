@@ -1,9 +1,3 @@
-/*
- * ports.h
- *
- *  Created on: Jan 25, 2024
- *      Author: varun
- */
 
 #ifndef PORTS_H_
 #define PORTS_H_

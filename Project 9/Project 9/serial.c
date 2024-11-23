@@ -1,9 +1,3 @@
-/*
- * serial.c
- *
- *  Created on: Mar 27, 2024
- *      Author: varun
- */
 
 #include    "macros.h"
 #include    "ports.h"

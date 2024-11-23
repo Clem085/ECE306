@@ -9,6 +9,7 @@
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
 			<item value="distance"/>
+			<item value="dispPrint"/>
 			<item value="run_time_flag"/>
 			<item value="DISTANCE"/>
 			<item value="run_time"/>
@@ -22,7 +23,6 @@
 			<item value="ncsu"/>
 			<item value="&quot;ncsu&quot;"/>
 			<item value="ssid_display"/>
-			<item value="run case"/>
 		</list>
 		<list key="replacehistory">
 		</list>

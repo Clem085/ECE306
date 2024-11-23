@@ -1,9 +1,4 @@
-/*
- * StateMachine.c
- *
- *  Created on: Jan 30, 2024
- *      Author: varun
- */
+
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"

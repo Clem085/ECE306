@@ -146,7 +146,7 @@ void main(void){
     Init_Timers();                       // Initialize Timers
     Init_LCD();                          // Initialize LCD
     Init_ADC();                          // Initialize ADC
-    //    Init_DAC();                          // Initialize DAC
+    Init_DAC();                          // Initialize DAC
     Init_Serial_UCA0(1);
     Init_Serial_UCA1(1);
 

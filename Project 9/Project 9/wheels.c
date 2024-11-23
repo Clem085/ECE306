@@ -1,9 +1,4 @@
-/*
- * wheels.c
- *
- *  Created on: Jan 31, 2024
- *      Author: varun
- */
+
 
 
 #include  "msp430.h"

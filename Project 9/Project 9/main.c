@@ -384,6 +384,13 @@ unsigned int initial_process = 0;
             if(iot_TX_buf[response_parse] == '0' && iot_TX_buf[response_parse+1] == '8' && iot_TX_buf[response_parse+2] == '1' && iot_TX_buf[response_parse+3] == '9'){
                 response_parse = response_parse + 4;
                 running = TRUE;
+                distance = iot_TX_buf[response_parse+1]; // Convert to true int
+                char charDist[2];
+                charDist[0] = '#';
+                charDist[1] = (char) distance;
+                dispPrint(charDist, '3');
+                distance = distance - '0';
+
                 switch (iot_TX_buf[response_parse]){
                 case 'F':
                     run_time_flag = 1;
@@ -428,8 +435,6 @@ unsigned int initial_process = 0;
                     break;
 
                 }
-                distance = (int) iot_TX_buf[response_parse+1];
-                distance = distance * 100;
             }
         }
 
@@ -473,7 +478,7 @@ unsigned int initial_process = 0;
             dispPrint(tempStr, '4');
             display_changed = TRUE;
 
-            if (run_time > distance*10){ // was originally 10
+            if (run_time > distance){ // was originally 10
                 run_time_flag = 0;
                 motor_off();
                 run_time = 0;
@@ -487,7 +492,7 @@ unsigned int initial_process = 0;
             strcat(tempStr,"B");
             dispPrint(tempStr, '4');
             display_changed = TRUE;
-            if (run_time > distance*5){ // was originally 5
+            if (run_time > distance){ // was originally 5
                 run_time_flag = 0;
                 motor_off();
                 run_time = 0;
@@ -502,7 +507,7 @@ unsigned int initial_process = 0;
             dispPrint(tempStr, '4');
             display_changed = TRUE;
             display_changed = TRUE;
-            if (run_time > distance*5){ // was originally 5
+            if (run_time > distance){ // was originally 5
                 run_time_flag = 0;
                 motor_off();
                 run_time = 0;
@@ -517,7 +522,7 @@ unsigned int initial_process = 0;
             dispPrint(tempStr, '4');
             display_changed = TRUE;
             display_changed = TRUE;
-            if (run_time > distance*5){// was originally 5
+            if (run_time > distance){// was originally 5
                 run_time_flag = 0;
                 motor_off();
                 run_time = 0;

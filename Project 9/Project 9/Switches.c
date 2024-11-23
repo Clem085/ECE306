@@ -1,9 +1,4 @@
-/*
- * Switches.c
- *
- *  Created on: Feb 13, 2024
- *      Author: varun
- */
+
 
 #include  "msp430.h"
 #include  "functions.h"

@@ -1,10 +1,4 @@
-//------------------------------------------------------------------------------
-//
-//  Description: global state variables used for Project
-//
-//  Corinne McGuire
-//  Date: 9/16 Fall 2024
-//  Built with Code Composer Version: CCS12.4.0.00007_win64
+
 
 #define ALWAYS                  (1)
 #define RESET_STATE             (0)

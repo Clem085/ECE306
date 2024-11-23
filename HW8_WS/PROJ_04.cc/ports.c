@@ -1,10 +1,3 @@
-//------------------------------------------------------------------------------
-//  Description: Initializes Ports 1 through 6
-//
-//  Corinne McGuire
-//  Date: 9/16 Fall 2024
-//  Built with Code Composer Version: CCS12.4.0.00007_win64
-//------------------------------------------------------------------------------
 
 #include "ports.h"
 #include "macros.h"

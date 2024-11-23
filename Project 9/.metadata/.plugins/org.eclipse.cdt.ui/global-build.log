@@ -14107,3 +14107,1215 @@ Finished building target: "Project 9.out"
  
 
 **** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+Building file: "../ADC.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="ADC.d_raw"  "../ADC.c"
+"../ADC.c", line 60: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../ADC.c", line 61: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../ADC.c", line 97: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../ADC.c", line 98: remark #1545-D: (ULP 14.1) Array index of type "int". Recommend using "unsigned int"
+"../ADC.c", line 98: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+Finished building: "../ADC.c"
+ 
+Building file: "../Ports_Interrupts.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="Ports_Interrupts.d_raw"  "../Ports_Interrupts.c"
+"../Ports_Interrupts.c", line 53: remark #1538-D: (ULP 10.1) ISR switch1_interrupt calls function USCI_A0_transmit. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../Ports_Interrupts.c", line 23: remark #1535-D: (ULP 8.1) variable "state" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../Ports_Interrupts.c", line 24: remark #1535-D: (ULP 8.1) variable "t" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../Ports_Interrupts.c", line 29: remark #1535-D: (ULP 8.1) variable "transmit_state" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../Ports_Interrupts.c"
+ 
+Building file: "../Switches.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="Switches.d_raw"  "../Switches.c"
+Finished building: "../Switches.c"
+ 
+Building file: "../StateMachine.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="StateMachine.d_raw"  "../StateMachine.c"
+"../StateMachine.c", line 148: warning #112-D: statement is unreachable
+"../StateMachine.c", line 160: warning #112-D: statement is unreachable
+"../StateMachine.c", line 175: remark #1530-D: (ULP 5.1) Detected modulo operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+"../StateMachine.c", line 297: warning #188-D: pointless comparison of unsigned integer with zero
+"../StateMachine.c", line 26: remark #1535-D: (ULP 8.1) variable "event" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../StateMachine.c"
+ 
+Building file: "../clocks.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="clocks.d_raw"  "../clocks.c"
+"../clocks.c", line 88: remark #1527-D: (ULP 2.1) Detected SW delay loop using __delay_cycles. Recommend using a timer module instead
+"../clocks.c", line 89: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../clocks.c", line 122: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+Finished building: "../clocks.c"
+ 
+Building file: "../Timer_Interrupts.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="Timer_Interrupts.d_raw"  "../Timer_Interrupts.c"
+"../Timer_Interrupts.c", line 19: remark #1535-D: (ULP 8.1) variable "CCR0_counter" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../Timer_Interrupts.c"
+ 
+Building file: "../Timers.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="Timers.d_raw"  "../Timers.c"
+Finished building: "../Timers.c"
+ 
+Building file: "../adc_interrupts.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="adc_interrupts.d_raw"  "../adc_interrupts.c"
+"../adc_interrupts.c", line 48: warning #225-D: function "HEXtoBCD" declared implicitly
+"../adc_interrupts.c", line 48: remark #1538-D: (ULP 10.1) ISR ADC_ISR calls function HEXtoBCD. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../adc_interrupts.c", line 57: remark #1538-D: (ULP 10.1) ISR ADC_ISR calls function HEXtoBCD. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../adc_interrupts.c", line 66: remark #1538-D: (ULP 10.1) ISR ADC_ISR calls function HEXtoBCD. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+Finished building: "../adc_interrupts.c"
+ 
+Building file: "../init.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="init.d_raw"  "../init.c"
+"../init.c", line 17: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../init.c", line 18: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../init.c", line 19: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../init.c", line 20: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../init.c", line 21: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+Finished building: "../init.c"
+ 
+Building file: "../led.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="led.d_raw"  "../led.c"
+"../led.c", line 17: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../led.c", line 18: remark #1545-D: (ULP 14.1) Array index of type "int". Recommend using "unsigned int"
+"../led.c", line 18: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+Finished building: "../led.c"
+ 
+Building file: "../ports.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="ports.d_raw"  "../ports.c"
+Finished building: "../ports.c"
+ 
+Building file: "../main.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 128: warning #225-D: function "Init_Serial_UCA1" declared implicitly
+"../main.c", line 151: warning #225-D: function "motor_off" declared implicitly
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 356: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 357: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 447: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 471: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 473: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 485: warning #225-D: function "motor_run_backward" declared implicitly
+"../main.c", line 486: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 499: warning #225-D: function "motor_run_right" declared implicitly
+"../main.c", line 500: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 514: warning #225-D: function "motor_run_left" declared implicitly
+"../main.c", line 515: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 545: warning #161-D: declaration is incompatible with previous "dispPrint" (declared at line 447)
+"../main.c", line 575: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 576: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 587: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 593: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 575: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 576: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 587: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 50: remark #1535-D: (ULP 8.1) variable "wheel_move" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../main.c", line 58: remark #1535-D: (ULP 8.1) variable "forward" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../main.c"
+ 
+Building file: "../serial.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="serial.d_raw"  "../serial.c"
+"../serial.c", line 67: warning #179-D: variable "i" was declared but never referenced
+"../serial.c", line 68: warning #552-D: variable "iot_rx_wr_temp" was set but never used
+"../serial.c", line 243: warning #179-D: variable "usb_value" was declared but never referenced
+"../serial.c", line 24: remark #1535-D: (ULP 8.1) variable "pb_index" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../serial.c", line 25: remark #1535-D: (ULP 8.1) variable "transmit_done" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../serial.c", line 38: remark #1535-D: (ULP 8.1) variable "group2_flag" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../serial.c", line 40: remark #1535-D: (ULP 8.1) variable "moore" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../serial.c"
+ 
+Building file: "../wheels.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="wheels.d_raw"  "../wheels.c"
+Finished building: "../wheels.c"
+ 
+Building target: "Project 9.out"
+Invoking: MSP430 Linker
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"Project 9.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccs1280/ccs/ccs_base/msp430/include" -i"C:/ti/ccs1280/ccs/ccs_base/msp430/lib/FR2xx" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/lib" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --priority --reread_libs --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Project 9_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "Project 9.out" "./ADC.obj" "./Ports_Interrupts.obj" "./StateMachine.obj" "./Switches.obj" "./Timer_Interrupts.obj" "./Timers.obj" "./adc_interrupts.obj" "./clocks.obj" "./init.obj" "./led.obj" "./main.obj" "./ports.obj" "./serial.obj" "./wheels.obj" "../Compiled/LCD.obj" "../Compiled/system.obj" "../lnk_msp430fr2355.cmd"  -lfrwp_init.a -llibc.a 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port B in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+Finished building target: "Project 9.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+Building file: "../main.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 128: warning #225-D: function "Init_Serial_UCA1" declared implicitly
+"../main.c", line 151: warning #225-D: function "motor_off" declared implicitly
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 356: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 357: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 448: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 472: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 474: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 486: warning #225-D: function "motor_run_backward" declared implicitly
+"../main.c", line 487: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 500: warning #225-D: function "motor_run_right" declared implicitly
+"../main.c", line 501: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 515: warning #225-D: function "motor_run_left" declared implicitly
+"../main.c", line 516: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 546: warning #161-D: declaration is incompatible with previous "dispPrint" (declared at line 448)
+"../main.c", line 576: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 577: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 588: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 594: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 576: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 577: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 588: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 50: remark #1535-D: (ULP 8.1) variable "wheel_move" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../main.c", line 58: remark #1535-D: (ULP 8.1) variable "forward" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../main.c"
+ 
+Building target: "Project 9.out"
+Invoking: MSP430 Linker
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"Project 9.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccs1280/ccs/ccs_base/msp430/include" -i"C:/ti/ccs1280/ccs/ccs_base/msp430/lib/FR2xx" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/lib" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --priority --reread_libs --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Project 9_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "Project 9.out" "./ADC.obj" "./Ports_Interrupts.obj" "./StateMachine.obj" "./Switches.obj" "./Timer_Interrupts.obj" "./Timers.obj" "./adc_interrupts.obj" "./clocks.obj" "./init.obj" "./led.obj" "./main.obj" "./ports.obj" "./serial.obj" "./wheels.obj" "../Compiled/LCD.obj" "../Compiled/system.obj" "../lnk_msp430fr2355.cmd"  -lfrwp_init.a -llibc.a 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port B in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+Finished building target: "Project 9.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+Building file: "../main.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 128: warning #225-D: function "Init_Serial_UCA1" declared implicitly
+"../main.c", line 151: warning #225-D: function "motor_off" declared implicitly
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 356: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 357: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 448: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 472: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 474: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 486: warning #225-D: function "motor_run_backward" declared implicitly
+"../main.c", line 487: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 500: warning #225-D: function "motor_run_right" declared implicitly
+"../main.c", line 501: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 515: warning #225-D: function "motor_run_left" declared implicitly
+"../main.c", line 516: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 546: warning #161-D: declaration is incompatible with previous "dispPrint" (declared at line 448)
+"../main.c", line 576: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 577: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 588: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 594: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 576: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 577: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 588: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 50: remark #1535-D: (ULP 8.1) variable "wheel_move" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../main.c", line 58: remark #1535-D: (ULP 8.1) variable "forward" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../main.c"
+ 
+Building target: "Project 9.out"
+Invoking: MSP430 Linker
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"Project 9.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccs1280/ccs/ccs_base/msp430/include" -i"C:/ti/ccs1280/ccs/ccs_base/msp430/lib/FR2xx" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/lib" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --priority --reread_libs --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Project 9_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "Project 9.out" "./ADC.obj" "./Ports_Interrupts.obj" "./StateMachine.obj" "./Switches.obj" "./Timer_Interrupts.obj" "./Timers.obj" "./adc_interrupts.obj" "./clocks.obj" "./init.obj" "./led.obj" "./main.obj" "./ports.obj" "./serial.obj" "./wheels.obj" "../Compiled/LCD.obj" "../Compiled/system.obj" "../lnk_msp430fr2355.cmd"  -lfrwp_init.a -llibc.a 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port B in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+Finished building target: "Project 9.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+Building file: "../main.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 128: warning #225-D: function "Init_Serial_UCA1" declared implicitly
+"../main.c", line 151: warning #225-D: function "motor_off" declared implicitly
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 356: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 357: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 433: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 450: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 474: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 476: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 488: warning #225-D: function "motor_run_backward" declared implicitly
+"../main.c", line 489: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 502: warning #225-D: function "motor_run_right" declared implicitly
+"../main.c", line 503: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 517: warning #225-D: function "motor_run_left" declared implicitly
+"../main.c", line 518: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 548: warning #161-D: declaration is incompatible with previous "dispPrint" (declared at line 433)
+"../main.c", line 578: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 579: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 590: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 596: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 578: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 579: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 590: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 50: remark #1535-D: (ULP 8.1) variable "wheel_move" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../main.c", line 58: remark #1535-D: (ULP 8.1) variable "forward" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../main.c"
+ 
+Building target: "Project 9.out"
+Invoking: MSP430 Linker
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"Project 9.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccs1280/ccs/ccs_base/msp430/include" -i"C:/ti/ccs1280/ccs/ccs_base/msp430/lib/FR2xx" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/lib" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --priority --reread_libs --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Project 9_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "Project 9.out" "./ADC.obj" "./Ports_Interrupts.obj" "./StateMachine.obj" "./Switches.obj" "./Timer_Interrupts.obj" "./Timers.obj" "./adc_interrupts.obj" "./clocks.obj" "./init.obj" "./led.obj" "./main.obj" "./ports.obj" "./serial.obj" "./wheels.obj" "../Compiled/LCD.obj" "../Compiled/system.obj" "../lnk_msp430fr2355.cmd"  -lfrwp_init.a -llibc.a 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port B in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+Finished building target: "Project 9.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+Building file: "../main.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 128: warning #225-D: function "Init_Serial_UCA1" declared implicitly
+"../main.c", line 151: warning #225-D: function "motor_off" declared implicitly
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 356: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 357: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 433: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 450: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 474: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 476: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 488: warning #225-D: function "motor_run_backward" declared implicitly
+"../main.c", line 489: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 502: warning #225-D: function "motor_run_right" declared implicitly
+"../main.c", line 503: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 517: warning #225-D: function "motor_run_left" declared implicitly
+"../main.c", line 518: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 548: warning #161-D: declaration is incompatible with previous "dispPrint" (declared at line 433)
+"../main.c", line 578: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 579: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 590: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 596: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 578: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 579: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 590: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 50: remark #1535-D: (ULP 8.1) variable "wheel_move" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../main.c", line 58: remark #1535-D: (ULP 8.1) variable "forward" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../main.c"
+ 
+Building target: "Project 9.out"
+Invoking: MSP430 Linker
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"Project 9.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccs1280/ccs/ccs_base/msp430/include" -i"C:/ti/ccs1280/ccs/ccs_base/msp430/lib/FR2xx" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/lib" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --priority --reread_libs --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Project 9_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "Project 9.out" "./ADC.obj" "./Ports_Interrupts.obj" "./StateMachine.obj" "./Switches.obj" "./Timer_Interrupts.obj" "./Timers.obj" "./adc_interrupts.obj" "./clocks.obj" "./init.obj" "./led.obj" "./main.obj" "./ports.obj" "./serial.obj" "./wheels.obj" "../Compiled/LCD.obj" "../Compiled/system.obj" "../lnk_msp430fr2355.cmd"  -lfrwp_init.a -llibc.a 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port B in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+Finished building target: "Project 9.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+gmake[1]: 'Project 9.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+Building file: "../main.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 128: warning #225-D: function "Init_Serial_UCA1" declared implicitly
+"../main.c", line 151: warning #225-D: function "motor_off" declared implicitly
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 356: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 357: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 432: warning #522-D: initialization with "{...}" expected for aggregate object
+"../main.c", line 433: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 450: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 474: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 476: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 488: warning #225-D: function "motor_run_backward" declared implicitly
+"../main.c", line 489: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 502: warning #225-D: function "motor_run_right" declared implicitly
+"../main.c", line 503: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 517: warning #225-D: function "motor_run_left" declared implicitly
+"../main.c", line 518: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 548: warning #161-D: declaration is incompatible with previous "dispPrint" (declared at line 433)
+"../main.c", line 578: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 579: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 590: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 596: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 578: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 579: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 590: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 50: remark #1535-D: (ULP 8.1) variable "wheel_move" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../main.c", line 58: remark #1535-D: (ULP 8.1) variable "forward" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../main.c"
+ 
+Building target: "Project 9.out"
+Invoking: MSP430 Linker
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"Project 9.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccs1280/ccs/ccs_base/msp430/include" -i"C:/ti/ccs1280/ccs/ccs_base/msp430/lib/FR2xx" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/lib" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --priority --reread_libs --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Project 9_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "Project 9.out" "./ADC.obj" "./Ports_Interrupts.obj" "./StateMachine.obj" "./Switches.obj" "./Timer_Interrupts.obj" "./Timers.obj" "./adc_interrupts.obj" "./clocks.obj" "./init.obj" "./led.obj" "./main.obj" "./ports.obj" "./serial.obj" "./wheels.obj" "../Compiled/LCD.obj" "../Compiled/system.obj" "../lnk_msp430fr2355.cmd"  -lfrwp_init.a -llibc.a 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port B in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+Finished building target: "Project 9.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+Building file: "../main.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 128: warning #225-D: function "Init_Serial_UCA1" declared implicitly
+"../main.c", line 151: warning #225-D: function "motor_off" declared implicitly
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 356: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 357: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 436: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 453: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 477: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 479: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 491: warning #225-D: function "motor_run_backward" declared implicitly
+"../main.c", line 492: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 505: warning #225-D: function "motor_run_right" declared implicitly
+"../main.c", line 506: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 520: warning #225-D: function "motor_run_left" declared implicitly
+"../main.c", line 521: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 551: warning #161-D: declaration is incompatible with previous "dispPrint" (declared at line 436)
+"../main.c", line 581: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 582: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 593: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 599: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 581: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 582: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 593: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 50: remark #1535-D: (ULP 8.1) variable "wheel_move" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../main.c", line 58: remark #1535-D: (ULP 8.1) variable "forward" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../main.c"
+ 
+Building target: "Project 9.out"
+Invoking: MSP430 Linker
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"Project 9.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccs1280/ccs/ccs_base/msp430/include" -i"C:/ti/ccs1280/ccs/ccs_base/msp430/lib/FR2xx" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/lib" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --priority --reread_libs --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Project 9_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "Project 9.out" "./ADC.obj" "./Ports_Interrupts.obj" "./StateMachine.obj" "./Switches.obj" "./Timer_Interrupts.obj" "./Timers.obj" "./adc_interrupts.obj" "./clocks.obj" "./init.obj" "./led.obj" "./main.obj" "./ports.obj" "./serial.obj" "./wheels.obj" "../Compiled/LCD.obj" "../Compiled/system.obj" "../lnk_msp430fr2355.cmd"  -lfrwp_init.a -llibc.a 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port B in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+Finished building target: "Project 9.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+gmake[1]: 'Project 9.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+gmake[1]: 'Project 9.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+Building file: "../main.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 128: warning #225-D: function "Init_Serial_UCA1" declared implicitly
+"../main.c", line 151: warning #225-D: function "motor_off" declared implicitly
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 356: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 357: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 437: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 454: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 478: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 480: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 492: warning #225-D: function "motor_run_backward" declared implicitly
+"../main.c", line 493: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 506: warning #225-D: function "motor_run_right" declared implicitly
+"../main.c", line 507: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 521: warning #225-D: function "motor_run_left" declared implicitly
+"../main.c", line 522: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 392: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 393: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 425: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 426: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 552: warning #161-D: declaration is incompatible with previous "dispPrint" (declared at line 437)
+"../main.c", line 582: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 583: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 594: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 600: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 582: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 583: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 594: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 50: remark #1535-D: (ULP 8.1) variable "wheel_move" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../main.c", line 58: remark #1535-D: (ULP 8.1) variable "forward" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../main.c"
+ 
+Building target: "Project 9.out"
+Invoking: MSP430 Linker
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"Project 9.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccs1280/ccs/ccs_base/msp430/include" -i"C:/ti/ccs1280/ccs/ccs_base/msp430/lib/FR2xx" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/lib" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --priority --reread_libs --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Project 9_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "Project 9.out" "./ADC.obj" "./Ports_Interrupts.obj" "./StateMachine.obj" "./Switches.obj" "./Timer_Interrupts.obj" "./Timers.obj" "./adc_interrupts.obj" "./clocks.obj" "./init.obj" "./led.obj" "./main.obj" "./ports.obj" "./serial.obj" "./wheels.obj" "../Compiled/LCD.obj" "../Compiled/system.obj" "../lnk_msp430fr2355.cmd"  -lfrwp_init.a -llibc.a 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port B in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+Finished building target: "Project 9.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+gmake[1]: 'Project 9.out' is up to date.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+Building file: "../main.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 128: warning #225-D: function "Init_Serial_UCA1" declared implicitly
+"../main.c", line 151: warning #225-D: function "motor_off" declared implicitly
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 356: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 357: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 392: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 453: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 477: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 479: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 491: warning #225-D: function "motor_run_backward" declared implicitly
+"../main.c", line 492: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 505: warning #225-D: function "motor_run_right" declared implicitly
+"../main.c", line 506: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 520: warning #225-D: function "motor_run_left" declared implicitly
+"../main.c", line 521: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 424: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 425: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 433: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 434: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 424: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 425: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 433: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 434: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 424: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 425: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 433: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 434: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 424: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 425: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 433: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 434: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 400: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 401: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 408: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 409: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 416: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 417: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 424: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 425: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 433: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 434: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 551: warning #161-D: declaration is incompatible with previous "dispPrint" (declared at line 392)
+"../main.c", line 581: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 582: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 593: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 599: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 581: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 582: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 593: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 50: remark #1535-D: (ULP 8.1) variable "wheel_move" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../main.c", line 58: remark #1535-D: (ULP 8.1) variable "forward" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../main.c"
+ 
+Building target: "Project 9.out"
+Invoking: MSP430 Linker
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"Project 9.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccs1280/ccs/ccs_base/msp430/include" -i"C:/ti/ccs1280/ccs/ccs_base/msp430/lib/FR2xx" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/lib" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --priority --reread_libs --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Project 9_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "Project 9.out" "./ADC.obj" "./Ports_Interrupts.obj" "./StateMachine.obj" "./Switches.obj" "./Timer_Interrupts.obj" "./Timers.obj" "./adc_interrupts.obj" "./clocks.obj" "./init.obj" "./led.obj" "./main.obj" "./ports.obj" "./serial.obj" "./wheels.obj" "../Compiled/LCD.obj" "../Compiled/system.obj" "../lnk_msp430fr2355.cmd"  -lfrwp_init.a -llibc.a 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port B in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+Finished building target: "Project 9.out"
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project Project 9 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 8 all -O 
+ 
+Building file: "../main.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="D:/Downloads/Programming/MSP430-ECE306/Project 9/Project 9" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 128: warning #225-D: function "Init_Serial_UCA1" declared implicitly
+"../main.c", line 151: warning #225-D: function "motor_off" declared implicitly
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 209: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 227: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 248: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 270: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 314: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "char *__restrict__"
+"../main.c", line 346: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 356: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 357: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 391: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 452: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 476: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 478: warning #225-D: function "dispPrint" declared implicitly
+"../main.c", line 490: warning #225-D: function "motor_run_backward" declared implicitly
+"../main.c", line 491: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 504: warning #225-D: function "motor_run_right" declared implicitly
+"../main.c", line 505: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 519: warning #225-D: function "motor_run_left" declared implicitly
+"../main.c", line 520: warning #169-D: argument of type "volatile char *" is incompatible with parameter of type "const char *__restrict__"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 399: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 400: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 407: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 408: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 415: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 416: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 423: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 424: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 432: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 433: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 399: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 400: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 407: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 408: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 415: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 416: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 423: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 424: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 432: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 433: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 214: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 215: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 399: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 400: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 407: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 408: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 415: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 416: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 423: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 424: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 432: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 433: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 399: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 400: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 407: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 408: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 415: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 416: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 423: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 424: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 432: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 433: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 399: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 400: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 407: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 408: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 415: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 416: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 423: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 424: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 432: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 433: remark #2553-D: (ULP 14.1) Array index (involving "vv") of type "int". Recommend using "unsigned int"
+"../main.c", line 550: warning #161-D: declaration is incompatible with previous "dispPrint" (declared at line 391)
+"../main.c", line 580: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 581: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 592: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 598: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 580: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+"../main.c", line 581: remark #2553-D: (ULP 14.1) Array index (involving "i") of type "int". Recommend using "unsigned int"
+"../main.c", line 592: remark #2553-D: (ULP 14.1) Array index (involving "lineIndex") of type "int". Recommend using "unsigned int"
+"../main.c", line 50: remark #1535-D: (ULP 8.1) variable "wheel_move" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+"../main.c", line 58: remark #1535-D: (ULP 8.1) variable "forward" is used as a constant. Recommend declaring variable as either 'static const' or 'const'
+Finished building: "../main.c"
+ 
+Building target: "Project 9.out"
+Invoking: MSP430 Linker
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 -z -m"Project 9.map" --heap_size=160 --stack_size=160 --cinit_hold_wdt=on -i"C:/ti/ccs1280/ccs/ccs_base/msp430/include" -i"C:/ti/ccs1280/ccs/ccs_base/msp430/lib/FR2xx" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/lib" -i"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --priority --reread_libs --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Project 9_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "Project 9.out" "./ADC.obj" "./Ports_Interrupts.obj" "./StateMachine.obj" "./Switches.obj" "./Timer_Interrupts.obj" "./Timers.obj" "./adc_interrupts.obj" "./clocks.obj" "./init.obj" "./led.obj" "./main.obj" "./ports.obj" "./serial.obj" "./wheels.obj" "../Compiled/LCD.obj" "../Compiled/system.obj" "../lnk_msp430fr2355.cmd"  -lfrwp_init.a -llibc.a 
+<Linking>
+remark #10372-D: (ULP 4.1) Detected uninitialized Port A in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port B in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port C in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10422-D: (ULP 6.2) Detected use of a device with available 32-bit hardware multiplier and not also using MSPMATHLIB library (libmath.a).  Recommend using MSPMATHLIB library (libmath.a) for improved performance.
+Finished building target: "Project 9.out"
+ 
+
+**** Build Finished ****

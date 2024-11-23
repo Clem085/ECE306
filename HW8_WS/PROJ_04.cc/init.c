@@ -1,10 +1,4 @@
-//------------------------------------------------------------------------------
-//  Description: Initializes display line and interrupts
-//
-//  Corinne McGuire
-//  Date: 9/16 Fall 2024
-//  Built with Code Composer Version: CCS12.4.0.00007_win64
-//------------------------------------------------------------------------------
+
 #include "macros.h"
 #include  "msp430.h"
 #include  <string.h>

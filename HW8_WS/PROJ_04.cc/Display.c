@@ -1,10 +1,4 @@
-//------------------------------------------------------------------------------
-//  Description: Adjusts display titles and state machine according to user input
-//
-//  Corinne McGuire
-//  Date: 9/16 Fall 2024
-//  Built with Code Composer Version: CCS12.4.0.00007_win64
-//------------------------------------------------------------------------------
+
 
 int lcd_shape = 0;
 
