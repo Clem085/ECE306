@@ -22,8 +22,17 @@
 //#define RECEIVE                 ('R')
 //#define TRANSMIT                ('T')
 // Project 9 States
-#define MOVE                    ('M')
-#define STOP                    ('S')
+//#define MOVE                    ('M')
+//#define STOP                    ('S')
+
+// ----- ----- ----- PROJECT 9 CODE ----- ----- ----- //
+#define WAIT        ('W')
+#define BACK        ('B')
+#define FORWARDS    ('F')
+#define LEFT        ('L')
+#define RIGHT       ('R')
+
+// ----- ----- ----- PROJECT 9 CODE ----- ----- ----- //
 
 
 

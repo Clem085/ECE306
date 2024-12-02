@@ -278,20 +278,39 @@ void Init_Port4(void){ // Configure PORT 4
 //    P5DIR  |=  IOT_BOOT;
 //}
 
-// Code from Analog IO Main Slides
+// Updated to handle DAC
 void Init_Port5(void){
-    P5OUT = 0x00;
     P5DIR = 0x00;
+    P5OUT = 0x00;
 
-    P5SELC |= V_BAT; // ADC input for V_BAT
-    P5SELC |= V_5_0; // ADC input for V_BAT
-    P5SELC |= V_DAC; // ADC input for V_DAC
-    P5SELC |= V_3_3; // ADC input for V_3_3
-    P5SEL0 &= ~IOT_BOOT; // IOT_BOOT GPIO operation
-    P5SEL1 &= ~IOT_BOOT; // IOT_BOOT GPIO operation
-    P5OUT |= IOT_BOOT; // Set Output value inactive
-    P5DIR |= IOT_BOOT; // Set direction to output
+    P5SEL0 &= ~V_BAT;
+    P5SEL1 &= ~V_BAT;
+    P5OUT  &= ~V_BAT;
+    P5DIR  |=  V_BAT;
+    P5SELC |=  V_BAT;
 
+    P5SEL0 &= ~V_5_0;
+    P5SEL1 &= ~V_5_0;
+    P5OUT  &= ~V_5_0;
+    P5DIR  |=  V_5_0;
+    P5SELC |=  V_5_0;
+
+    P5SEL0 &= ~V_DAC;
+    P5SEL1 &= ~V_DAC;
+    P5OUT  &= ~V_DAC;
+    P5DIR  |=  V_DAC;
+    P5SELC |=  V_DAC;
+
+    P5SEL0 &= ~V_3_3;
+    P5SEL1 &= ~V_3_3;
+    P5OUT  &= ~V_3_3;
+    P5DIR  |=  V_3_3;
+    P5SELC |=  V_3_3;
+
+    P5SEL0 &= ~IOT_BOOT;
+    P5SEL1 &= ~IOT_BOOT;
+    P5OUT  |=  IOT_BOOT;
+    P5DIR  |=  IOT_BOOT;
 }
 
 

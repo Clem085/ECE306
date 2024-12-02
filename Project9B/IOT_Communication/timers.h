@@ -12,6 +12,9 @@
 volatile char one_time;
 unsigned int counter_B0;
 unsigned int delay_time;
+unsigned int initialize_done;
+unsigned int iot_on_time;
+
 //// Externally Defined
 extern volatile unsigned int Time_Sequence;
 extern char backlight_status;

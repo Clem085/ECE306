@@ -43,7 +43,10 @@ void Init_Timer_B0(void) {
     TB0CTL = TBSSEL__SMCLK;     // SMCLK source
     TB0CTL |= TBCLR;            // Resets TB0R, clock divider, count direction
     TB0CTL |= MC__CONTINOUS;    // Continuous up
-    TB0CTL |= ID__2;            // Divide clock by 2
+    // ----- ----- ----- PROJECT 9 CODE ----- ----- ----- //
+    TB0CTL |= ID__2;            // Divide clock by 2 // Replaced for Project 9
+//    TB0CTL |= ID__8;
+    // ----- ----- ----- PROJECT 9 CODE ----- ----- ----- //
     TB0EX0 = TBIDEX__8;         // Divide clock by an additional 8
 
     TB0CCR0 = TB0CCR0_INTERVAL; // CCR0

@@ -13,6 +13,7 @@
 //// Internally Defined
 unsigned int count_debounce_SW1;
 unsigned int count_debounce_SW2;
+
 //volatile int switch1_pressed;  // Declare the variable as external
 //volatile int switch2_pressed;  // Declare the variable as external
 
@@ -20,23 +21,27 @@ unsigned int count_debounce_SW2;
 
 /// /// /// TEMP PROJECT 8 CODE /// /// ///
 // Commented all of these out because switches.h is not included is Source switches.c
-//// Global variables for debounce
-//// SW1 debounce counter
-//volatile unsigned int debounce_count1 = 0;
-//// SW2 debounce counter
-//volatile unsigned int debounce_count2 = 0;
-//
-//// Backlight toggle state
-//volatile unsigned char backlight_on = 1;
-//
-//// SW1 debounce active flag
-//volatile unsigned char debounce_active = 0;
-//
-//// Global flags
-////extern volatile int switch1_pressed;  // Flag to track switch 1 press
-//
-//// Increment for the debounce interval for the switches
-//#define increment 3277;
+// Global Variables declared and referenced in Header file
+/// /// /// TEMP PROJECT 8 CODE /// /// ///
+// Global variables for debounce
+// SW1 debounce counter
+volatile unsigned int debounce_count1;
+volatile unsigned int debounce_count2;
+
+
+// Commented Out, Caused Errors
+
+
+extern volatile unsigned int localCounter;
+
+
+
+// Increment for the debounce interval for the switches
+#define increment 3277;
+extern volatile int switch1_pressed;  // Declare the variable as external
+extern volatile int switch2_pressed;  // Declare the variable as external
+extern volatile unsigned char update_display;
+extern volatile unsigned int Time_Sequence;
 
 /// /// /// TEMP PROJECT 8 CODE /// /// ///
 
@@ -74,6 +79,7 @@ void SW1_Project9(void);
 void SW2_Project9(void);
 //void SW1_Project9_TEMP(void);
 //void SW2_Project9_TEMP(void);
+void disable_switch_interrupts(void);
 
 // Enable Switches
 void enable_switch_SW1(void);

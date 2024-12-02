@@ -11,6 +11,9 @@
 //// Internally Defined
 volatile unsigned int Time_Sequence;
 char DAC_overflow_counter;
+unsigned int run_time;
+unsigned int run_time_flag;
+
 //// Externally Defined
 extern volatile unsigned char update_display;
 extern char display_line[4][11];
@@ -34,10 +37,20 @@ extern char songInit;
 extern unsigned int clear_display;
 extern volatile char Rx_display[16];
 extern char baud_flag;
-//// PROJECT8 TEMP
-//extern volatile unsigned int iot_tx;
-//extern volatile unsigned int ncsu_index;
-//extern volatile unsigned int usb_rx_ring_wr;
+// Debounce
+extern volatile unsigned int debounce_count1;
+extern volatile unsigned int debounce_count2;
+extern volatile char switch_debounce_active;
+// Serial
+extern volatile char IOT_Ring_Rx[32];
+extern volatile unsigned int iot_rx_wr;
+extern volatile char iot_TX_buf[32];
+extern volatile char USB_Ring_Rx[32];
+extern volatile char USB_Char_Tx[32];
+extern volatile unsigned int usb_rx_ring_wr;
+extern volatile unsigned int usb_tx;
+extern volatile unsigned int iot_tx;
+
 
 // Macro Definitions
 #define OVERFLOW (14)
