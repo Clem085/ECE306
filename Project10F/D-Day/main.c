@@ -78,6 +78,10 @@ volatile char IP_access[] = "AT+CIFSR\r\n";
 volatile char check_okay[] = "AT\r\n";
 volatile char pinging1[] = "AT+PING=\"www.google.com\"\r\n";
 volatile char pinging2[] = "AT+PING=\"www.ncsu.edu\"\r\n";
+//char pin[] = "0819";
+char pin[] = "3061";
+
+
 volatile char IOT_Ring_Rx[LARGE_RING_SIZE];
 volatile char iot_TX_buf[LARGE_RING_SIZE];
 volatile char ssid_display[SSID_SIZE];
@@ -401,18 +405,17 @@ void main(void){
                 }
             }
             break;
-        case 1:
 
+        case 1:
             pingpong();
             vv = 0;
             if (iot_TX_buf[response_parse++] == '^'){
                 //            response_parse++;
-                if(iot_TX_buf[response_parse] == '3' && iot_TX_buf[response_parse+1] == '0' && iot_TX_buf[response_parse+2] == '6'&& iot_TX_buf[response_parse+3] == '1'){
+                if(iot_TX_buf[response_parse] == pin[0] && iot_TX_buf[response_parse+1] == pin[1] && iot_TX_buf[response_parse+2] == pin[2] && iot_TX_buf[response_parse+3] == pin[3]){
                     response_parse = response_parse +4;
                     switch (iot_TX_buf[response_parse]){
                     case 'F':
                         if(!movement){
-
                             setTime = (int)iot_TX_buf[response_parse+1]-'0';
                             if(setTime == 3){
                                 setTime = 16;
@@ -511,6 +514,27 @@ void main(void){
                         }
                         break;
 
+
+                    case 'e':
+                        // DANGER WARNING
+                        if(!movement){
+                            setTime = (int)iot_TX_buf[response_parse+1]-'0';
+
+                            commanding_send = EXIT; // END
+                            run_time = 0;
+                            run_time_flag = 1;
+
+                            Off_Case();
+
+
+                            for (vv = 0; vv < 32; vv++){
+                                iot_TX_buf[vv] = 0;
+                            }
+                        }
+
+                        break;
+
+
                     case 's':
                         if(!movement){
                             setTime = (int)iot_TX_buf[response_parse+1]-'0'; // 0=Clear Config, 1=Set Black Low, 2=Set Black High
@@ -529,27 +553,13 @@ void main(void){
                         }
                         break;
 
-                    }
+
+                    default: break;
+                    } // END of switch (iot_TX_buf[response_parse])
 
 
-                    case 'E':
-                        // DANGER WARNING
-                        if(!movement){
-
-                            setTime = (int)iot_TX_buf[response_parse+1]-'0';
-
-                            run_time_flag = 1;
-                            commanding_send = EXIT;
-                            run_time = 0;
-                            for (vv = 0; vv < 32; vv++){
-                                iot_TX_buf[vv] = 0;
-                            }
-                        }
-
-                        break;
-
-                }
-            }
+                } // End of PIN If statement
+            } // End of if (iot_TX_buf[response_parse++] == '^')
 
             if (response_parse > 31) {
                 response_parse = 0;
@@ -558,29 +568,24 @@ void main(void){
             char tempStr[10];
             switch (commanding_send){
             case WAIT:
+                displayclr = 0;
                 motor_off();
+                // Unsure why this if statement exists, value always seems to be < 50
                 if (run_time < 50){
-                    strcpy(display_line[0], "          ");
-                    display_changed = TRUE;
-                    dispPrint("IP address", '2');
-                    //                strcpy(display_line[1], " RUN CASE ");
-                    strcpy(display_line[0], "          ");
-                    display_changed = TRUE;
-                    //                strcpy(display_line[0], ssid_display);
-                    //                strcpy(display_line[0], "ncsu      ");
                     dispPrint(ssid_display, '1');
+                    dispPrint("IP address", '2');
                     dispPrint(ip_display1, '3');
                     dispPrint(ip_display2, '4');
-                    //                strcpy(display_line[2], ip_display1);
-                    //                strcpy(display_line[3], ip_display2);
+
                     display_changed = TRUE;
                 }
-                else{
-                    strcpy(display_line[1], " WAITDONE ");
-                    strcpy(display_line[3], "         W");
-                    display_changed = TRUE;
-                    //                run_time = 0;
-                }
+                // Commented out because I don't see the use of it
+//                else{
+//                    strcpy(display_line[1], " WAITDONE ");
+//                    strcpy(display_line[3], "         W");
+//                    display_changed = TRUE;
+//                    //                run_time = 0;
+//                }
 
                 break;
             case FORWARDS:
@@ -661,8 +666,6 @@ void main(void){
 
                 // STATE MACHINE
                 blacklinemachine();
-
-
                 break;
             case ARRIVED:
                 // make the display cleared
@@ -695,122 +698,23 @@ void main(void){
                 }
                 break;
 
-            case SLOWRIGHT:
-                strcpy(display_line[0], "ARCH");
-                display_changed = TRUE;
 
-                dispPrint("ARCH",'1');
-                display_changed = TRUE;
-                double sec_fwd1 = 2.4; // Seconds For FWD
-                double sec_fwd2 = 2.50; // Seconds For FWD2
-                double sec_fwd3 = 1.50; // Seconds For FWD3 // was 1.0
-                double sec_spin = 0.29; // Seconds For SPIN // was 0.29
-                double sec_wait = 1.00; // Seconds for Wait
-
-                switch(archState){
-                case 0: // WAIT CASE
-                    strcpy(display_line[3],"   WAIT   ");
-                    Off_Case();
-                    if(motorDrain > 20*sec_wait){
-                        arch_counter = 0;
-                        motorDrain = 0;
-                        archState = nextState;
-                    }
-                    break;
-                case 1: // FORWARD
-                    strcpy(display_line[3],"FORWARD #1");
-                    display_changed = TRUE;
-                    LEFT_FORWARD_SPEED = LSLOWCIRCLE; //LEFTARCHFWD; //
-                    RIGHT_FORWARD_SPEED = RSLOWCIRCLE; // RIGHTARCHFWD;
-                    if(arch_counter > 20*sec_fwd1){
-                        Off_Case();
-
-                        arch_counter = 0;
-                        motorDrain = 0;
-                        archState = 0;
-
-                        nextState = 2;
-                    }
-                    break;
-                case 2: // SPIN 90 CLOCKWISE
-                    strcpy(display_line[3],"90 SPIN #1");
-                    display_changed = TRUE;
-                    LEFT_REVERSE_SPEED = LEFTARCHFWD;
-                    RIGHT_FORWARD_SPEED = RIGHTARCHFWD;
-                    if(arch_counter > 20*sec_spin){
-                        Off_Case();
-                        archState = 0; // Enter Wait Case
-                        arch_counter = 0;
-                        motorDrain = 0;
-                        nextState = 3;
-                    }
-                    break;
-                case 3: // FORWARD AGAIN
-                    strcpy(display_line[3],"FORWARD #2");
-                    display_changed = TRUE;
-                    LEFT_FORWARD_SPEED = LSLOWCIRCLE; //LEFTARCHFWD;
-                    RIGHT_FORWARD_SPEED = RSLOWCIRCLE; //RIGHTARCHFWD;
-                    if(arch_counter > 20*sec_fwd2){
-                        Off_Case();
-                        archState = 0; // Enter Wait Case
-                        arch_counter = 0;
-                        motorDrain = 0;
-
-                        nextState = 4;
-                    }
-                    break;
-                case 4: // SPIN 90 CLOCKWISE AGAIN
-                    strcpy(display_line[3],"90 SPIN #2");
-                    display_changed = TRUE;
-                    LEFT_REVERSE_SPEED = LEFTARCHFWD;
-                    RIGHT_FORWARD_SPEED = RIGHTARCHFWD;
-                    if(arch_counter > 20*sec_spin){
-                        Off_Case();
-                        archState = 0; // Enter Wait Case
-                        arch_counter = 0;
-                        motorDrain = 0;
-
-                        nextState = 5;
-                    }
-                    break;
-                case 5: // FORWARD FINAL
-                    strcpy(display_line[3],"FORWARD #3");
-                    display_changed = TRUE;
-                    LEFT_FORWARD_SPEED = LSLOWCIRCLE; //LEFTARCHFWD;
-                    RIGHT_FORWARD_SPEED = RSLOWCIRCLE; //RIGHTARCHFWD;
-                    if(arch_counter > 20*sec_fwd3){
-                        Off_Case();
-                        arch_counter = 0;
-                        archState = 0;
-                        state = START;
-                        dispPrint(" ",'4');
-                        display_changed = TRUE;
-
-                        run_time_flag = 0;
-                        motor_off();
-                        run_time = 0;
-                        commanding_send = WAIT;
-                        movement = 0;
-
-                    }
-                    break;
-
-                default: break;
-                } // END of ARCH switch(archState)
-                default: break;
-            }
-            break;
-
-            // NEW DANGER WARNING
             case EXIT:
+                // NEW DANGER WARNING
                 strcpy(display[0],"END OF 306");
+                strcpy(display[1],"END OF 306");
+                strcpy(display[2],"END OF 306");
+//                strcpy(display[3],"END OF 306");
                 display_changed = TRUE;
+
                 new_forward();
                 strcpy(tempStr,ip_display2);
-                strcat(tempStr,"E");
+                strcat(tempStr,"e");
                 dispPrint(tempStr, '4');
                 display_changed = TRUE;
-                if (run_time > setTime*5){
+
+
+                if (run_time > setTime*10){
                     run_time_flag = 0;
                     motor_off();
                     run_time = 0;
@@ -820,13 +724,34 @@ void main(void){
                 break;
 
 
+            case SLOWRIGHT:
+                strcpy(display_line[0], "ARCH");
+                display_changed = TRUE;
+
+                dispPrint("ARCH",'1');
+                display_changed = TRUE;
+
+                arch_movement();
+                break;
+                //            }
+                //              TEST INCORRECT???? COmmented out 2 lines
+                //                default: break;
+                //            }
+
+
+
+
+            default: break;
+            } // switch (commanding_send)
+            break;
+
+
             default: break;
         } // End of switch(initialize_done)
 
 
 
     } // End of while()
-
 } // End of main()
 //------------------------------------------------------------------------------
 
@@ -912,19 +837,122 @@ void blacklinemachine(void){
     case TRACK:
         tracking_movement();
         break;
-    case END:
-        end_state();
-
-        run_time_flag = 0;
-        run_time = 0;
-        commanding_send = WAIT;
-        movement = 0;
-
-        break;
+        //    case END:
+        //        end_state();
+        //
+        //        run_time_flag = 0;
+        //        run_time = 0;
+        //        commanding_send = WAIT;
+        //        movement = 0;
+        //
+        //        break;
     default: break;
     }
 }
 
 
+
+
+
+
+void arch_movement(void){
+    double sec_fwd1 = 2.4; // Seconds For FWD
+    double sec_fwd2 = 2.50; // Seconds For FWD2
+    double sec_fwd3 = 1.50; // Seconds For FWD3 // was 1.0
+    double sec_spin = 0.29; // Seconds For SPIN // was 0.29
+    double sec_wait = 1.00; // Seconds for Wait
+
+    switch(archState){
+    case 0: // WAIT CASE
+        strcpy(display_line[3],"   WAIT   ");
+        Off_Case();
+        if(motorDrain > 20*sec_wait){
+            arch_counter = 0;
+            motorDrain = 0;
+            archState = nextState;
+        }
+        break;
+    case 1: // FORWARD
+        strcpy(display_line[3],"FORWARD #1");
+        display_changed = TRUE;
+        LEFT_FORWARD_SPEED = LSLOWCIRCLE; //LEFTARCHFWD; //
+        RIGHT_FORWARD_SPEED = RSLOWCIRCLE; // RIGHTARCHFWD;
+        if(arch_counter > 20*sec_fwd1){
+            Off_Case();
+
+            arch_counter = 0;
+            motorDrain = 0;
+            archState = 0;
+
+            nextState = 2;
+        }
+        break;
+    case 2: // SPIN 90 CLOCKWISE
+        strcpy(display_line[3],"90 SPIN #1");
+        display_changed = TRUE;
+        LEFT_REVERSE_SPEED = LEFTARCHFWD;
+        RIGHT_FORWARD_SPEED = RIGHTARCHFWD;
+        if(arch_counter > 20*sec_spin){
+            Off_Case();
+            archState = 0; // Enter Wait Case
+            arch_counter = 0;
+            motorDrain = 0;
+            nextState = 3;
+        }
+        break;
+    case 3: // FORWARD AGAIN
+        strcpy(display_line[3],"FORWARD #2");
+        display_changed = TRUE;
+        LEFT_FORWARD_SPEED = LSLOWCIRCLE; //LEFTARCHFWD;
+        RIGHT_FORWARD_SPEED = RSLOWCIRCLE; //RIGHTARCHFWD;
+        if(arch_counter > 20*sec_fwd2){
+            Off_Case();
+            archState = 0; // Enter Wait Case
+            arch_counter = 0;
+            motorDrain = 0;
+
+            nextState = 4;
+        }
+        break;
+    case 4: // SPIN 90 CLOCKWISE AGAIN
+        strcpy(display_line[3],"90 SPIN #2");
+        display_changed = TRUE;
+        LEFT_REVERSE_SPEED = LEFTARCHFWD;
+        RIGHT_FORWARD_SPEED = RIGHTARCHFWD;
+        if(arch_counter > 20*sec_spin){
+            Off_Case();
+            archState = 0; // Enter Wait Case
+            arch_counter = 0;
+            motorDrain = 0;
+
+            nextState = 5;
+        }
+        break;
+    case 5: // FORWARD FINAL
+        strcpy(display_line[3],"FORWARD #3");
+        display_changed = TRUE;
+        LEFT_FORWARD_SPEED = LSLOWCIRCLE; //LEFTARCHFWD;
+        RIGHT_FORWARD_SPEED = RSLOWCIRCLE; //RIGHTARCHFWD;
+        if(arch_counter > 20*sec_fwd3){
+            Off_Case();
+            arch_counter = 0;
+            archState = 0;
+            state = START;
+            dispPrint(" ",'4');
+            display_changed = TRUE;
+
+            run_time_flag = 0;
+            motor_off();
+            run_time = 0;
+            commanding_send = WAIT;
+            movement = 0;
+
+        }
+        break;
+
+
+    default: break;
+    } // END of ARCH switch(archState)
+}
 
 

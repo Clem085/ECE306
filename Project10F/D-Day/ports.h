@@ -18,6 +18,7 @@
 #define REVERSE                (0x01) // REVERSE
 #define PERCENT_100 (50000)
 #define PERCENT_80 (45000)
+#define PERCENT_0 (00000)
 #define LCD_BACKLITE_DIMING (TB3CCR1)
 #define PWM_PERIOD (TB3CCR0)
 
