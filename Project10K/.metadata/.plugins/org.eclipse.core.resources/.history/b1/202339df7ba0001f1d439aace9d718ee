@@ -1,0 +1,288 @@
+//------------------------------------------------------------------------------
+//
+//  Description: This file contains the Main Routine - "While" Operating System
+//
+//  Jim Carlson
+//  Jan 2023
+//  Built with Code Composer Version: CCS12.4.0.00007_win64
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+#include  "msp430.h"
+#include  <string.h>
+#include  "functions.h"
+#include  "LCD.h"
+#include  "ports.h"
+#include "macros.h"
+#include "switches.h"
+#include "wheels.h"
+#include  <stdio.h>
+
+
+
+// Function Prototypes
+void main(void);
+void Init_Conditions(void);
+void Display_Process(void);
+void Init_LEDs(void);
+void Carlson_StateMachine(void);
+void Init_DAC(void);
+
+// Global Variables
+
+//Display board
+volatile char slow_input_down;
+extern char display_line[4][11];
+extern char *display[4];
+unsigned char display_mode;
+extern volatile unsigned char display_changed;
+extern volatile unsigned char update_display;
+extern volatile unsigned int update_display_count;
+extern volatile unsigned char backlight = 0;
+extern volatile unsigned char backlight_changed = 0;
+extern volatile char one_time;
+unsigned int test_value;
+
+// WHEEL INFO
+char chosen_direction;
+char change;
+unsigned int wheel_move;
+char forward;
+extern volatile unsigned char state;
+
+
+extern unsigned int Last_Time_Sequence = 0;  // To track changes in Time_Sequence
+extern unsigned int cycle_time = 0;          // Controls shape timings
+extern unsigned int time_change = 0;         // Flag to detect time sequence change
+extern volatile unsigned int Time_Sequence; // Already existing
+volatile unsigned char event;  // Event variable from switches.c (e.g., STRAIGHT, CIRCLE)
+extern volatile unsigned int event_Counter = 0; //picking the event based on increment
+
+
+extern unsigned int okay_to_look_at_switch1;
+extern unsigned int sw1_position;
+
+// SERIAL COMM
+
+extern unsigned int ADC_Left_Detect;
+extern unsigned int ADC_Right_Detect;
+extern unsigned int ADC_thumb;
+unsigned int on_line;
+extern unsigned int transmit_done;
+unsigned int clear_display;
+
+extern unsigned int transmit_count;
+
+extern char transmit_state;
+extern unsigned int baud_toggle;
+volatile char Rx_display[SMALL_RING_SIZE];
+
+char process_buffer[25];
+//extern char NCSU_str[10] = "NCSU  #1";
+extern char baud_flag;
+
+
+
+
+void main(void){
+    //    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
+
+    //------------------------------------------------------------------------------
+    // Main Program
+    // This is the main routine for the program. Execution of code starts here.
+    // The operating system is Back Ground Fore Ground.
+    //
+    //------------------------------------------------------------------------------
+    PM5CTL0 &= ~LOCKLPM5;
+    // Disable the GPIO power-on default high-impedance mode to activate
+    // previously configured port settings
+    Init_Ports();                        // Initialize Ports
+    Init_Clocks();                       // Initialize Clock System
+    Init_Conditions();                   // Initialize Variables and Initial Conditions
+    Init_Timers();                       // Initialize Timers
+    Init_LCD();                          // Initialize LCD
+    Init_ADC();
+    Init_Serial_UCA0();
+    // Place the contents of what you want on the display, in between the quotes
+
+    strcpy(display_line[0], "          ");
+    strcpy(display_line[1], "          ");
+    strcpy(display_line[2], "          ");
+    strcpy(display_line[3], "          ");
+    display_changed = TRUE;
+
+    clear_display = 1;
+    baud_toggle = 0;
+
+    USCI_A0_transmit();
+
+
+    transmit_state = WAIT;
+
+//    motor_off();
+    wheel_move = 0;
+    forward = TRUE;
+
+//    cir_count = 0;
+//    tri_count = 0;
+    state = IDLE;
+    event = IDLE;
+    okay_to_look_at_switch1 = 1;
+    sw1_position = 1;
+
+    //    backlight_changed = TRUE;
+    //    backlight = TRUE;
+    //    Backlight_Process();               // Turn Backlight on/off
+
+
+    P2OUT |= IR_LED;
+    //------------------------------------------------------------------------------
+    // Beginning of the "While" Operating System
+    //------------------------------------------------------------------------------
+    while(ALWAYS) {                      // Can the Operating system run
+
+        //      Carlson_StateMachine();            // Run a Time Based State Machine
+        Display_Process();                 // Update Display
+        Backlight_Process();
+        P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+
+        // Time Sequence Handling
+        if(Last_Time_Sequence != Time_Sequence){
+            Last_Time_Sequence = Time_Sequence;
+            cycle_time++;
+            time_change = 1;            // Flag to indicate a time change occurred
+        }
+
+
+        if(baud_flag){
+            Init_Serial_UCA0();
+            baud_flag = 0;
+        }
+
+
+        switch(transmit_state){
+        case WAIT:
+            strcpy(display_line[0], "  WAITING ");
+            strcpy(display_line[1], "          ");
+            if (!baud_toggle){
+                strcpy(display_line[2], "  115200  ");
+            }
+            else {
+                strcpy(display_line[2], "  460800  ");
+            }
+            strcpy(display_line[3], "          ");
+            display_changed = TRUE;
+            break;
+        case RECEIVE:
+            strcpy(display_line[0], "  RECEIVE ");
+            strcpy(display_line[2], "          ");
+                //
+                unsigned int i = 0;
+                unsigned int k = 0;
+                for (i = 0; i < sizeof(Rx_display) && k < sizeof(display_line[3]) - 1; i++) {
+                    // Check if the character is a digit
+                    if (Rx_display[i] >= '0' && Rx_display[i] <= '9') {
+                        // Write the digit to display_line[3] in a circular buffer style
+                        display_line[3][k] = Rx_display[i];
+                        k = (k + 1) % 16; // Loop back to the beginning after 16 characters
+                    }
+
+                    // Stop if we encounter "CL/" followed by CR or CRLF
+                    if (Rx_display[i] == 'C' && Rx_display[i + 1] == 'L' && Rx_display[i + 2] == '/' &&
+                            (Rx_display[i + 3] == 0x0D || (Rx_display[i + 3] == 0x0D && Rx_display[i + 4] == 0x0A))) {
+                        // Move index past "CL/" and CR or CRLF and stop processing
+                        i += (Rx_display[i + 3] == 0x0D && Rx_display[i + 4] == 0x0A) ? 4 : 3;
+                        break;
+                    }
+                }
+
+                // Null-terminate the line to ensure it’s a valid string
+                display_line[3][k] = '\0';
+
+            display_changed = TRUE;
+            break;
+
+        case TRANSMIT:
+            strcpy(display_line[0], " TRANSMIT ");
+            if(baud_toggle){
+                strcpy(display_line[3], Rx_display);
+            }else{
+                unsigned int j = 0;
+                unsigned int l = 0;
+                for (j = 0; j < sizeof(Rx_display) && l < sizeof(display_line[3]) - 1; j++) {
+                    // Check if the character is a digit
+                    if (Rx_display[j] >= '0' && Rx_display[j] <= '9') {
+                        // Write the digit to display_line[1] in a circular buffer style
+                        display_line[1][l] = Rx_display[j];
+                        l = (l + 1) % 16; // Loop back to the beginning after 16 characters
+                    }
+
+                    // Stop if we encounter "CL/" followed by CR or CRLF
+                    if (Rx_display[j] == 'C' && Rx_display[j + 1] == 'L' && Rx_display[j + 2] == '/' &&
+                            (Rx_display[j + 3] == 0x0D || (Rx_display[j + 3] == 0x0D && Rx_display[j + 4] == 0x0A))) {
+                        // Move index past "CL/" and CR or CRLF and stop processing
+                        j += (Rx_display[j + 3] == 0x0D && Rx_display[j + 4] == 0x0A) ? 4 : 3;
+                        break;
+                    }
+                }
+
+                // Null-terminate the line to ensure it’s a valid string
+                display_line[1][l] = '\0';
+            }
+
+            strcpy(display_line[2], "          ");
+            strcpy(display_line[3], "          ");
+            display_changed = TRUE;
+            if (transmit_count >= 15){
+                transmit_state = WAIT;
+                transmit_count = 0;
+                int ride = 0;
+                while (Rx_display[ride] != 0x00){
+                    Rx_display[ride++] = 0;
+                }
+            }
+            ;
+        default: break;
+        }
+        //        motorDirec();
+        Debounce_State();
+        //        StateMachine();
+
+        //        LEFT_FORWARD_SPEED = 12000;
+
+
+    }
+
+
+
+
+
+    //------------------------------------------------------------------------------
+
+}
+void StateMachine(void){
+    switch(state){
+    case WAIT:
+        Off_Case();
+        state = START;
+        break;
+    case DETECTED:
+        detect_movement();
+        break;
+    case START:
+        start_movement();
+        break;
+    case SPIN:
+        spinning_movement();
+        break;
+    case TRACK:
+        tracking_movement();
+        break;
+    case END:
+        end_state();
+        break;
+    default: break;
+    }
+}
+
+
