@@ -171,7 +171,7 @@ void LRRevOFF(void){
 }
 
 // Both
-// NO Function to turn both Forward and Reverse on at the same time because I don't want my car to blow up
+// There is NO Function to turn both Forward and Reverse ON at the same time because I don't want my car to blow up
 void motorsOFF(void){
     LRFwdOFF();
     LRRevOFF();

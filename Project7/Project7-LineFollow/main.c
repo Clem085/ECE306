@@ -181,7 +181,7 @@ void StateMachine(void)
         {   // Time_Sequence-State_Sequence
         case 10: // Wait for 1 Second
             PWM1_BOTH_OFF(); // motorsOFF();
-            state = FWD;
+//            state = FWD; // TEMP disabled to just display ADC Values
             break;
         default:
             break;
