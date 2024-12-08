@@ -1,11 +1,11 @@
-//******************************************************************************
-//
-//  Description: This file contains the Function prototypes
-//
-//  Jim Carlson
-//  Aug 2013
-//  Built with IAR Embedded Workbench Version: V4.10A/W32 (5.40.1)
-//******************************************************************************
+//===========================================================================
+//  File Name: serial.h
+//  Description: Header file for serial.c - Contains Globals, Macros, & function declarations
+//  Programmer: Connor Savugot
+//  Date Created: Nov 8, 2024
+//===========================================================================
+#ifndef SERIAL_H_
+#define SERIAL_H_
 
 // Functions
 
@@ -119,7 +119,7 @@ void out_control_words(void);
 // Main Functions
 void updates(void);
 
-
+#endif /* SERIAL_H_ */
 
 
 

@@ -49,67 +49,6 @@ void PWM_backlight(void){
     LCD_BACKLITE_DIMING = backlight_value;
 }
 
-// DEPRECATED - REPLACED BY PWM
-//// Controls Display Backlight
-//void backlight_control(void){
-//    /*  Parameter Values
-//    action
-//        0: Backlight OFF
-//        1: Backlight ON
-//     */
-//    if(backlight_status == OFF){
-//        P6OUT  &= ~LCD_BACKLITE;
-//    }
-//    else{// backlight_status = ON
-//        P6OUT  |=  LCD_BACKLITE;
-//    }
-//}
-
-
-
-
-
-
-
-// Dummy display_line array to hold display values
-//char display_line[4][10 + 1]; // +1 for null terminator
-
-// Function Definition
-//void dispPrint(char *line0, char *line1, char *line2, char *line3) {
-//    char tempLine[11]; // Temporary line buffer
-//    if (line0 != NULL && line1 != NULL && line2 != NULL && line3 != NULL) {
-//        // Process each line
-//        char *lines[] = { line0, line1, line2, line3 };
-//        int lineIndex;
-//        for (lineIndex = 0; lineIndex < 4; lineIndex++) {
-//            int spaces = (10 - strlen(lines[lineIndex])) >> 1;// Calculate spaces needed for centering the string
-//
-//            int i;// Initialize tempLine with spaces using a loop
-//            for (i = 0; i < 10; i++) {
-//                tempLine[i] = ' '; // Fill tempLine with spaces
-//            }
-//            tempLine[10] = '\0'; // Null-terminate
-//
-//            // Copy the line string into the center of tempLine
-//            strncpy(tempLine + spaces, lines[lineIndex], strlen(lines[lineIndex]));
-//
-//            // Ensure the string is null-terminated
-//            tempLine[10] = '\0'; // Explicitly null-terminate again after copying
-//
-//            // Copy the temporary line to display_line
-//            strcpy(display_line[lineIndex], tempLine);
-//        }
-//        display_changed = TRUE;
-//    } else {
-//        // Handle null parameters
-//        strcpy(display_line[0], " Error!!! ");
-//        strcpy(display_line[1], "dispPrint ");
-//        strcpy(display_line[2], "InvldParam");
-//        strcpy(display_line[3], "line=NULL ");
-//        display_changed = TRUE;
-//    }
-//}
-
 // Aligns text to Middle of Display
 void dispPrint(char *line, char lineToUpdate) {
     char tempLine[11]; // Temporary line buffer
@@ -164,31 +103,6 @@ void dispPrint(char *line, char lineToUpdate) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//int middleChar(char * string){
-//    int spaces = (10 - strlen(string)) >> 1;// Calculate spaces needed for centering the string
-//    return spaces;
-//}
-
-//-------------------------------------------------------------
-// ADC Line insert
-// Take the HEX to BCD value in the array adc_char and place it
-// in the desired location on the desired line of the display.
-// char line => Specifies the line 1 thru 4
-// char location => Is the location 0 thru 9
-//
 //-------------------------------------------------------------
 void adc_line(char line, char location){
     //-------------------------------------------------------------

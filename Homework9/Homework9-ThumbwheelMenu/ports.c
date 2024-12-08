@@ -149,7 +149,7 @@ void Init_Port2(void){  // Configure Port 2
     P2SEL1 |= LFXIN;    // LFXIN Clock operation
 }
 
-void Init_Port3(){ //Configure Port 3
+void Init_Port3(void){ //Configure Port 3
     P3SEL0 &= ~TEST_PROBE;
     P3SEL1 &= ~TEST_PROBE;
     P3OUT  &= ~TEST_PROBE;

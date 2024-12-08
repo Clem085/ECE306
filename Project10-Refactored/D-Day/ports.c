@@ -1,25 +1,34 @@
+/* Port Initialization Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : ports.c
+  Description:  This file contains the port initializations for all 6 ports
+  Programmer: Connor Savugot
+  Date Created: Sep 13, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
 
-//===========================================================================
-// File Name : ports.c
-//
-// Description: This file contains the Initialization for all port pins
-//
-// Author: Kayla Radu
-// Date: Sept 12, 2024
-// Compiler: Built with Code Composer Studio Version: 12.8.0.00012
-//===========================================================================
-
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
 #include  "ports.h"
 #include  "macros.h"
-#include "strings.h"
-#include "wheels.h"
-#include "Timers.h"
-//#include  "DAC.h"
-#include "switches.h"
+#include  "motors.h"
+#include  "Display.h"
+#include  "timers.h"
+#include  "interrupts.h"
+#include  "switches.h"
+#include  "ADC.h"
+#include  "IR.h"
+#include  "serial.h"
+#include  "DAC.h"
+#include  "menu.h"
+//// Libraries
+#include  <string.h>
+#include  <stdio.h>
 
+// Global Variables declared and referenced in Header file
 
 //Init_Ports
 void Init_Ports(){
@@ -80,7 +89,7 @@ void Init_Port1(void){
 
     P1SEL0 &= ~RED_LED; // Set RED_LED as GP I/O
     P1SEL1 &= ~RED_LED; // Set RED_LED as GP I/O
-    P1OUT &= ~RED_LED; // Set Red LED On
+    P1OUT |= RED_LED; // Set Red LED On
     P1DIR |= RED_LED; // Set Red LED direction to output
 
     P1SELC |= V_A1_SEEED; // ADC input for A1_SEEED
@@ -140,7 +149,7 @@ void Init_Port2(void){  // Configure Port 2
     P2SEL1 |= LFXIN;    // LFXIN Clock operation
 }
 
-void Init_Port3(){ //Configure Port 3
+void Init_Port3(void){ //Configure Port 3
     P3SEL0 &= ~TEST_PROBE;
     P3SEL1 &= ~TEST_PROBE;
     P3OUT  &= ~TEST_PROBE;
@@ -156,11 +165,28 @@ void Init_Port3(){ //Configure Port 3
     P3OUT  &= ~OA2N;
     P3DIR  |=  OA2N;
 
+    switch(p3_4_type){
+    case USE_GPIO:
+        P3SEL0 &= ~SMCLK_OUT;
+        P3SEL1 &= ~SMCLK_OUT;
+        P3OUT  &= ~SMCLK_OUT;
+        P3DIR  &= ~SMCLK_OUT;
+        break;
 
-    P3SEL0 &= ~SMCLK_OUT;
-    P3SEL1 &= ~SMCLK_OUT;
-    P3OUT  &= ~SMCLK_OUT;
-    P3DIR  &= ~SMCLK_OUT;
+    case USE_SMCLK:
+        P3SEL0 |= SMCLK_OUT;
+        P3SEL1 &= ~SMCLK_OUT;
+        P3OUT  &= ~SMCLK_OUT;
+        P3DIR  |= SMCLK_OUT;
+        break;
+
+    default:
+        P3SEL0 &= ~SMCLK_OUT;
+        P3SEL1 &= ~SMCLK_OUT;
+        P3OUT  &= ~SMCLK_OUT;
+        P3DIR  |= SMCLK_OUT;
+        break;
+    }
 
     P3SEL0 &= ~DAC_CNTL;
     P3SEL1 &= ~DAC_CNTL;
@@ -219,7 +245,32 @@ void Init_Port4(void){ // Configure PORT 4
 
 
 
-
+//void Init_Port5(void){ //Configure Port 5
+//    P5SEL0 &= ~V_BAT;
+//    P5SEL1 &= ~V_BAT;
+//    P5OUT  &= ~V_BAT;
+//    P5DIR  |=  V_BAT;
+//
+//    P5SEL0 &= ~V_5_0;
+//    P5SEL1 &= ~V_5_0;
+//    P5OUT  &= ~V_5_0;
+//    P5DIR  |=  V_5_0;
+//
+//    P5SEL0 &= ~V_DAC;
+//    P5SEL1 &= ~V_DAC;
+//    P5OUT  &= ~V_DAC;
+//    P5DIR  |=  V_DAC;
+//
+//    P5SEL0 &= ~V_3_3;
+//    P5SEL1 &= ~V_3_3;
+//    P5OUT  &= ~V_3_3;
+//    P5DIR  |=  V_3_3;
+//
+//    P5SEL0 &= ~IOT_BOOT;
+//    P5SEL1 &= ~IOT_BOOT;
+//    P5OUT  &= ~IOT_BOOT;
+//    P5DIR  |=  IOT_BOOT;
+//}
 
 // Code from Analog IO Main Slides
 void Init_Port5(void){
@@ -237,61 +288,39 @@ void Init_Port5(void){
 
 }
 
-void Init_Port6(void){
-
-    P6OUT = 0x00;
-    P6DIR = 0x00;
-
-//SEL has to be 01 for tb3 configuration
-
-
-//Pin 3
-    P6SEL0 |= R_FORWARD;
-    P6SEL1 &= ~R_FORWARD;
-    P6DIR |= R_FORWARD; //set output Right Foward
-   // P6OUT &= ~R_FORWARD;
-
-//Pin 1
-    P6SEL0 |= R_REVERSE;
-    P6SEL1 &= ~R_REVERSE;
-    P6DIR |= R_REVERSE; //set outut for reverse Right
-  //  P6OUT &= ~R_REVERSE;
-
-
-//Pin 4
-    P6SEL0 |= L_FORWARD;
-    P6SEL1 &= ~L_FORWARD;
-    P6DIR |= L_FORWARD; //set to output Left foward
-    //P6OUT &= ~L_FORWARD;
-
-//Pin 2
-    P6SEL0 |= L_REVERSE;
-    P6SEL1 &= ~L_REVERSE;
-    P6DIR |= L_REVERSE; //set output for reverse left
-   // P6OUT &= ~L_REVERSE;
-
-//Pin 0
-    P6SEL0 |= LCD_BACKLITE;
+void Init_Port6(void){ //Configure Port 6
+    P6SEL0 |=  LCD_BACKLITE;
     P6SEL1 &= ~LCD_BACKLITE;
-    P6DIR |= LCD_BACKLITE;
-    //P6OUT |= LCD_BACKLITE;
+//    P6OUT  &= ~LCD_BACKLITE;
+    P6DIR  |= LCD_BACKLITE;
 
-//Pin 5
+    P6SEL0 |=  R_FORWARD;
+    P6SEL1 &= ~R_FORWARD;
+//    P6OUT  &= ~R_FORWARD;
+    P6DIR  |= R_FORWARD;
+
+    P6SEL0 |=  L_FORWARD;
+    P6SEL1 &= ~L_FORWARD;
+//    P6OUT  &= ~L_FORWARD;
+    P6DIR  |= L_FORWARD;
+
+    P6SEL0 |=  R_REVERSE;
+    P6SEL1 &= ~R_REVERSE;
+//    P6OUT  &= ~R_REVERSE;
+    P6DIR  |= R_REVERSE;
+
+    P6SEL0 |=  L_REVERSE;
+    P6SEL1 &= ~L_REVERSE;
+//    P6OUT  &= ~L_REVERSE;
+    P6DIR  |= L_REVERSE;
+
     P6SEL0 &= ~P6_5;
     P6SEL1 &= ~P6_5;
-    P6DIR &= ~P6_5;
-    P6OUT &= ~P6_5;
+    P6OUT  &= ~P6_5;
+    P6DIR  |= P6_5;
 
-
- //Pin 6
     P6SEL0 &= ~GRN_LED;
     P6SEL1 &= ~GRN_LED;
-    P6DIR |= GRN_LED;
-    P6OUT &= ~GRN_LED;
-
-
+    P6OUT  &= ~GRN_LED;
+    P6DIR  |= GRN_LED;
 }
-
-
-
-

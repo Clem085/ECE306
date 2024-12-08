@@ -1,10 +1,3 @@
-/*
- * wheels.c
- *
- *  Created on: Nov 21, 2024
- *      Author: Kayla Radu
- */
-
 
 #include  "msp430.h"
 #include  "functions.h"
@@ -206,7 +199,7 @@ void Wheels_counterclkw(void){
 
 // This sets the car to start moving toward the line unitl it sees it
 void start_movement(void){
-    Off_Case();
+    motors_off();
     LEFT_FORWARD_SPEED = 12000;
     RIGHT_FORWARD_SPEED = 12000;
 
@@ -330,13 +323,13 @@ void tracking_movement(void){
                     display_changed = TRUE;
 //                    RIGHT_REVERSE_SPEED = SPEED1;
 //                    LEFT_REVERSE_SPEED = SPEED1;
-                    new_backward();
+                    rev_fast();
                 }else{
                     strcpy(display_line[4], " FWD LOST ");
                     display_changed = TRUE;
 //                    RIGHT_FORWARD_SPEED = SPEED1;
 //                    LEFT_FORWARD_SPEED = SPEED1;
-                    new_forward();
+                    fwd_fast();
                 }
             }else{
                 lostflg = FALSE;
@@ -357,7 +350,7 @@ void end_state(void){
     strcpy(display_line[0], " STOPPED ");
     update_display = TRUE;
     display_changed = 1;
-    Off_Case();
+    motors_off();
     SpincountL = 0;
     SpincountR = 0;
     state = WAIT;
@@ -365,17 +358,6 @@ void end_state(void){
 }
 
 
-void Off_Case(void){
-    //    Forward_Off();
-    //    Reverse_Off();
-    RIGHT_FORWARD_SPEED = WHEEL_OFF;   // P6.1 Right Forward PWM duty cycle
-
-    LEFT_FORWARD_SPEED = WHEEL_OFF;    // P6.2 Right Forward PWM duty cycl
-
-    RIGHT_REVERSE_SPEED = WHEEL_OFF;   // P6.3 Left Forward PWM duty cycle
-
-    LEFT_REVERSE_SPEED = WHEEL_OFF;
-}
 
 
 
@@ -387,109 +369,107 @@ void Off_Case(void){
 
 
 
-void new_forward(void){
-    reverse_off();
-    forward_on();
-}
 
-void new_backward(void){
-    forward_off();
-    reverse_on();
-}
+// void fwd_fast(void){
+//     rev_off();
+//     fwd_fast();
+// }
 
-void new_left(void){
-    right_off();
-    left_on();
-}
+// void rev_fast(void){
+//     fwd_off();
+//     rev_fast();
+// }
 
-void new_right(void){
-    left_off();
-    right_on();
-}
+// void spin_left(void){
+//     right_off();
+//     left_on();
+// }
 
-void forward_on(void){
-    RIGHT_FORWARD_SPEED = TRUE_FWD_R;   // P6.3 Left Forward PWM duty cycle
-    LEFT_FORWARD_SPEED = TRUE_FWD_L;
-}
+// void spin_right(void){
+//     left_off();
+//     right_on();
+// }
 
-void forward_off(void){
-    RIGHT_FORWARD_SPEED = WHEEL_OFF;   // P6.3 Left Forward PWM duty cycle
-    LEFT_FORWARD_SPEED = WHEEL_OFF;
-}
+// void fwd_fast(void){
+//     RIGHT_FORWARD_SPEED = TRUE_FWD_R;   // P6.3 Left Forward PWM duty cycle
+//     LEFT_FORWARD_SPEED = TRUE_FWD_L;
+// }
 
-void reverse_on(void){
-    RIGHT_REVERSE_SPEED = TRUE_REV_R;   // P6.3 Left Forward PWM duty cycle
-    LEFT_REVERSE_SPEED = TRUE_REV_L;
-}
+// void fwd_off(void){
+//     RIGHT_FORWARD_SPEED = WHEEL_OFF;   // P6.3 Left Forward PWM duty cycle
+//     LEFT_FORWARD_SPEED = WHEEL_OFF;
+// }
 
-void reverse_off(void){
-    RIGHT_REVERSE_SPEED = WHEEL_OFF;   // P6.3 Left Forward PWM duty cycle
-    LEFT_REVERSE_SPEED = WHEEL_OFF;
-}
+// void rev_fast(void){
+//     RIGHT_REVERSE_SPEED = TRUE_REV_R;   // P6.3 Left Forward PWM duty cycle
+//     LEFT_REVERSE_SPEED = TRUE_REV_L;
+// }
 
-void left_on(void){
-    RIGHT_REVERSE_SPEED = TRUE_REV_R;   // P6.3 Left Forward PWM duty cycle
-    LEFT_FORWARD_SPEED = TRUE_REV_L;
-}
+// void rev_off(void){
+//     RIGHT_REVERSE_SPEED = WHEEL_OFF;   // P6.3 Left Forward PWM duty cycle
+//     LEFT_REVERSE_SPEED = WHEEL_OFF;
+// }
 
-void left_off(void){
-    RIGHT_REVERSE_SPEED = WHEEL_OFF;   // P6.3 Left Forward PWM duty cycle
-    LEFT_FORWARD_SPEED = WHEEL_OFF;
-}
+// void left_on(void){
+//     RIGHT_REVERSE_SPEED = TRUE_REV_R;   // P6.3 Left Forward PWM duty cycle
+//     LEFT_FORWARD_SPEED = TRUE_REV_L;
+// }
 
-void right_on(void){
-    RIGHT_FORWARD_SPEED = TRUE_REV_R;   // P6.3 Left Forward PWM duty cycle
-    LEFT_REVERSE_SPEED = TRUE_REV_L;
-}
+// void left_off(void){
+//     RIGHT_REVERSE_SPEED = WHEEL_OFF;   // P6.3 Left Forward PWM duty cycle
+//     LEFT_FORWARD_SPEED = WHEEL_OFF;
+// }
 
-void right_off(void){
-    RIGHT_FORWARD_SPEED = WHEEL_OFF;   // P6.3 Left Forward PWM duty cycle
-    LEFT_REVERSE_SPEED = WHEEL_OFF;
-}
+// void right_on(void){
+//     RIGHT_FORWARD_SPEED = TRUE_REV_R;   // P6.3 Left Forward PWM duty cycle
+//     LEFT_REVERSE_SPEED = TRUE_REV_L;
+// }
 
-// Both
-// There is NO Function to turn both Forward and Reverse ON at the same time because I don't want my car to blow up
-void motorsOFF(void){
-    forward_off();
-    reverse_off();
-}
+// void right_off(void){
+//     RIGHT_FORWARD_SPEED = WHEEL_OFF;   // P6.3 Left Forward PWM duty cycle
+//     LEFT_REVERSE_SPEED = WHEEL_OFF;
+// }
 
-
-
-
-// Slower
-void slow_forward(void){
-    reverse_off();
-    forward_slow();
-}
-
-void slow_backward(void){
-    forward_off();
-    reverse_slow();
-}
-
-//void slow_left(void){
-//    right_off();
-//    left_slow();
-//}
-//
-//void slow_right(void){
-//    left_off();
-//    right_slow();
-//}
-
-void forward_slow(void){
-    RIGHT_FORWARD_SPEED = SLOW_FWD_R;   // P6.3 Left Forward PWM duty cycle
-    LEFT_FORWARD_SPEED = SLOW_FWD_L;
-}
-
-void reverse_slow(void){
-    RIGHT_REVERSE_SPEED = SLOW_REV_R;   // P6.3 Left Forward PWM duty cycle
-    LEFT_REVERSE_SPEED = SLOW_REV_L;
-}
+// // Both
+// // There is NO Function to turn both Forward and Reverse ON at the same time because I don't want my car to blow up
+// void motorsOFF(void){
+//     fwd_off();
+//     rev_off();
+// }
 
 
 
+
+// // Slower
+// void slow_forward(void){
+//     rev_off();
+//     forward_slow();
+// }
+
+// void slow_backward(void){
+//     fwd_off();
+//     reverse_slow();
+// }
+
+// //void slow_left(void){
+// //    right_off();
+// //    left_slow();
+// //}
+// //
+// //void slow_right(void){
+// //    left_off();
+// //    right_slow();
+// //}
+
+// void forward_slow(void){
+//     RIGHT_FORWARD_SPEED = SLOW_FWD_R;   // P6.3 Left Forward PWM duty cycle
+//     LEFT_FORWARD_SPEED = SLOW_FWD_L;
+// }
+
+// void reverse_slow(void){
+//     RIGHT_REVERSE_SPEED = SLOW_REV_R;   // P6.3 Left Forward PWM duty cycle
+//     LEFT_REVERSE_SPEED = SLOW_REV_L;
+// }
 
 
 
@@ -498,17 +478,20 @@ void reverse_slow(void){
 
 
 
-// Magic Smoke Detector
-void vrfyDirection(void){
-    if(((P6IN & L_FORWARD) && (P6IN & L_REVERSE)) || ((P6IN & R_FORWARD) && (P6IN & R_REVERSE))){
-        // ISSUE: Both Left Forward and Reverse are on
-        P1OUT |= RED_LED;
-        motorsOFF(); // Turns off both left and right motor for the forward and reverse direction
-        strcpy(display_line[0], " Error!!! ");
-        strcpy(display_line[1], "MagicSmoke");
-        strcpy(display_line[2], "Move Fwd &");
-        strcpy(display_line[3], "Move Rev! ");
-        display_changed = TRUE;
 
-    }
-}
+
+
+// // Magic Smoke Detector
+// void vrfyDirection(void){
+//     if(((P6IN & L_FORWARD) && (P6IN & L_REVERSE)) || ((P6IN & R_FORWARD) && (P6IN & R_REVERSE))){
+//         // ISSUE: Both Left Forward and Reverse are on
+//         P1OUT |= RED_LED;
+//         motorsOFF(); // Turns off both left and right motor for the forward and reverse direction
+//         strcpy(display_line[0], " Error!!! ");
+//         strcpy(display_line[1], "MagicSmoke");
+//         strcpy(display_line[2], "Move Fwd &");
+//         strcpy(display_line[3], "Move Rev! ");
+//         display_changed = TRUE;
+
+//     }
+// }

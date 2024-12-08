@@ -1,5 +1,21 @@
+//===========================================================================
+//  File Name : ports.h
+//  Description: Macro Configurations for Ports
+//               This header file contains the port register definitions
+//  Programmer: Connor Savugot
+//  Date Created: Oct 14, 2024
+//===========================================================================
+#ifndef PORTS_H_
+#define PORTS_H_
 
-//PWM INFO
+// Global Variables
+//// Internally Defined
+short int p3_4_type;
+//// Externally Defined
+
+
+
+// Macro Definitions
 #define FALSE                  (0x00) //
 #define TRUE                   (0x01) //
 #define MOTOR                  (0x00) //
@@ -8,21 +24,17 @@
 #define PORTS                  (0x00) // RED LED 0
 #define PWM_MODE               (0x01) // GREEN LED 1
 #define WHEEL_OFF              (0x00)
-#define WHEEL_PERIOD          (50005)//Change to 50005
-#define RIGHT_FORWARD_SPEED (TB3CCR2)
-#define RIGHT_REVERSE_SPEED (TB3CCR4)
-#define LEFT_FORWARD_SPEED  (TB3CCR3)
-#define LEFT_REVERSE_SPEED  (TB3CCR5)
+#define WHEEL_PERIOD          (10000)
+
+#define LCD_BACKLITE_BRIGHTNESS (TB3CCR1)
+#define RIGHT_FORWARD_SPEED     (TB3CCR2)
+#define LEFT_FORWARD_SPEED      (TB3CCR3)
+#define RIGHT_REVERSE_SPEED     (TB3CCR4)
+#define LEFT_REVERSE_SPEED      (TB3CCR5)
+
 #define STEP                   (2000)
 #define FORWARD                (0x00) // FORWARD
 #define REVERSE                (0x01) // REVERSE
-#define PERCENT_100 (50000)
-#define PERCENT_80 (45000)
-#define PERCENT_0 (00000)
-#define LCD_BACKLITE_DIMING (TB3CCR1)
-#define PWM_PERIOD (TB3CCR0)
-
-
 
 // Port 1 Pins
 #define RED_LED                (0x01) // 1.0 RED LED 0
@@ -52,7 +64,7 @@
 #define SMCLK_OUT              (0x10) // 3.4 SMCLK
 #define DAC_CNTL               (0x20) // 3.5 DAC_CNTL
 #define IOT_LINK_GRN           (0x40) // 3.6 IOT_LINK_GRN
-#define IOT_EN                 (0x80) // 3.7 IOT_EN
+#define IOT_EN                 (0x80) // 3.7 IOT_EN              1
 
 // Port 4 Pins
 #define RESET_LCD              (0x01) // 4.0 RESET_LCD
@@ -69,7 +81,7 @@
 #define V_5_0                  (0x02) // 5.0 V_5_0
 #define V_DAC                  (0x04) // 5.2 V_DAC
 #define V_3_3                  (0x08) // 5.3 V_3_3
-#define IOT_BOOT               (0x10) // 5.4 IOT_BOOT
+#define IOT_BOOT               (0x10) // 5.4 IOT_BOOT           1
 
 // Port 6 Pins
 #define LCD_BACKLITE           (0x01) // 6.0 LCD_BACKLITE
@@ -79,3 +91,19 @@
 #define L_REVERSE              (0x10) // 6.3 P6_4_PWM
 #define P6_5                   (0x20) // 6.5
 #define GRN_LED                (0x40) // 6.6 GREEN LED
+
+
+
+// Function Declarations
+// Initialize Ports
+void Init_Ports(void);
+void Init_Port1(void);
+void Init_Port2(void);
+void Init_Port3(void);
+void Init_Port4(void);
+void Init_Port5(void);
+void Init_Port6(void);
+
+
+
+#endif /* PORTS_H_ */

@@ -1,20 +1,38 @@
-/*
- * Switches.c
- *
- *  Created on: Nov 21, 2024
- *      Author: Kayla Radu
- */
+/* Switches Program Information Header
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : switches.c
+  Description:  This file contains the code to control the 2 buttons (SW1 & SW2) on the MSP430 Board
+  Programmer: Connor Savugot
+//  Date Created: Sep 20, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
 
+/////////////// DEPRECATED CODE /////////////// DEPRECATED CODE ///////////////
+// This code was used BEFORE ISR's were implemented to better handle switches
+/////////////// DEPRECATED CODE /////////////// DEPRECATED CODE ///////////////
+
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
 #include  "ports.h"
 #include  "macros.h"
-#include "strings.h"
-#include "wheels.h"
-#include "Timers.h"
-//#include  "DAC.h"
-#include "switches.h"
+#include  "motors.h"
+#include  "Display.h"
+#include  "timers.h"
+#include  "interrupts.h"
+#include  "switches.h"
+#include  "ADC.h"
+#include  "IR.h"
+#include  "serial.h"
+#include  "DAC.h"
+#include  "menu.h"
+//// Libraries
+#include  <string.h>
+#include  <stdio.h>
+
+// Global Variables declared and referenced in Header file
 
 
 //Variable declarations==========================================================
@@ -27,7 +45,6 @@ unsigned int count_debounce_SW2;
 unsigned int shapes_count;
 extern char display_line[4][11];
 extern char *display[4];
-unsigned int event;
 volatile unsigned char display_changed;
 
 //===============================================================================

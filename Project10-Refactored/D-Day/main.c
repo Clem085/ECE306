@@ -1,23 +1,32 @@
-//------------------------------------------------------------------------------
-//
-//  Description: This file contains the Main Routine - "While" Operating System
-//
-//  Jim Carlson
-//  Jan 2023
-//  Built with Code Composer Version: CCS12.4.0.00007_win64
-//------------------------------------------------------------------------------
+/* Main Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : main.c
+  Description:  This file contains the Main Routine - "While" Operating System
+  Programmer: Connor Savugot
+  Date Created: Oct 14, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
 
-//------------------------------------------------------------------------------
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
 #include  "ports.h"
 #include  "macros.h"
-#include "strings.h"
-#include "wheels.h"
-#include "Timers.h"
+#include  "motors.h"
+#include  "Display.h"
+#include  "timers.h"
+#include  "interrupts.h"
+#include  "switches.h"
+#include  "ADC.h"
+#include  "IR.h"
+#include  "serial.h"
 #include  "DAC.h"
-#include "switches.h"
+#include  "menu.h"
+//// Libraries
+#include  <string.h>
+#include  <stdio.h>
 
 
 
@@ -77,9 +86,9 @@ extern unsigned int run_time;
 volatile char commanding_send;
 extern unsigned int run_time_flag;
 
-extern unsigned int ADC_Left_Detect;
-extern unsigned int ADC_Right_Detect;
-extern unsigned int ADC_thumb;
+extern volatile unsigned int ADC_Left_Detect;
+extern volatile unsigned int ADC_Right_Detect;
+extern volatile unsigned int ADC_thumb;
 unsigned int on_line;
 extern unsigned int transmit_done;
 unsigned int clear_display;
@@ -162,7 +171,7 @@ void main(void){
 
     transmit_state = WAIT;
 
-    motor_off();
+    motors_off();
     wheel_move = 0;
     forward = TRUE;
 
@@ -510,7 +519,7 @@ void main(void){
                             run_time = 0;
                             run_time_flag = 1;
 
-                            Off_Case();
+                            motors_off();
 
 
                             for (vv = 0; vv < 32; vv++){
@@ -529,7 +538,7 @@ void main(void){
                             run_time_flag = 1;
 
                             // BEFORE ARCH
-                            Off_Case();
+                            motors_off();
                             archState = 1;
                             arch_counter = 0;
 
@@ -561,7 +570,7 @@ void main(void){
             switch (commanding_send){
             case WAIT:
                 displayclr = 0;
-                motor_off();
+                motors_off();
                 // Unsure why this if statement exists, value always seems to be < 50
                 if (run_time < 50){
                     dispPrint(ssid_display, '1');
@@ -579,30 +588,28 @@ void main(void){
 
                 break;
             case FORWARDS:
-                //                motor_run_forward();
-                new_forward();
+                fwd_fast();
                 strcpy(tempStr,ip_display2);
                 strcat(tempStr,"F");
                 dispPrint(tempStr, '4');
                 display_changed = TRUE;
                 if (run_time > setTime){ // was originally 10
                     run_time_flag = 0;
-                    motor_off();
+                    motors_off();
                     run_time = 0;
                     commanding_send = WAIT;
                     movement = 0;
                 }
                 break;
             case BACK:
-                //                motor_run_backward();
-                new_backward();
+                rev_fast();
                 strcpy(tempStr,ip_display2);
                 strcat(tempStr,"B");
                 dispPrint(tempStr, '4');
                 display_changed = TRUE;
                 if (run_time > setTime){
                     run_time_flag = 0;
-                    motor_off();
+                    motors_off();
                     run_time = 0;
                     commanding_send = WAIT;
                     movement = 0;
@@ -612,7 +619,7 @@ void main(void){
                 }
                 break;
             case RIGHT:
-                motor_run_right();
+                right_fast();
                 strcpy(tempStr,ip_display2);
                 strcat(tempStr,"R");
                 dispPrint(tempStr, '4');
@@ -620,21 +627,21 @@ void main(void){
                 display_changed = TRUE;
                 if (run_time >= setTime){
                     run_time_flag = 0;
-                    motor_off();
+                    motors_off();
                     run_time = 0;
                     commanding_send = WAIT;
                     movement = 0;
                 }
                 break;
             case LEFT:
-                motor_run_left();
+                left_fast();
                 strcpy(tempStr,ip_display2);
                 strcat(tempStr,"L");
                 dispPrint(tempStr, '4');
                 display_changed = TRUE;
                 if (run_time >= setTime){
                     run_time_flag = 0;
-                    motor_off();
+                    motors_off();
                     run_time = 0;
                     commanding_send = WAIT;
                     movement = 0;
@@ -667,7 +674,7 @@ void main(void){
                 Display_complete();
                 if (run_time >= setTime){
                     run_time_flag = 0;
-                    motor_off();
+                    motors_off();
                     run_time = 0;
                     commanding_send = WAIT;
                     movement = 0;
@@ -683,7 +690,7 @@ void main(void){
                 }
                 if (run_time > 1){
                     run_time_flag = 0;
-                    motor_off();
+                    motors_off();
                     run_time = 0;
                     commanding_send = WAIT;
                     movement = 0;
@@ -699,7 +706,7 @@ void main(void){
                 strcpy(display[3],"          ");
                 display_changed = TRUE;
 
-                new_forward();
+                fwd_fast();
 //                strcpy(tempStr,ip_display2);
 //                strcat(tempStr,"e");
 //                dispPrint(tempStr, '4');
@@ -711,7 +718,7 @@ void main(void){
                     strcpy(display[2]," COMPLETE ");
                     strcpy(display[3],"          ");
                     run_time_flag = 0;
-                    motor_off();
+                    motors_off();
                     run_time = 0;
                     commanding_send = NONE;
                     movement = 0;
@@ -750,66 +757,11 @@ void main(void){
 
 
 
-
-// Aligns text to Middle of Display
-void dispPrint(char *line, char lineToUpdate) {
-    char tempLine[11]; // Temporary line buffer
-    int lineIndex = -1; // Index of the line to be updated
-
-    // Determine which line to update based on the input character (1-4)
-    switch (lineToUpdate) {
-    case '1':
-        lineIndex = 0;
-        break;
-    case '2':
-        lineIndex = 1;
-        break;
-    case '3':
-        lineIndex = 2;
-        break;
-    case '4':
-        lineIndex = 3;
-        break;
-    default:
-        // Handle invalid input
-        strcpy(display_line[0], "-Invalid--");
-        display_changed = TRUE;
-        return;
-    }
-
-    // If the provided line is not NULL, update the corresponding display line
-    if (line != NULL) {
-        int spaces = (10 - strlen(line)) >> 1; // Calculate spaces for centering
-        int i;
-        // Initialize tempLine with spaces
-        for (i = 0; i < 10; i++) {
-            tempLine[i] = ' ';
-        }
-        tempLine[10] = '\0'; // Null-terminate
-
-        // Copy the line string into the center of tempLine
-        strncpy(tempLine + spaces, line, strlen(line));
-
-        // Ensure the string is null-terminated
-        tempLine[10] = '\0'; // Null-terminate explicitly
-
-        // Copy the temporary line to the corresponding display line
-        strcpy(display_line[lineIndex], tempLine);
-
-        // Indicate that the display has changed
-        display_changed = TRUE;
-    } else {
-        // Handle null parameters by displaying an error message on the selected line
-        strcpy(display_line[lineIndex], " NULL Line ");
-        display_changed = TRUE;
-    }
-}
-
 void blacklinemachine(void){
     following = 1;
     switch(state){
     case WAIT:
-        Off_Case();
+        motors_off();
         strcpy(display_line[0], "   Start  ");
         display_changed = TRUE;
         FlagWait = TRUE;
@@ -865,7 +817,7 @@ void arch_movement(void){
     switch(archState){
     case 0: // WAIT CASE
         strcpy(display_line[3],"   WAIT   ");
-        Off_Case();
+        motors_off();
         if(motorDrain > 20*sec_wait){
             arch_counter = 0;
             motorDrain = 0;
@@ -878,7 +830,7 @@ void arch_movement(void){
         LEFT_FORWARD_SPEED = LSLOWCIRCLE; //LEFTARCHFWD; //
         RIGHT_FORWARD_SPEED = RSLOWCIRCLE; // RIGHTARCHFWD;
         if(arch_counter > 20*sec_fwd1){
-            Off_Case();
+            motors_off();
             arch_counter = 0;
             motorDrain = 0;
             archState = 0;
@@ -891,7 +843,7 @@ void arch_movement(void){
         LEFT_REVERSE_SPEED = LEFTARCHFWD;
         RIGHT_FORWARD_SPEED = RIGHTARCHFWD;
         if(arch_counter > 20*sec_spin){
-            Off_Case();
+            motors_off();
             archState = 0; // Enter Wait Case
             arch_counter = 0;
             motorDrain = 0;
@@ -904,7 +856,7 @@ void arch_movement(void){
         LEFT_FORWARD_SPEED = LSLOWCIRCLE; //LEFTARCHFWD;
         RIGHT_FORWARD_SPEED = RSLOWCIRCLE; //RIGHTARCHFWD;
         if(arch_counter > 20*sec_fwd2){
-            Off_Case();
+            motors_off();
             archState = 0; // Enter Wait Case
             arch_counter = 0;
             motorDrain = 0;
@@ -918,7 +870,7 @@ void arch_movement(void){
         LEFT_REVERSE_SPEED = LEFTARCHFWD;
         RIGHT_FORWARD_SPEED = RIGHTARCHFWD;
         if(arch_counter > 20*sec_spin){
-            Off_Case();
+            motors_off();
             archState = 0; // Enter Wait Case
             arch_counter = 0;
             motorDrain = 0;
@@ -932,7 +884,7 @@ void arch_movement(void){
         LEFT_FORWARD_SPEED = LSLOWCIRCLE; //LEFTARCHFWD;
         RIGHT_FORWARD_SPEED = RSLOWCIRCLE; //RIGHTARCHFWD;
         if(arch_counter > 20*sec_fwd3){
-            Off_Case();
+            motors_off();
             arch_counter = 0;
             archState = 0;
             state = START;
@@ -940,7 +892,7 @@ void arch_movement(void){
             display_changed = TRUE;
 
             run_time_flag = 0;
-            motor_off();
+            motors_off();
             run_time = 0;
             commanding_send = WAIT;
             movement = 0;
@@ -964,7 +916,7 @@ void initialMovementBL(void){
             strcpy(display_line[1], "          ");
             strcpy(display_line[2], "          ");
             strcpy(display_line[3], "          ");
-            motor_off();
+            motors_off();
             display_changed = TRUE;
             state = WAIT;
         }else{
@@ -974,14 +926,14 @@ void initialMovementBL(void){
     }
     case '1': {
         // FWD1
-        new_forward();
+        fwd_fast();
         //        slow_forward();
         dispPrint("FWD1: 5", '1');
         display_changed = TRUE;
         if (run_time > FWD1_DURATION){ // Change Hard Coded Value Based on Testing
             // Ensure Black Line still runs fine after this
             run_time_flag = 0;
-            motor_off();
+            motors_off();
             // STATE MACHINE
             if(init_cmd_state==0){
                 init_cmd_state++;
@@ -989,7 +941,7 @@ void initialMovementBL(void){
                 strcpy(display_line[1], "          ");
                 strcpy(display_line[2], "          ");
                 strcpy(display_line[3], "          ");
-                motor_off();
+                motors_off();
                 display_changed = TRUE;
                 state = WAIT;
             }else{
@@ -1001,13 +953,13 @@ void initialMovementBL(void){
     }
     case '2': {
         // FWD2
-        new_forward();
+        fwd_fast();
         //        slow_forward();
         dispPrint("FWD2: 9", '1');
         display_changed = TRUE;
         if (run_time > FWD2_DURATION){ // Change Hard Coded Value Based on Testing
             run_time_flag = 0;
-            //            motor_off();
+            //            motors_off();
 
             //            commanding_send = INTERCEPT;
             movement = 0;
@@ -1018,7 +970,7 @@ void initialMovementBL(void){
                 strcpy(display_line[1], "          ");
                 strcpy(display_line[2], "          ");
                 strcpy(display_line[3], "          ");
-                motor_off();
+                motors_off();
                 display_changed = TRUE;
                 state = WAIT;
             }else{
@@ -1035,7 +987,7 @@ void initialMovementBL(void){
         display_changed = TRUE;
         if (run_time > BACK1_DURATION){ // Change Hard Coded Value Based on Testing
             run_time_flag = 0;
-            //            motor_off();
+            //            motors_off();
             //            run_time = 0;
             //            commanding_send = WAIT;
             movement = 0;
@@ -1046,7 +998,7 @@ void initialMovementBL(void){
                 strcpy(display_line[1], "          ");
                 strcpy(display_line[2], "          ");
                 strcpy(display_line[3], "          ");
-                motor_off();
+                motors_off();
                 display_changed = TRUE;
                 state = WAIT;
             }else{
@@ -1059,12 +1011,12 @@ void initialMovementBL(void){
     case '4':{
         // BACK2
         //        slow_backward();
-        new_backward();
+        rev_fast();
         dispPrint("BACK2: 9", '1');
         display_changed = TRUE;
         if (run_time > BACK2_DURATION){ // Change Hard Coded Value Based on Testing
             run_time_flag = 0;
-            motor_off();
+            motors_off();
             //            run_time = 0;
             //            commanding_send = WAIT;
             movement = 0;
@@ -1075,7 +1027,7 @@ void initialMovementBL(void){
                 strcpy(display_line[1], "          ");
                 strcpy(display_line[2], "          ");
                 strcpy(display_line[3], "          ");
-                motor_off();
+                motors_off();
                 display_changed = TRUE;
                 state = WAIT;
             }else{
@@ -1087,12 +1039,12 @@ void initialMovementBL(void){
     }
     case '5':{
         // 180
-        new_left();
+        spin_left();
         dispPrint("180", '1');
         display_changed = TRUE;
         if (run_time > S180_DURATION){ // Change Hard Coded Value Based on Testing
             run_time_flag = 0;
-            motor_off();
+            motors_off();
             //            run_time = 0;
             //            commanding_send = WAIT;
             movement = 0;
@@ -1103,7 +1055,7 @@ void initialMovementBL(void){
                 strcpy(display_line[1], "          ");
                 strcpy(display_line[2], "          ");
                 strcpy(display_line[3], "          ");
-                motor_off();
+                motors_off();
                 display_changed = TRUE;
                 state = WAIT;
             }else{
@@ -1117,11 +1069,11 @@ void initialMovementBL(void){
         // LEFT1
         switch(init_cmd_state){
         case 0: {
-            new_left();
+            spin_left();
             dispPrint("LEFT1 LEFT", '1');
             display_changed = TRUE;
             if (run_time > LEFT1_DURATION_LEFT){ // Change Hard Coded Value Based on Testing
-                motor_off();
+                motors_off();
                 movement = 0;
                 init_cmd_state++;
                 run_time = 0;
@@ -1132,12 +1084,12 @@ void initialMovementBL(void){
         }
         case 1: {
             //            slow_forward();
-            new_forward();
+            fwd_fast();
             dispPrint("LEFT1 FWD", '1');
             display_changed = TRUE;
             if (run_time > LEFT1_DURATION_FWD){ // Change Hard Coded Value Based on Testing
                 run_time_flag = 0;
-                motor_off();
+                motors_off();
                 //                run_time = 0;
                 //                commanding_send = WAIT;
                 movement = 0;
@@ -1148,7 +1100,7 @@ void initialMovementBL(void){
                     strcpy(display_line[1], "          ");
                     strcpy(display_line[2], "          ");
                     strcpy(display_line[3], "          ");
-                    motor_off();
+                    motors_off();
                     display_changed = TRUE;
                     state = WAIT;
                 }else{
@@ -1167,11 +1119,11 @@ void initialMovementBL(void){
         // LEFT2
         switch(init_cmd_state){
         case 0: {
-            new_left();
+            spin_left();
             dispPrint("LEFT2 LEFT", '1');
             display_changed = TRUE;
             if (run_time > LEFT2_DURATION_LEFT){ // Change Hard Coded Value Based on Testing
-                motor_off();
+                motors_off();
                 movement = 0;
                 init_cmd_state++;
                 run_time = 0;
@@ -1183,12 +1135,12 @@ void initialMovementBL(void){
         }
         case 1: {
             //            slow_forward();
-            new_forward();
+            fwd_fast();
             dispPrint("LEFT2 FWD", '1');
             display_changed = TRUE;
             if (run_time > LEFT2_DURATION_FWD){ // Change Hard Coded Value Based on Testing
                 run_time_flag = 0;
-                motor_off();
+                motors_off();
                 //                run_time = 0;
                 //                    commanding_send = WAIT;
                 movement = 0;
@@ -1199,7 +1151,7 @@ void initialMovementBL(void){
                     strcpy(display_line[1], "          ");
                     strcpy(display_line[2], "          ");
                     strcpy(display_line[3], "          ");
-                    motor_off();
+                    motors_off();
                     display_changed = TRUE;
                     state = WAIT;
                 }else{
@@ -1219,11 +1171,11 @@ void initialMovementBL(void){
         // RIGHT1
         switch(init_cmd_state){
         case 0: {
-            new_right();
+            spin_right();
             dispPrint("RIGHT1 RIGHT", '1');
             display_changed = TRUE;
             if (run_time > RIGHT1_DURATION_RIGHT){ // Change Hard Coded Value Based on Testing
-                motor_off();
+                motors_off();
                 movement = 0;
                 init_cmd_state++;
                 run_time = 0;
@@ -1235,12 +1187,12 @@ void initialMovementBL(void){
         }
         case 1: {
             //            slow_forward();
-            new_forward();
+            fwd_fast();
             dispPrint("RIGHT1 FWD", '1');
             display_changed = TRUE;
             if (run_time > RIGHT1_DURATION_FWD){ // Change Hard Coded Value Based on Testing
                 run_time_flag = 0;
-                motor_off();
+                motors_off();
                 //                run_time = 0;
                 //                        commanding_send = WAIT;
                 movement = 0;
@@ -1251,7 +1203,7 @@ void initialMovementBL(void){
                     strcpy(display_line[1], "          ");
                     strcpy(display_line[2], "          ");
                     strcpy(display_line[3], "          ");
-                    motor_off();
+                    motors_off();
                     display_changed = TRUE;
                     state = WAIT;
                 }else{
@@ -1270,11 +1222,11 @@ void initialMovementBL(void){
         // RIGHT2
         switch(init_cmd_state){
         case 0: {
-            new_right();
+            spin_right();
             dispPrint("RIGHT2 RIGHT", '1');
             display_changed = TRUE;
             if (run_time > RIGHT2_DURATION_RIGHT){ // Change Hard Coded Value Based on Testing
-                motor_off();
+                motors_off();
                 movement = 0;
                 init_cmd_state++;
                 run_time = 0;
@@ -1285,12 +1237,12 @@ void initialMovementBL(void){
         }
         case 1: {
             //            slow_forward();
-            new_forward();
+            fwd_fast();
             dispPrint("RIGHT2 FWD", '1');
             display_changed = TRUE;
             if (run_time > RIGHT2_DURATION_FWD){ // Change Hard Coded Value Based on Testing
                 run_time_flag = 0;
-                motor_off();
+                motors_off();
                 //                run_time = 0;
                 //                            commanding_send = WAIT;
                 movement = 0;
@@ -1301,7 +1253,7 @@ void initialMovementBL(void){
                     strcpy(display_line[1], "          ");
                     strcpy(display_line[2], "          ");
                     strcpy(display_line[3], "          ");
-                    motor_off();
+                    motors_off();
                     display_changed = TRUE;
                     state = WAIT;
                 }else{

@@ -8,16 +8,24 @@
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
+// #include as of 11-08-24
+// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
 #include  "ports.h"
 #include  "macros.h"
-#include "strings.h"
-#include "wheels.h"
-#include "Timers.h"
-//#include  "DAC.h"
-#include "switches.h"
+#include  "motors.h"
+#include  "Display.h"
+#include  "timers.h"
+#include  "switches.h"
+#include  "ADC.h"
+#include  "IR.h"
+#include  "serial.h"
+#include  "DAC.h"
+// Libraries
+#include  <string.h>
+#include  <stdio.h>
 
 void enable_interrupts(void);
 
@@ -44,3 +52,4 @@ void enable_interrupts(void){
 //void disable_interrupts(void){
 //  asm volatile ("dint \n");
 //}
+

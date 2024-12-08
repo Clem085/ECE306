@@ -1,25 +1,50 @@
-/*
- * init.c
- *
- *  Created on: Nov 21, 2024
- *      Author: Kayla Radu
- */
+/* Initialize Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : init.c
+  Description:  This file contains the Initialization sequences for many of the boards and processes used in this project.
+  Programmer: Connor Savugot
+  Date Created: Sep 12, 2024
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
+
+// #include as of 11-10-24
+//// Header Files
 #include  "msp430.h"
 #include  "functions.h"
 #include  "LCD.h"
 #include  "ports.h"
 #include  "macros.h"
-#include "strings.h"
-#include "wheels.h"
-#include "Timers.h"
+#include  "motors.h"
+#include  "Display.h"
+#include  "timers.h"
+#include  "interrupts.h"
+#include  "switches.h"
+#include  "ADC.h"
+#include  "IR.h"
+#include  "serial.h"
+#include  "DAC.h"
+#include  "menu.h"
+//// Libraries
+#include  <string.h>
+#include  <stdio.h>
 
-#include "switches.h"
 
-
-
-extern volatile unsigned char update_display;
+//Variables
+// No Header File.
 extern char display_line[4][11];
 extern char *display[4];
+extern volatile unsigned char update_display;
+extern volatile unsigned char display_changed;
+unsigned char display_mode;
+extern unsigned int count_debounce_SW1;
+extern unsigned int count_debounce_SW2;
+extern char IR_status;
+extern char ADC_Update;
+extern char ADC_Display;
+extern char state;
+extern char light_percent;
+extern char DAC_overflow_counter;
+
 
 void Init_Conditions(void){
 //------------------------------------------------------------------------------
@@ -45,6 +70,13 @@ void Init_Conditions(void){
 
 // Interrupts are disabled by default, enable them.
   enable_interrupts();
+
+  count_debounce_SW1 = 0;
+  count_debounce_SW2 = 0;
+  DAC_overflow_counter = 0;
+
+  P1OUT  &= ~RED_LED; // Set Red LED Off
+  P6OUT  &= ~GRN_LED; // Set Green LED Off
+
 //------------------------------------------------------------------------------
 }
-

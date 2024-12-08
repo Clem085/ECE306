@@ -19,7 +19,14 @@ extern volatile unsigned char display_changed;
 extern volatile unsigned char update_display;
 extern int Switch_Counter1;
 extern char adc_char[10];
-
+// NEW
+extern char sheet;
+extern unsigned int ir_setting;
+extern volatile unsigned int ADC_Left_Detect;
+extern volatile unsigned int ADC_Right_Detect;
+extern unsigned int black_low;
+extern unsigned int black_high;
+extern unsigned int ir_one_time;
 
 
 // Macro Definitions
