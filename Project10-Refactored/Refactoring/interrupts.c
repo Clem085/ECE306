@@ -50,9 +50,6 @@ __interrupt void ADC_ISR(void){
     case ADCIV_ADCINIFG: // Window comparator interrupt flag
         break;
     case ADCIV_ADCIFG: // ADCMEM0 memory register with the conversion result
-
-
-
         ADCCTL0 &= ~ADCENC; // Disable ENC bit.
         switch (ADC_Channel++){
                 case 0:                                   // Channel A2 Interrupt
@@ -61,33 +58,20 @@ __interrupt void ADC_ISR(void){
 
                     ADC_Left_Detect = ADCMEM0;               // Move result into Global Values
                     ADC_Left_Detect = ADC_Left_Detect >> 2;  // Divide the result by 4
-        //            HexToBCD(ADC_Left_Detect);
-        //            adc_line(2,2);
-
-
                     break;
-
                 case 1:                                   // Channel A3 Interrupt
                     ADCMCTL0 &= ~ADCINCH_3;                  // Disable Last channel A2
                     ADCMCTL0 |=  ADCINCH_5;                  // Enable Next channel A1
 
                     ADC_Right_Detect = ADCMEM0;              // Move result into Global Values
                     ADC_Right_Detect = ADC_Right_Detect >> 2;// Divide the result by 4
-        //            HexToBCD(ADC_Right_Detect);
-        //            adc_line(3,3);
-
                     break;
-
                 case 2:                                   // Channel A1 Interrupt
                     ADCMCTL0 &= ~ADCINCH_5;                  // Disable Last channel A?
                     ADCMCTL0 |= ADCINCH_2;                   // Enable Next [First] channel 2
 
                     ADC_thumb = ADCMEM0;                     // Move result into Global Values
                     ADC_thumb = ADC_thumb >> 2;              // Divide the result by 4
-        //            HexToBCD(ADC_Thumb);
-        //            adc_line(4,4);
-
-
                     ADC_Channel = 0;
                     break;
 
@@ -111,10 +95,7 @@ __interrupt void ADC_ISR(void){
 /// /// Timer Interrupts /// /// Timer Interrupts /// /// Timer Interrupts /// ///
 //------------------------------------------------------------------------------
 // Globals Initialized here with Values
-unsigned int DimFlag = TRUE;
-unsigned int FlagSpinL = FALSE;
-unsigned int FlagSpinR = FALSE;
-unsigned int FlagWait = FALSE;
+unsigned int pause_flag = FALSE;
 unsigned int pingcount = 0;
 
 #pragma vector = TIMER0_B0_VECTOR
@@ -131,7 +112,7 @@ __interrupt void Timer0_B0_ISR(void){
         update_display = TRUE;
 
         CCR0_counter +=1;
-        iot_on_time++;
+        iot_boot_time++;
     }
 
     if(pingcount++ == 100){
@@ -139,36 +120,6 @@ __interrupt void Timer0_B0_ISR(void){
         ping = !ping;
         pingcount = 0;
     }
-
-    if(lostflg){
-        lostCounter++;
-        P1OUT |= RED_LED;
-    }else{
-        lostCounter = 0;
-    }
-
-    if(DimFlag == TRUE){
-        if(Blink_counter++ >= 4){
-            Blink_counter = 0;
-            LCD_BACKLITE_BRIGHTNESS = PERCENT_80; //Flips on
-
-        }
-    }
-
-    if(run_time_flag){
-        P6OUT ^= GRN_LED;
-        run_time++;
-    }
-
-
-    if(FlagSpinR == TRUE){
-        SpincountR++;
-    }
-
-    if(FlagWait == TRUE){
-        Waitcount++;
-    }
-
 
     if(arch_counter++ > 65534){
         arch_counter = 0;
@@ -179,8 +130,22 @@ __interrupt void Timer0_B0_ISR(void){
         motorDrain = 0;
     }
 
-    TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
+    if(moving_flag){
+        P6OUT ^= GRN_LED;
+        moving++;
+    }
 
+    if(pause_flag == TRUE){
+        pause_count++;
+    }
+
+    if(white_flag){
+        white_counter++;
+        P1OUT |= RED_LED;
+    }else{
+        white_counter = 0;
+    }
+    TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
     //----------------------------------------------------------------------------
 }
 
@@ -238,24 +203,8 @@ __interrupt void switch1_interrupt(void){
         TB0CCTL1 |= CCIE;//Enable TimerB0_1
         //P6OUT &= ~LCD_BACKLITE;
         TB0CCTL0 &= ~CCIE;
-//        P2OUT &= ~IR_LED; // Initial Value = Low / Off
-//        P2DIR |= IR_LED; // Direction = input
-
-//        transmit_state = TRANSMIT;
-//        switchpressed = ON;
-//                state = WAIT;
-
-
         clear_display = 1;
         USCI_A0_transmit();
-//        while(NCSU_str[t] != '\0'){
-//            UCA0_transmit(NCSU_str[t]);
-//            t++;
-//        }
-        //            UCA0_transmit(NCSU_str[t]);
-//        t = 0;
-
-
     }
 //------------------------------------------------------------------------------
 }
@@ -287,25 +236,7 @@ __interrupt void switch2_interrupt(void){
             UCA0BRW = 4;                    // 115,200 baud
             UCA0MCTLW = 0x5551;
         }
-
-
-
         clear_display = 1;
-//        USCI_A0_transmit();
-//        USCI_A0_transmit();
-//        while(NCSU_str[t] != '\0'){
-//            UCA0_transmit(NCSU_str[t]);
-//            t++;
-//        }
-//        //            UCA0_transmit(NCSU_str[t]);
-//        t = 0;
-
-        //display_changed = TRUE;
-        //Disable Switch 2
-        //Clear Switch 2 Flag
-        //Clear TimerB0 Interrupt Flag for Capture Compare Register 2
-        //Add Interval to TB0R for TB0CCR2
-        //Enable TimerB0_2
     }
 //------------------------------------------------------------------------------
 }

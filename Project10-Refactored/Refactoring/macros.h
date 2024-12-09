@@ -19,9 +19,9 @@
 
 // State Machines
 #define BLK_DETECTED ('D')
-#define SPIN ('$')
-#define TRACK ('T')
-#define PAUSE_TRACK ('P')
+#define PARALLEL ('p')
+#define FOLLOW ('F')
+#define PAUSE_FOLLOW ('P')
 #define INTERCEPT ('I')
 #define IRCONF ('C')
 #define SLOWRIGHT ('s')
@@ -32,7 +32,7 @@
 #define FORWARDS ('F')
 #define FIND ('f')
 #define BACK ('B')
-#define ARRIVED ('A')
+#define PAD_MESSAGE ('M')
 
 // Debounce
 #define PRESSED (0)

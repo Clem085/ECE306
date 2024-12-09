@@ -39,7 +39,6 @@ unsigned int display_count;
 unsigned char display_changed;
 extern char display_line[4][11];
 unsigned char update_display;
-char one_time;
 unsigned int Time_Sequence;
 unsigned int tmr_ms_count;
 

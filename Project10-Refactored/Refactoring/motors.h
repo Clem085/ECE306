@@ -12,12 +12,6 @@
 //// Internally Defined
 ////// Counters
 unsigned int Time_Sequence;
-unsigned int delay_start;
-unsigned int left_motor_count;
-unsigned int right_motor_count;
-unsigned int segment_count;
-unsigned int waitingtostart;
-unsigned char origevent;
 ////// Arch Variables
 unsigned int arch_counter;
 unsigned int archNext;
@@ -30,18 +24,16 @@ unsigned int following;
 
 //// Externally Defined
 extern char command;
-extern unsigned int run_time;
-extern unsigned int run_time_flag;
-extern unsigned int movement;
-extern unsigned int setTime;
+extern unsigned int moving;
+extern unsigned int moving_flag;
+extern unsigned int movement_flag;
+extern unsigned int stopMoving;
 extern char display_line[4][11];
 extern char *display[4];
 extern unsigned char display_changed;
-extern unsigned char update_display;
 extern unsigned int ADC_Left_Detect;
 extern unsigned int ADC_Right_Detect;
-extern unsigned int FlagSpinR;
-extern unsigned int FlagWait;
+extern unsigned int pause_flag;
 extern unsigned int state;
 extern unsigned int black_low;
 extern unsigned int black_high;
@@ -51,26 +43,14 @@ extern unsigned int black_high;
 
 // Macro Definitions
 //// Old #defines
-#define WHEEL_COUNT_TIME (10)
-#define RIGHT_COUNT_TIME (7)
-#define LEFT_COUNT_TIME (8)
-#define WAITING2START (50)
-#define ONESEC (5)
 #define NONE ('N')
 #define RIGHT (1)
 #define LEFT (0)
 #define PAUSE (200) // originally 20, changed to 200 for TA Demo
-#define FORWARDSPEED (12000)
-#define SPINSPEED (15000)
-#define TURNSPEED (10000)
-#define SPEED1 (10000)
-#define STRAIGHTMOVE (10000)
 #define RIGHTARCHFWD (26000) //26000
 #define LEFTARCHFWD (20000)  //20000
 #define RSLOWCIRCLE (35000) // 35000
 #define LSLOWCIRCLE (25000) // 25000
-#define TWOMIN (2400)
-
 
 // PWM1 Values
 // REMEMBER
@@ -102,6 +82,8 @@ void spin_left_off(void);
 void spin_right_off(void);
 void fwd_slow(void);
 void rev_slow(void);
+void left_slow(void);
+void right_slow(void);
 void fwd_fast(void);
 void rev_fast(void);
 void left_fast(void);
@@ -110,8 +92,15 @@ void spin_left(void);
 void spin_right(void);
 //// Project 10 Movements
 void arch_movement(void);
-void blacklinemachine(void);
+void black_line(void);
 void initialMovementBL(void);
+//// Black Line FOLLOWing
+void line_search(void);
+void line_found(void);
+void parallel_park(void);
+void follow_pause(void);
+void follow_line(void);
+
 //// Magic Smoke Detection
 void vrfyDirection(void);
 

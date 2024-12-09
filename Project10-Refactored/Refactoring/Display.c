@@ -58,25 +58,15 @@ void Clear_Display(void){
     display_changed = TRUE;
 }
 
+void print_pad_message(void){
+    char pad_str[2];
+    char pad_message_str[10];
+    pad_str[0] = pad_number;
+    pad_str[1] = '\0';
 
-void Display_complete(void){
-    char temp[11]; // Temporary buffer to format the string
-    // Format the string manually
-    temp[0] = 'A';
-    temp[1] = 'R';
-    temp[2] = 'R';
-    temp[3] = 'I';
-    temp[4] = 'V';
-    temp[5] = 'E';
-    temp[6] = 'D';
-    temp[7] = ' ';
-    temp[8] = '0'; // Space after the number
-    temp[9] = sheet; // Place the `sheet` character
-    temp[10] = '\0'; // Null terminator
-
-    // Copy the formatted string into the display line
-    strcpy(display_line[0], temp);
-    display_changed = TRUE;
+    strcpy(pad_message_str, "ARRIVED0"); // Reset before concatenation
+    strcat(pad_message_str, pad_str); // Concatenate formatted string
+    dispPrint(pad_message_str, '1');
 }
 
 void ir_conf_display(void){

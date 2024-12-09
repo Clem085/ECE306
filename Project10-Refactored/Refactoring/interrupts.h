@@ -20,39 +20,24 @@ unsigned char display_changed;
 unsigned int display_count;
 unsigned char display_changed;
 unsigned char update_display;
-char one_time;
 unsigned int Time_Sequence;
 unsigned int CCR0_counter;
-unsigned int iot_on_time;
-char transmit_state;
+unsigned int iot_boot_time;
 unsigned int system_initialization;
-unsigned int run_time;
-unsigned int run_time_flag;
-unsigned int Blink_counter;
+unsigned int moving;
+unsigned int moving_flag;
 ////// Switch Interrupts
-unsigned int display_count;
-unsigned char display_changed;
-unsigned char update_display;
-char one_time;
-unsigned int Time_Sequence;
-//unsigned int event;
-unsigned int t;
 unsigned int baud_toggle;
-char transmit_state;
 
 //// Externally Defined
 ////// Timer Interrupts
 extern char display_line[4][11];
-extern unsigned int debounce_statesw1;
-extern unsigned int debounce_statesw2;
 extern unsigned int count_debounce_SW1;
 extern unsigned int count_debounce_SW2;
-extern unsigned int SpincountL;
-extern unsigned int SpincountR;
-extern unsigned int Waitcount;
+extern unsigned int pause_count;
 extern unsigned int ping;
-extern unsigned int lostCounter;
-extern unsigned int lostflg;
+extern unsigned int white_counter;
+extern unsigned int white_flag;
 extern unsigned int arch_counter;
 extern unsigned int motorDrain;
 ////// Switch Interrupts

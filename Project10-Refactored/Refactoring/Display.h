@@ -18,7 +18,7 @@ extern unsigned char display_changed;
 extern unsigned char update_display;
 extern char *display[4];
 extern char display_line[4][11];
-extern char sheet;
+extern char pad_number;
 extern unsigned int ir_setting;
 extern unsigned int ADC_Left_Detect;
 extern unsigned int ADC_Right_Detect;
@@ -40,7 +40,7 @@ void dispPrint(char *line, char lineToUpdate);
 void adc_line(char line, char location);
 void PWM_backlight(void);
 void Clear_Display(void);
-void Display_complete(void);
+void print_pad_message(void);
 void ir_conf_display(void);
 
 

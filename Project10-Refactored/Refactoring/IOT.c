@@ -30,16 +30,16 @@
 #include <string.h>
 
 // Most Global Variables are Stored in IOT.h, but those with an initial Value are stored here.
-char stop_save_sett[] = "AT+SYSSTORE=0\r\n";
-char update_conn_sett[] = "AT+CIPMUX=1\r\n";
-char conf_server[] = "AT+CIPSERVER=1,8080\r\n";
-char SSID_access[] = "AT+CWJAP?\r\n";
-char IP_access[] = "AT+CIFSR\r\n";
-char check_okay[] = "AT\r\n";
-char pinging1[] = "AT+PING=\"www.google.com\"\r\n";
-char pinging2[] = "AT+PING=\"www.whitehouse.gov\"\r\n";
+char IOT_message_1[] = "AT+SYSSTORE=0\r\n";
+char IOT_message_2[] = "AT+CIPMUX=1\r\n";
+char IOT_message_3[] = "AT+CIPSERVER=1,7777\r\n";
+char IOT_message_4[] = "AT+CWJAP?\r\n";
+char IOT_message_5[] = "AT+CIFSR\r\n";
+char IOT_message_6[] = "AT\r\n";
+char IOT_message_7[] = "AT+PING=\"www.google.com\"\r\n";
+char IOT_message_8[] = "AT+PING=\"www.whitehouse.gov\"\r\n";
 char pin[] = "0819";
-char sheet = '0';
+char pad_number = '0';
 unsigned int ir_setting = 0;
 unsigned int black_low = 500;
 unsigned int black_high = 600;
@@ -52,13 +52,13 @@ void clear_display_buffer(void) {
 void iot_process(void){
     switch (system_initialization){
     case 0:
-        if(iot_on_time < 15){
+        if(iot_boot_time < 15){
             iot_on();
         }
-        else if(iot_on_time < 30){
+        else if(iot_boot_time < 30){
             iot_parsing_counter = 1;
         }
-        else if(iot_on_time < 50){
+        else if(iot_boot_time < 50){
             iot_boot_sequence();
         }
         break;
@@ -81,7 +81,7 @@ void iot_process(void){
         case WAIT:
             display_clear_flag = 0;
             motors_off();
-            if(run_time < 50){
+            if(moving < 50){
                 dispPrint(ssid_display, '1');
                 dispPrint("IP address", '2');
                 dispPrint(ip_display1, '3');
@@ -95,12 +95,12 @@ void iot_process(void){
             strcat(tempStr, "F");
             dispPrint(tempStr, '4');
             display_changed = TRUE;
-            if(run_time > setTime){ // was originally 10
-                run_time_flag = 0;
+            if(moving > stopMoving){ // was originally 10
+                moving_flag = 0;
                 motors_off();
-                run_time = 0;
+                moving = 0;
                 command = WAIT;
-                movement = 0;
+                movement_flag = 0;
             }
             break;
         case BACK:
@@ -109,12 +109,12 @@ void iot_process(void){
             strcat(tempStr, "B");
             dispPrint(tempStr, '4');
             display_changed = TRUE;
-            if(run_time > setTime){
-                run_time_flag = 0;
+            if(moving > stopMoving){
+                moving_flag = 0;
                 motors_off();
-                run_time = 0;
+                moving = 0;
                 command = WAIT;
-                movement = 0;
+                movement_flag = 0;
                 strcpy(display_line[0], "  BL STOP ");
                 strcpy(display_line[1], "D-DAY OVER");
                 display_changed = TRUE;
@@ -127,12 +127,12 @@ void iot_process(void){
             dispPrint(tempStr, '4');
             display_changed = TRUE;
             display_changed = TRUE;
-            if(run_time >= setTime){
-                run_time_flag = 0;
+            if(moving >= stopMoving){
+                moving_flag = 0;
                 motors_off();
-                run_time = 0;
+                moving = 0;
                 command = WAIT;
-                movement = 0;
+                movement_flag = 0;
             }
             break;
         case LEFT:
@@ -141,12 +141,12 @@ void iot_process(void){
             strcat(tempStr, "L");
             dispPrint(tempStr, '4');
             display_changed = TRUE;
-            if(run_time >= setTime){
-                run_time_flag = 0;
+            if(moving >= stopMoving){
+                moving_flag = 0;
                 motors_off();
-                run_time = 0;
+                moving = 0;
                 command = WAIT;
-                movement = 0;
+                movement_flag = 0;
             }
             break;
 
@@ -163,17 +163,17 @@ void iot_process(void){
             initialMovementBL();
 
             break;
-        case ARRIVED:
+        case PAD_MESSAGE:
             // make the display cleared
             strcpy(display_line[0], "          ");
             display_changed = TRUE;
-            Display_complete();
-            if(run_time >= setTime){
-                run_time_flag = 0;
+            print_pad_message();
+            if(moving >= stopMoving){
+                moving_flag = 0;
                 motors_off();
-                run_time = 0;
+                moving = 0;
                 command = WAIT;
-                movement = 0;
+                movement_flag = 0;
             }
 
             break;
@@ -184,12 +184,12 @@ void iot_process(void){
                 dispPrint("Waiting", '3');
                 dispPrint("For Input", '4');
             }
-            if(run_time > 1){
-                run_time_flag = 0;
+            if(moving > 1){
+                moving_flag = 0;
                 motors_off();
-                run_time = 0;
+                moving = 0;
                 command = WAIT;
-                movement = 0;
+                movement_flag = 0;
             }
             break;
 
@@ -206,21 +206,21 @@ void iot_process(void){
             //                strcat(tempStr,"e");
             //                dispPrint(tempStr, '4');
 
-            if(run_time > setTime * 10){
+            if(moving > stopMoving * 10){
                 strcpy(display_line[0], "  BL Stop ");
                 strcpy(display_line[1], "  306 IS  ");
                 strcpy(display_line[2], " COMPLETE ");
                 strcpy(display_line[3], "          ");
-                run_time_flag = 0;
+                moving_flag = 0;
                 motors_off();
-                run_time = 0;
+                moving = 0;
                 command = NONE;
-                movement = 0;
+                movement_flag = 0;
             }
             break;
 
         case SLOWRIGHT:
-            strcpy(display_line[0], "Arrived 08");
+            strcpy(display_line[0], "PAD_MESSAGE 08");
             display_changed = TRUE;
 
             arch_movement();
@@ -237,7 +237,7 @@ void iot_process(void){
 }
 
 void iot_on(void){
-    if(iot_on_time <= 10){
+    if(iot_boot_time <= 10){
         strcpy(display_line[0], "   IOT    ");
         strcpy(display_line[1], "   OFF    ");
         strcpy(display_line[2], "          ");
@@ -262,7 +262,7 @@ void iot_boot_sequence(void){
         display_changed = TRUE;
         if(iot_TX_buf[response_index++] == '\r'){
             if(iot_TX_buf[response_index - 2] == 'P'){
-                strcpy(IOT_Ring_Rx, stop_save_sett);
+                strcpy(IOT_Ring_Rx, IOT_message_1);
                 UCA1IE |= UCTXIE;
                 system_initialization = 2;
                 response_index = 0;
@@ -281,7 +281,7 @@ void iot_boot_sequence(void){
         if(iot_TX_buf[response_index++] == '\r'){
             if(iot_TX_buf[response_index - 2] == 'K'){
                 tx_index = 0;
-                strcpy(IOT_Ring_Rx, update_conn_sett);
+                strcpy(IOT_Ring_Rx, IOT_message_2);
                 UCA1IE |= UCTXIE;
                 system_initialization = 3;
                 response_index = 0;
@@ -303,7 +303,7 @@ void iot_boot_sequence(void){
             iot_parsing_counter = 0;
             if(iot_TX_buf[response_index - 10] == 'X'){
                 tx_index = 0;
-                strcpy(IOT_Ring_Rx, conf_server);
+                strcpy(IOT_Ring_Rx, IOT_message_3);
                 UCA1IE |= UCTXIE;
                 system_initialization = 4;
                 response_index = 0;
@@ -326,7 +326,7 @@ void iot_boot_sequence(void){
             //                if(response_index-9 < 0){
             if(iot_TX_buf[response_index + 23] == '8'){
                 tx_index = 0;
-                strcpy(IOT_Ring_Rx, SSID_access);
+                strcpy(IOT_Ring_Rx, IOT_message_4);
                 UCA1IE |= UCTXIE;
                 system_initialization = 5;
                 response_index = 0;
@@ -360,7 +360,7 @@ void iot_boot_sequence(void){
             iot_parsing_counter = 0;
             if(iot_TX_buf[response_index - 9] == ','){
                 tx_index = 0;
-                strcpy(IOT_Ring_Rx, IP_access);
+                strcpy(IOT_Ring_Rx, IOT_message_5);
                 UCA1IE |= UCTXIE;
                 system_initialization = 7;
                 response_index = 0;
@@ -383,7 +383,7 @@ void iot_boot_sequence(void){
             iot_parsing_counter = 0;
             if(iot_TX_buf[response_index - 8] == '"'){
                 tx_index = 0;
-                strcpy(IOT_Ring_Rx, check_okay);
+                strcpy(IOT_Ring_Rx, IOT_message_6);
                 UCA1IE |= UCTXIE;
                 system_initialization = 8;
                 response_index = 0;
@@ -411,11 +411,11 @@ void iot_boot_sequence(void){
 void iot_command_parse(void){
     switch (iot_TX_buf[response_index]){
     case 'F':
-        if(!movement){
-            setTime = (int)iot_TX_buf[response_index + 1] - '0';
-            run_time_flag = 1;
+        if(!movement_flag){
+            stopMoving = (int)iot_TX_buf[response_index + 1] - '0';
+            moving_flag = 1;
             command = FORWARDS;
-            run_time = 0;
+            moving = 0;
             for(iot_parsing_counter = 0; iot_parsing_counter < 32; iot_parsing_counter++){
                 iot_TX_buf[iot_parsing_counter] = 0;
             }
@@ -423,11 +423,11 @@ void iot_command_parse(void){
         break;
 
     case 'B':
-        if(!movement){
-            setTime = (int)iot_TX_buf[response_index + 1] - '0';
-            run_time_flag = 1;
+        if(!movement_flag){
+            stopMoving = (int)iot_TX_buf[response_index + 1] - '0';
+            moving_flag = 1;
             command = BACK;
-            run_time = 0;
+            moving = 0;
             for(iot_parsing_counter = 0; iot_parsing_counter < 32; iot_parsing_counter++){
                 iot_TX_buf[iot_parsing_counter] = 0;
             }
@@ -435,11 +435,11 @@ void iot_command_parse(void){
         break;
 
     case 'R':
-        if(!movement){
-            setTime = (int)iot_TX_buf[response_index + 1] - '0';
-            run_time_flag = 1;
+        if(!movement_flag){
+            stopMoving = (int)iot_TX_buf[response_index + 1] - '0';
+            moving_flag = 1;
             command = RIGHT;
-            run_time = 0;
+            moving = 0;
             for(iot_parsing_counter = 0; iot_parsing_counter < 32; iot_parsing_counter++){
                 iot_TX_buf[iot_parsing_counter] = 0;
             }
@@ -447,30 +447,21 @@ void iot_command_parse(void){
         break;
 
     case 'L':
-        if(!movement){
-            setTime = (int)iot_TX_buf[response_index + 1] - '0';
-            run_time_flag = 1;
+        if(!movement_flag){
+            stopMoving = (int)iot_TX_buf[response_index + 1] - '0';
+            moving_flag = 1;
             command = LEFT;
-            run_time = 0;
-            clear_display_buffer();
-        }
-        break;
-
-    case 'S':
-        if(!movement){
-            setTime = (int)iot_TX_buf[response_index + 1] - '0';
-            command = WAIT;
-            run_time = 0;
+            moving = 0;
             clear_display_buffer();
         }
         break;
 
     case 'I':
-        if(!movement){
-            setTime = iot_TX_buf[response_index + 1];
+        if(!movement_flag){
+            stopMoving = iot_TX_buf[response_index + 1];
             command = INTERCEPT;
-            run_time = 0;
-            run_time_flag = 1;
+            moving = 0;
+            moving_flag = 1;
             init_cmd_state = 0;
             state = WAIT;
             clear_display_buffer();
@@ -478,22 +469,22 @@ void iot_command_parse(void){
         break;
 
     case 'A':
-        if(!movement){
-            setTime = 10;
-            sheet = iot_TX_buf[response_index + 1];
-            command = ARRIVED;
-            run_time = 0;
+        if(!movement_flag){
+            stopMoving = 10;
+            pad_number = iot_TX_buf[response_index + 1];
+            command = PAD_MESSAGE;
+            moving = 0;
 
             clear_display_buffer();
         }
         break;
 
     case 'C':
-        if(!movement){
-            setTime = 10;
+        if(!movement_flag){
+            stopMoving = 10;
             ir_setting = (int)iot_TX_buf[response_index + 1] - '0'; // 0=Clear Config, 1=Set Black Low, 2=Set Black High
             command = IRCONF;
-            run_time = 0;
+            moving = 0;
             ir_first = TRUE;
             Clear_Display();
 
@@ -503,12 +494,12 @@ void iot_command_parse(void){
 
     case 'e':
         // DANGER WARNING
-        if(!movement){
-            setTime = (int)iot_TX_buf[response_index + 1] - '0';
+        if(!movement_flag){
+            stopMoving = (int)iot_TX_buf[response_index + 1] - '0';
 
             command = EXIT; // END
-            run_time = 0;
-            run_time_flag = 1;
+            moving = 0;
+            moving_flag = 1;
             motors_off();
 
             clear_display_buffer();
@@ -516,11 +507,11 @@ void iot_command_parse(void){
         break;
 
     case 's':
-        if(!movement){
-            setTime = (int)iot_TX_buf[response_index + 1] - '0'; // 0=Clear Config, 1=Set Black Low, 2=Set Black High
+        if(!movement_flag){
+            stopMoving = (int)iot_TX_buf[response_index + 1] - '0'; // 0=Clear Config, 1=Set Black Low, 2=Set Black High
             command = SLOWRIGHT;
-            run_time = 0;
-            run_time_flag = 1;
+            moving = 0;
+            moving_flag = 1;
 
             // BEFORE ARCH
             motors_off();

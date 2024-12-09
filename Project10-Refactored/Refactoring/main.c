@@ -33,23 +33,17 @@
 
 // Global Variables
 //// Internally Defined
-char slow_input_down;
-char forward;
 char command;
-unsigned int wheel_move;
 unsigned int state;
 unsigned int clear_display;
 unsigned int iot_start_count;
-char process_buffer[25];
 
 //// Externally Defined
-extern char display_line[4][11];
-extern unsigned char display_changed;
 extern unsigned int display_clear_flag;
 extern unsigned int SW1_Okay;
 extern unsigned int debounce_Status_SW1;
-extern unsigned char update_display;
-extern char transmit_state;  // Corrected and added
+extern unsigned int SW2_Okay;
+extern unsigned int debounce_Status_SW2;
 
 void main(void){
     //    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
@@ -73,13 +67,12 @@ void main(void){
 
     Clear_Display();
     USCI_A0_transmit();
-    transmit_state = WAIT;
     motors_off();
-    wheel_move = 0;
-    forward = TRUE;
     SW1_Okay = 1;
     debounce_Status_SW1 = 1;
-    iot_on_time = 0;
+    SW2_Okay = 1;
+    debounce_Status_SW2 = 1;
+    iot_boot_time = 0;
     command = WAIT;
     state = WAIT; // For Black Line
     P2OUT |= IR_LED; // Turn on IR Led

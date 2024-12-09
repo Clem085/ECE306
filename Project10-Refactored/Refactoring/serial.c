@@ -55,7 +55,6 @@ extern unsigned int clear_display;
 char display_line[4][11];
 unsigned char update_display;
 unsigned char display_changed;
-char transmit_state;
 unsigned int ssid_index = 0;
 unsigned int ip_index1 = 0;
 unsigned int ip_index2 = 0;
@@ -66,8 +65,8 @@ unsigned int group1_flag;
 unsigned int group2_flag;
 unsigned int ping = 0;
 unsigned int prevping = 0;
-extern char pinging1;
-extern char pinging2;
+extern char IOT_message_7;
+extern char IOT_message_8;
 
 int moore = 0;
 
@@ -141,10 +140,8 @@ __interrupt void eUSCI_A0_ISR(void){
     case 0:                                         // Vector 0 - no interruot
         break;
     case 2:                                        // Vector 2 - RXIFG
-//        transmit_state = RECEIVE;
         iot_receive = UCA0RXBUF;
         temp1 = iot_receive;
-//        Rx_display[iot_rx_wr] = iot_receive;
         if(temp1 != 0x00){
             UCA1TXBUF = temp1;
             iot_TX_buf[iot_rx_wr] = temp1;
@@ -249,12 +246,12 @@ void ping_function(void){
         //P6OUT ^= GRN_LED;
         tx_index = 0;
         if(ping){
-            strcpy(IOT_Ring_Rx, (char *)pinging1); // Casted to constant (removes Volatile) in resolve warnings.
+            strcpy(IOT_Ring_Rx, (char *)IOT_message_7); // Casted to constant (removes Volatile) in resolve warnings.
             UCA1IE |= UCTXIE;
             prevping = ping;
         }
         else{
-            strcpy(IOT_Ring_Rx, (char *)pinging1); // Casted to constant (removes Volatile) in resolve warnings.
+            strcpy(IOT_Ring_Rx, (char *)IOT_message_7); // Casted to constant (removes Volatile) in resolve warnings.
             UCA1IE |= UCTXIE;
             prevping = ping;
         }

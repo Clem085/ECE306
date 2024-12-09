@@ -22,14 +22,14 @@ char ip_display1[10];
 char ip_display2[10];
 int iot_parsing_counter;
 unsigned int response_index;
-unsigned int movement;
-unsigned int setTime;
+unsigned int movement_flag;
+unsigned int stopMoving;
 
 //// Externally Defined
 extern unsigned int ADC_Left_Detect;
 extern unsigned int ADC_Right_Detect;
 extern unsigned int system_initialization;
-extern unsigned int iot_on_time;
+extern unsigned int iot_boot_time;
 extern unsigned int state;
 
 // Macro Definitions
