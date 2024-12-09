@@ -82,16 +82,16 @@ void iot_process(void){
             display_clear_flag = 0;
             motors_off();
             if(run_time < 50){
-                dispPrint(ssid_display, '1');
+                dispPrint(ssid_string, '1');
                 dispPrint("IP address", '2');
-                dispPrint(ip_display1, '3');
-                dispPrint(ip_display2, '4');
+                dispPrint(ip_string1, '3');
+                dispPrint(ip_string2, '4');
                 display_changed = TRUE;
             }
             break;
         case FORWARDS:
             fwd_fast();
-            strcpy(tempStr, ip_display2);
+            strcpy(tempStr, ip_string2);
             strcat(tempStr, "F");
             dispPrint(tempStr, '4');
             display_changed = TRUE;
@@ -105,7 +105,7 @@ void iot_process(void){
             break;
         case BACK:
             rev_fast();
-            strcpy(tempStr, ip_display2);
+            strcpy(tempStr, ip_string2);
             strcat(tempStr, "B");
             dispPrint(tempStr, '4');
             display_changed = TRUE;
@@ -122,7 +122,7 @@ void iot_process(void){
             break;
         case RIGHT:
             spin_right();
-            strcpy(tempStr, ip_display2);
+            strcpy(tempStr, ip_string2);
             strcat(tempStr, "R");
             dispPrint(tempStr, '4');
             display_changed = TRUE;
@@ -137,7 +137,7 @@ void iot_process(void){
             break;
         case LEFT:
             spin_left();
-            strcpy(tempStr, ip_display2);
+            strcpy(tempStr, ip_string2);
             strcat(tempStr, "L");
             dispPrint(tempStr, '4');
             display_changed = TRUE;
@@ -202,7 +202,7 @@ void iot_process(void){
             display_changed = TRUE;
 
             fwd_fast();
-            //                strcpy(tempStr,ip_display2);
+            //                strcpy(tempStr,ip_string2);
             //                strcat(tempStr,"e");
             //                dispPrint(tempStr, '4');
 

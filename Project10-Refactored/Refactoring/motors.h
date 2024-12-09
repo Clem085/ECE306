@@ -10,6 +10,14 @@
 
 // Global Variables
 //// Internally Defined
+////// Counters
+unsigned int Time_Sequence;
+unsigned int delay_start;
+unsigned int left_motor_count;
+unsigned int right_motor_count;
+unsigned int segment_count;
+unsigned int waitingtostart;
+unsigned char origevent;
 ////// Arch Variables
 unsigned int arch_counter;
 unsigned int archNext;
@@ -26,6 +34,17 @@ extern unsigned int run_time;
 extern unsigned int run_time_flag;
 extern unsigned int movement;
 extern unsigned int setTime;
+extern char display_line[4][11];
+extern char *display[4];
+extern unsigned char display_changed;
+extern unsigned char update_display;
+extern unsigned int ADC_Left_Detect;
+extern unsigned int ADC_Right_Detect;
+extern unsigned int FlagSpinR;
+extern unsigned int FlagWait;
+extern unsigned int state;
+extern unsigned int black_low;
+extern unsigned int black_high;
 
 
 

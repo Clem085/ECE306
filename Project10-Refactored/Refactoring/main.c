@@ -46,8 +46,8 @@ char process_buffer[25];
 extern char display_line[4][11];
 extern unsigned char display_changed;
 extern unsigned int display_clear_flag;
-extern unsigned int okay_to_look_at_switch1;
-extern unsigned int sw1_position;
+extern unsigned int SW1_Okay;
+extern unsigned int debounce_Status_SW1;
 extern unsigned char update_display;
 extern char transmit_state;  // Corrected and added
 
@@ -77,8 +77,8 @@ void main(void){
     motors_off();
     wheel_move = 0;
     forward = TRUE;
-    okay_to_look_at_switch1 = 1;
-    sw1_position = 1;
+    SW1_Okay = 1;
+    debounce_Status_SW1 = 1;
     iot_on_time = 0;
     command = WAIT;
     state = WAIT; // For Black Line

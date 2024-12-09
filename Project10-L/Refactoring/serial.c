@@ -39,9 +39,9 @@ extern unsigned char PC_2_IOT[16];
 extern char USB_Ring_Rx[16];
 extern char IOT_Ring_Rx[32];
 extern char Rx_display[16];
-extern char ssid_display[10];
-extern char ip_display1[10];
-extern char ip_display2[10];
+extern char ssid_string[10];
+extern char ip_string1[10];
+extern char ip_string2[10];
 extern char iot_TX_buf[32];
 extern unsigned int direct_iot;
 unsigned int iot_tx;
@@ -59,8 +59,8 @@ char transmit_state;
 unsigned int ssid_index = 0;
 unsigned int ip_index1 = 0;
 unsigned int ip_index2 = 0;
-unsigned int ssid_record_flag;
-unsigned int ip_record_flag;
+unsigned int ssid_flag;
+unsigned int ip_flag;
 unsigned int period_record;
 unsigned int group1_flag;
 unsigned int group2_flag;
@@ -149,61 +149,38 @@ __interrupt void eUSCI_A0_ISR(void){
         temp1 = iot_receive;
 //        Rx_display[iot_rx_wr] = iot_receive;
         if(temp1 != 0x00){
-
-
-//                if(ssid_index >= 4){
-//                    ssid_display[ssid_index++] = ' ';
-//                }
-//                else{
-//
-//                    if(temp1 == '"' || temp1 == 'T'){
-//                        ssid_display[ssid_index++] = ' ';
-//                    }else{
-//                        ssid_display[ssid_index++] = temp1;
-//                    }
-//                    if(temp1 == '"'){
-//                        ssid_record_flag = 0;
-//                    }
-//                    else if(ssid_index == 10){
-//                        ssid_record_flag = 0;
-//                    }
-//                }
-
-
             UCA1TXBUF = temp1;
             iot_TX_buf[iot_rx_wr] = temp1;
-            if(ssid_record_flag){
+            if(ssid_flag){
 
                 if(temp1 != '"'){
-                    ssid_display[ssid_index++] = temp1;
+                    ssid_string[ssid_index++] = temp1;
                 }
 
                 if(temp1 == '"'){
-                    ssid_record_flag = 0;
+                    ssid_flag = 0;
                 }
                 else if(ssid_index == 10){
-                    ssid_record_flag = 0;
+                    ssid_flag = 0;
                 }
-
             }
             if(ssid_index < 10){
                 if(iot_TX_buf[iot_rx_wr - 1] == ':' && iot_TX_buf[iot_rx_wr] == '"'){
-                    ssid_record_flag = 1;
+                    ssid_flag = 1;
                 }
             }
-
-            if(ip_record_flag){
+            if(ip_flag){
                 if(period_record < 3){
                     if(temp1 == '.'){
                         period_record++;
                     }
                 }
                 if(group1_flag){
-                    ip_display1[ip_index1++] = temp1;
+                    ip_string1[ip_index1++] = temp1;
                 }
                 if(group2_flag){
                     if(temp1 != '"'){
-                        ip_display2[ip_index2++] = temp1;
+                        ip_string2[ip_index2++] = temp1;
                     }
                 }
 
@@ -213,14 +190,14 @@ __interrupt void eUSCI_A0_ISR(void){
                 }
 
                 if(temp1 == '"'){
-                    ip_record_flag = 0;
+                    ip_flag = 0;
                 }
             }
 
             if(ip_index1 == 0){
                 if(iot_TX_buf[iot_rx_wr - 2] == 'P' && iot_TX_buf[iot_rx_wr - 1] == ',' && iot_TX_buf[iot_rx_wr] == '"'){
                     group1_flag = 1;
-                    ip_record_flag = 1;
+                    ip_flag = 1;
                 }
             }
             iot_rx_wr++;
@@ -232,21 +209,10 @@ __interrupt void eUSCI_A0_ISR(void){
         if(iot_rx_wr >= sizeof(iot_TX_buf)){
             iot_rx_wr = BEGINNING;
         }
-//        UCA1IE |= UCTXIE;         // Enable Tx interrupt
-//        UCA0TXBUF = iot_receive;
         break;
 
     case 4:{                                         // Vector 4 - TXIFG
 
-        // Comment this out because I am no longer doing the serial for it...
-//        UCA0TXBUF = iot_TX_buf[iot_tx];
-//        iot_TX_buf[iot_tx++] = 0x00;
-//        if(iot_TX_buf[iot_tx] == 0x00){
-//        UCA0IE &= ~UCTXIE;
-//        iot_tx = 0;
-//        transmit_done = 1;
-//        clear_display = 0;
-//        }
     } break;
 
     default: break;
@@ -266,19 +232,6 @@ __interrupt void eUSCI_A1_ISR(void){
     case 2:{                                    //Vector 2 - RX1IFG
         temp = UCA1RXBUF;
         UCA0TXBUF = temp;
-
-
-//        IOT_Ring_Rx[iot_rx_wr++] = temp; // Add to Ring Buffer
-//        if(iot_rx_wr >= sizeof(IOT_Ring_Rx)){
-//        iot_rx_wr = BEGINNING;
-
-
-//        if(IOT_Ring_Rx == 0x00){
-//            int aiml = 0;
-//            while (IOT_Ring_Rx[aiml] == 0x00){
-//                IOT_Ring_Rx[aiml++] = 0;
-//            }
-//        }
     }break;
 
     case 4:{                                    // Vector 4 - TX1IFG
@@ -290,18 +243,7 @@ __interrupt void eUSCI_A1_ISR(void){
                 transmit_done = 1;
                 clear_display = 0;
         }
-
-//        UCA1TXBUF = temp;
-//        UCA1TXBUF = iot_TX_buf[iot_tx];
-//        iot_TX_buf[iot_tx++] = 0;
-//        if(iot_TX_buf[iot_tx] == 0x00){
-//        UCA1IE &= ~UCTXIE;
-//        iot_tx = 0;
-//        transmit_done = 1;
-//        clear_display = 0;
-//        }
     }break;
-
     default: break;
     }
 }

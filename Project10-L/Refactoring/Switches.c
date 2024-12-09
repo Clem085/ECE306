@@ -37,10 +37,10 @@
 
 
 //Variable declarations==========================================================
-unsigned int okay_to_look_at_switch1;
+unsigned int sw1_okay;
 unsigned int sw1_position;
 unsigned int count_debounce_SW1;
-unsigned int okay_to_look_at_switch2;
+unsigned int sw2_okay;
 unsigned int sw2_position;
 unsigned int count_debounce_SW2;
 unsigned int shapes_count;
@@ -49,15 +49,8 @@ extern char *display[4];
 unsigned int event;
 unsigned char display_changed;
 
-//===============================================================================
 
-//Function declarations==========================================================
 
-void Switches_Process(void);
-void Switch1_Process(void);
-void Switch2_Process(void);
-
-//===============================================================================
 
 void Switches_Process(void){
 //------------------------------------------------------------------------------
@@ -73,10 +66,10 @@ void Switch1_Process(void){
 //------------------------------------------------------------------------------
 // Switch 1 Configurations
 //------------------------------------------------------------------------------
-    if(okay_to_look_at_switch1 && sw1_position){
+    if(sw1_okay && sw1_position){
         if(!(P4IN & SW1)){
             sw1_position = PRESSED;
-            okay_to_look_at_switch1 = NOT_OKAY;
+            sw1_okay = NOT_OKAY;
             count_debounce_SW1 = DEBOUNCE_RESTART;
 
             UCA0BRW = 4;                    // 115,200 baud
@@ -90,7 +83,7 @@ void Switch1_Process(void){
     if(count_debounce_SW1 <= DEBOUNCE_TIME){
         count_debounce_SW1++;
     }else{
-        okay_to_look_at_switch1 = OKAY;
+        sw1_okay = OKAY;
         if(P4IN & SW1){
             sw1_position = RELEASED;
         }
@@ -104,10 +97,10 @@ void Switch2_Process(void){
 //------------------------------------------------------------------------------
 // Switch 2 Configurations
 //------------------------------------------------------------------------------
-    if(okay_to_look_at_switch2 && sw2_position){
+    if(sw2_okay && sw2_position){
         if(!(P2IN & SW2)){
             sw2_position = PRESSED;
-            okay_to_look_at_switch2 = NOT_OKAY;
+            sw2_okay = NOT_OKAY;
             count_debounce_SW2 = DEBOUNCE_RESTART;
 
         }
@@ -115,7 +108,7 @@ void Switch2_Process(void){
     if(count_debounce_SW2 <= DEBOUNCE_TIME){
         count_debounce_SW2++;
     }else{
-        okay_to_look_at_switch2 = OKAY;
+        sw2_okay = OKAY;
         if(P2IN & SW2){
             sw2_position = RELEASED;
         }

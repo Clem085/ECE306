@@ -17,9 +17,9 @@ unsigned int system_initialization;
 unsigned int tx_index;
 char IOT_Ring_Rx[32]; // LARGE_RING_SIZE
 char iot_TX_buf[32]; // LARGE_RING_SIZE
-char ssid_display[10];
-char ip_display1[10];
-char ip_display2[10];
+char ssid_string[10];
+char ip_string1[10];
+char ip_string2[10];
 int iot_parsing_counter;
 unsigned int response_index;
 unsigned int movement;

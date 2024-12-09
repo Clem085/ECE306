@@ -31,70 +31,59 @@
 
 // Global Variables declared and referenced in Header file
 
+//unsigned int Time_Sequence;
+//
+//unsigned int delay_start;
+//unsigned int left_motor_count;
+//unsigned int right_motor_count;
+//unsigned int segment_count;
+//
+//
+//unsigned int waitingtostart;
+//extern unsigned int rdirection = 0;
+//extern unsigned int ldirection = 0;
+//unsigned char origevent;
+//extern unsigned int elapsed_time = 0;
+//extern unsigned int desiredtime= 0;
+//extern unsigned int desired_cycles = 0;
+//
+//extern char display_line[4][11];
+//extern char *display[4];
+//extern unsigned char display_changed;
+//extern unsigned char update_display;
+//
+//extern unsigned int ADC_Left_Detect;
+//extern unsigned int ADC_Right_Detect;
+//
+//unsigned int SpincountL = 0;
+//unsigned int SpincountR = 0;
+//unsigned int Waitcount = 0;
+//extern unsigned int FlagSpinR;
+//extern unsigned int FlagWait;
+//unsigned int DirectionTurn = 0;
+//
+//extern unsigned int state;
+//
+//unsigned int lostCounter = 0;
+//unsigned int lostflg = 0;
+//
+//extern unsigned int black_low;
+//extern unsigned int black_high;
 
 
 
-
-
-
-//unsigned char event;
-extern unsigned int event_Counter;
-extern unsigned int Last_Time_Sequence;
-extern unsigned int cycle_time;
-extern unsigned int time_change;
-unsigned int Time_Sequence;
-
-unsigned int delay_start;
-unsigned int left_motor_count;
-unsigned int right_motor_count;
-unsigned int segment_count;
-
-
-unsigned int waitingtostart;
-extern unsigned int rdirection = 0;
-extern unsigned int ldirection = 0;
-extern unsigned int instruction;
-unsigned char origevent;
-extern unsigned int elapsed_time = 0;
-extern unsigned int desiredtime= 0;
-extern unsigned int desired_cycles = 0;
-
-extern char display_line[4][11];
-extern char *display[4];
-extern unsigned char display_changed;
-extern unsigned char update_display;
-extern unsigned int switchpressed;
-extern unsigned int instruction;
-
-extern unsigned int blackleft;
-extern unsigned int blackright;
-extern unsigned int blacklinefound;
-
-extern unsigned int ADC_Left_Detect;
-extern unsigned int ADC_Right_Detect;
-
+// Initialized with a value
 unsigned int SpincountL = 0;
 unsigned int SpincountR = 0;
 unsigned int Waitcount = 0;
-extern unsigned int FlagSpinL;
-extern unsigned int FlagSpinR;
-extern unsigned int FlagWait;
 unsigned int DirectionTurn = 0;
-
-extern unsigned int state;
-
 unsigned int lostCounter = 0;
 unsigned int lostflg = 0;
-
-extern unsigned int black_low;
-extern unsigned int black_high;
-
-
-
-
-
-
-
+unsigned int rdirection = 0;
+unsigned int ldirection = 0;
+unsigned int elapsed_time = 0;
+unsigned int desiredtime = 0;
+unsigned int desired_cycles = 0;
 
 
 // Motor  // Black Line Following // START //

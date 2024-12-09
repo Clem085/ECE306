@@ -81,9 +81,6 @@ void USCI_A1_transmit(void){
     UCA1IE |= UCTXIE;       // Enable TX interrupt
 }
 
-
-
-
 void Init_Serial_UCA0(void){
     //------------------------------------------------------------------------------
     //                                                      TX error (%) RX error (%)
@@ -149,27 +146,6 @@ __interrupt void eUSCI_A0_ISR(void){
         temp1 = iot_receive;
 //        Rx_display[iot_rx_wr] = iot_receive;
         if(temp1 != 0x00){
-
-
-//                if(ssid_index >= 4){
-//                    ssid_display[ssid_index++] = ' ';
-//                }
-//                else{
-//
-//                    if(temp1 == '"' || temp1 == 'T'){
-//                        ssid_display[ssid_index++] = ' ';
-//                    }else{
-//                        ssid_display[ssid_index++] = temp1;
-//                    }
-//                    if(temp1 == '"'){
-//                        ssid_record_flag = 0;
-//                    }
-//                    else if(ssid_index == 10){
-//                        ssid_record_flag = 0;
-//                    }
-//                }
-
-
             UCA1TXBUF = temp1;
             iot_TX_buf[iot_rx_wr] = temp1;
             if(ssid_record_flag){
@@ -225,32 +201,16 @@ __interrupt void eUSCI_A0_ISR(void){
             }
             iot_rx_wr++;
         }
-
-
-
-//        IOT_Ring_Rx[iot_rx_wr++] = iot_receive;     // Add to Ring Buffer
         if(iot_rx_wr >= sizeof(iot_TX_buf)){
             iot_rx_wr = BEGINNING;
         }
-//        UCA1IE |= UCTXIE;         // Enable Tx interrupt
-//        UCA0TXBUF = iot_receive;
         break;
 
     case 4:{                                         // Vector 4 - TXIFG
-
         // Comment this out because I am no longer doing the serial for it...
-//        UCA0TXBUF = iot_TX_buf[iot_tx];
-//        iot_TX_buf[iot_tx++] = 0x00;
-//        if(iot_TX_buf[iot_tx] == 0x00){
-//        UCA0IE &= ~UCTXIE;
-//        iot_tx = 0;
-//        transmit_done = 1;
-//        clear_display = 0;
-//        }
     } break;
 
     default: break;
-
     }
 }
 
@@ -266,19 +226,6 @@ __interrupt void eUSCI_A1_ISR(void){
     case 2:{                                    //Vector 2 - RX1IFG
         temp = UCA1RXBUF;
         UCA0TXBUF = temp;
-
-
-//        IOT_Ring_Rx[iot_rx_wr++] = temp; // Add to Ring Buffer
-//        if(iot_rx_wr >= sizeof(IOT_Ring_Rx)){
-//        iot_rx_wr = BEGINNING;
-
-
-//        if(IOT_Ring_Rx == 0x00){
-//            int aiml = 0;
-//            while (IOT_Ring_Rx[aiml] == 0x00){
-//                IOT_Ring_Rx[aiml++] = 0;
-//            }
-//        }
     }break;
 
     case 4:{                                    // Vector 4 - TX1IFG
@@ -290,16 +237,6 @@ __interrupt void eUSCI_A1_ISR(void){
                 transmit_done = 1;
                 clear_display = 0;
         }
-
-//        UCA1TXBUF = temp;
-//        UCA1TXBUF = iot_TX_buf[iot_tx];
-//        iot_TX_buf[iot_tx++] = 0;
-//        if(iot_TX_buf[iot_tx] == 0x00){
-//        UCA1IE &= ~UCTXIE;
-//        iot_tx = 0;
-//        transmit_done = 1;
-//        clear_display = 0;
-//        }
     }break;
 
     default: break;

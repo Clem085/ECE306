@@ -28,4 +28,5 @@ void ping_function(void);
 void USCI_A0_transmit(void);
 void USCI_A1_transmit(void);
 
+
 #endif /* SERIAL_H_ */
