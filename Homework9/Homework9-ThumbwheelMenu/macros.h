@@ -77,9 +77,7 @@
 #define ON                     ('1')
 // #define SW1 (0x02) // Switch 1
 
-// Port 3 Pin 4 Behavior
-#define USE_GPIO    (0x00)
-#define USE_SMCLK   (0x01)
+
 
 
 

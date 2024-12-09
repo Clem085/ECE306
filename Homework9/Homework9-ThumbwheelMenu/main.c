@@ -111,7 +111,7 @@ void main(void){
     p3_4_type = USE_GPIO;
     Init_Ports();                        // Initialize Ports
     Init_Clocks();                       // Initialize Clock System
-    Init_Conditions();            // Initialize Variables and Initial Conditions
+    Init_Conditions();                   // Initialize Variables and Initial Conditions
     Init_Timers();                       // Initialize Timers
     Init_LCD();                          // Initialize LCD
     Init_ADC();                          // Initialize ADC
