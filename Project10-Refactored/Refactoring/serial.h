@@ -10,9 +10,31 @@
 
 // Global Variables
 //// Internally Defined
-
+unsigned int iot_rx_wr;
+unsigned int iot_tx;
+unsigned int iot_receive;
+unsigned int serial_char;
+unsigned int iot_char;
+char serial_rx_wr;
+unsigned int transmit_done;
+unsigned char display_changed;
+unsigned int ssid_record_flag;
+unsigned int ip_record_flag;
+unsigned int period_record;
+unsigned int ip1_flag;
+unsigned int ip2_flag;
+unsigned int ssid_index;
+unsigned int ip_index1;
+unsigned int ip_index2;
+unsigned int ping;
 //// Externally Defined
-
+extern unsigned int tx_index;
+extern char IOT_Ring_Rx[32];
+extern char ssid_display[10];
+extern char ip_display1[10];
+extern char ip_display2[10];
+extern char iot_TX_buf[32];
+extern unsigned int clear_display;
 
 
 // Macro Definitions

@@ -30,45 +30,7 @@
 #include <string.h>
 
 // Global Variables declared and referenced in Header file
-
-
-unsigned int iot_rx_wr;
-extern unsigned int tx_index;
-extern unsigned char IOT_2_PC[16];
-extern unsigned char PC_2_IOT[16];
-extern char USB_Ring_Rx[16];
-extern char IOT_Ring_Rx[32];
-extern char Rx_display[16];
-extern char ssid_display[10];
-extern char ip_display1[10];
-extern char ip_display2[10];
-extern char iot_TX_buf[32];
-extern unsigned int direct_iot;
-unsigned int iot_tx;
-extern unsigned int usb_rx_wr;
-unsigned int iot_receive;
-unsigned int temp;
-unsigned int temp1;
-char pb_index;
-unsigned int transmit_done;
-extern unsigned int clear_display;
-char display_line[4][11];
-unsigned char update_display;
-unsigned char display_changed;
-unsigned int ssid_index = 0;
-unsigned int ip_index1 = 0;
-unsigned int ip_index2 = 0;
-unsigned int ssid_record_flag;
-unsigned int ip_record_flag;
-unsigned int period_record;
-unsigned int group1_flag;
-unsigned int group2_flag;
-unsigned int ping = 0;
-unsigned int prevping = 0;
 extern char IOT_message_7;
-extern char IOT_message_8;
-
-int moore = 0;
 
 void USCI_A0_transmit(void){
     iot_rx_wr = 0;        // Set Array index to first location
@@ -76,7 +38,7 @@ void USCI_A0_transmit(void){
 }
 
 void USCI_A1_transmit(void){
-    pb_index = 0;           // Set Array index to first location
+    serial_rx_wr = 0;           // Set Array index to first location
     UCA1IE |= UCTXIE;       // Enable TX interrupt
 }
 
@@ -141,17 +103,17 @@ __interrupt void eUSCI_A0_ISR(void){
         break;
     case 2:                                        // Vector 2 - RXIFG
         iot_receive = UCA0RXBUF;
-        temp1 = iot_receive;
-        if(temp1 != 0x00){
-            UCA1TXBUF = temp1;
-            iot_TX_buf[iot_rx_wr] = temp1;
+        iot_char = iot_receive;
+        if(iot_char != 0x00){
+            UCA1TXBUF = iot_char;
+            iot_TX_buf[iot_rx_wr] = iot_char;
             if(ssid_record_flag){
 
-                if(temp1 != '"'){
-                    ssid_display[ssid_index++] = temp1;
+                if(iot_char != '"'){
+                    ssid_display[ssid_index++] = iot_char;
                 }
 
-                if(temp1 == '"'){
+                if(iot_char == '"'){
                     ssid_record_flag = 0;
                 }
                 else if(ssid_index == 10){
@@ -167,32 +129,32 @@ __interrupt void eUSCI_A0_ISR(void){
 
             if(ip_record_flag){
                 if(period_record < 3){
-                    if(temp1 == '.'){
+                    if(iot_char == '.'){
                         period_record++;
                     }
                 }
-                if(group1_flag){
-                    ip_display1[ip_index1++] = temp1;
+                if(ip1_flag){
+                    ip_display1[ip_index1++] = iot_char;
                 }
-                if(group2_flag){
-                    if(temp1 != '"'){
-                        ip_display2[ip_index2++] = temp1;
+                if(ip2_flag){
+                    if(iot_char != '"'){
+                        ip_display2[ip_index2++] = iot_char;
                     }
                 }
 
                 if(period_record == 2){
-                    group1_flag = 0;
-                    group2_flag = 1;
+                    ip1_flag = 0;
+                    ip2_flag = 1;
                 }
 
-                if(temp1 == '"'){
+                if(iot_char == '"'){
                     ip_record_flag = 0;
                 }
             }
 
             if(ip_index1 == 0){
                 if(iot_TX_buf[iot_rx_wr - 2] == 'P' && iot_TX_buf[iot_rx_wr - 1] == ',' && iot_TX_buf[iot_rx_wr] == '"'){
-                    group1_flag = 1;
+                    ip1_flag = 1;
                     ip_record_flag = 1;
                 }
             }
@@ -221,8 +183,8 @@ __interrupt void eUSCI_A1_ISR(void){
     case 0: break;                  //vector 0 - not interrupt
 
     case 2:{                                    //Vector 2 - RX1IFG
-        temp = UCA1RXBUF;
-        UCA0TXBUF = temp;
+        serial_char = UCA1RXBUF;
+        UCA0TXBUF = serial_char;
     }break;
 
     case 4:{                                    // Vector 4 - TX1IFG
@@ -242,19 +204,11 @@ __interrupt void eUSCI_A1_ISR(void){
 
 
 void ping_function(void){
-    if(prevping != ping){
-        //P6OUT ^= GRN_LED;
-        tx_index = 0;
-        if(ping){
-            strcpy(IOT_Ring_Rx, (char *)IOT_message_7); // Casted to constant (removes Volatile) in resolve warnings.
-            UCA1IE |= UCTXIE;
-            prevping = ping;
-        }
-        else{
-            strcpy(IOT_Ring_Rx, (char *)IOT_message_7); // Casted to constant (removes Volatile) in resolve warnings.
-            UCA1IE |= UCTXIE;
-            prevping = ping;
-        }
+    //P6OUT ^= GRN_LED;
+    tx_index = 0;
+    if(ping){
+        strcpy(IOT_Ring_Rx, (char *)IOT_message_7); // Casted to constant (removes Volatile) in resolve warnings.
+        UCA1IE |= UCTXIE;
     }
 }
 

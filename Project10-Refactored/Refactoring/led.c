@@ -29,9 +29,6 @@
 #include  <string.h>
 
 
-
-
-
 void Init_LEDs(void){
 //------------------------------------------------------------------------------
 // LED Configurations
