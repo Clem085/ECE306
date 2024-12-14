@@ -274,7 +274,7 @@ void track_wait(void){
 
 void tracking_movement(void){
     FlagWait = TRUE;
-    double CirclePause = 7.5; // Originally 300 (300/20=15 Seconds)
+    double CirclePause = 7.5; // Originally 7.5
     double CircleDuration = 10.0; // Modify PauseSeconds to change when Circle continues tracking
     if((Waitcount > CirclePause*20) && (Waitcount < CirclePause*20+20*CircleDuration)){
         LEFT_FORWARD_SPEED = WHEEL_OFF;

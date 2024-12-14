@@ -28,7 +28,7 @@
 #define LEFT (0)
 
 
-#define PAUSE (200) // originally 20
+#define PAUSE (20) // originally 20
 #define FORWARDSPEED (12000)
 #define SPINSPEED (15000)
 #define TURNSPEED (10000)
