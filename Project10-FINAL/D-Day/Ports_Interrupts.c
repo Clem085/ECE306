@@ -34,8 +34,6 @@ char display_line[4][11];
 unsigned int baud_toggle;
 char transmit_state;
 extern volatile unsigned int switchpressed = OFF;
-
-unsigned int SW2_pressed;
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
@@ -85,26 +83,26 @@ __interrupt void switch2_interrupt(void) {
         TB0CCTL2 &= ~CCIFG; //Clear TimerB0 Interrupt Flag for Capture Compare Register 1
         TB0CCR2 = TB0R + TB0CCR2_INTERVAL;//Add Interval to TB0R for TB0CCR1
         TB0CCTL2 |= CCIE;//Enable TimerB0_1
-//        P6OUT &= ~LCD_BACKLITE;
+        P6OUT &= ~LCD_BACKLITE;
         TB0CCTL0 &= ~CCIE;
         /*P2OUT |= IR_LED; // Initial Value = Low / Off
         P2DIR |= IR_LED; // Direction = input*/
-//        state = SEARCH;
-//
-//        if (baud_toggle) {
-//            baud_toggle = 0;
-//            UCA0BRW = 17;                   //460,800 baud
-//            UCA0MCTLW = 0x4A00;
-//        }
-//        else {
-//            baud_toggle = 1;
-//            UCA0BRW = 4;                    // 115,200 baud
-//            UCA0MCTLW = 0x5551;
-//        }
-//
-//
-//
-//        clear_display = 1;
+        state = SEARCH;
+
+        if (baud_toggle) {
+            baud_toggle = 0;
+            UCA0BRW = 17;                   //460,800 baud
+            UCA0MCTLW = 0x4A00;
+        }
+        else {
+            baud_toggle = 1;
+            UCA0BRW = 4;                    // 115,200 baud
+            UCA0MCTLW = 0x5551;
+        }
+
+
+
+        clear_display = 1;
 //        USCI_A0_transmit();
 //        USCI_A0_transmit();
 //        while(NCSU_str[t] != '\0'){
@@ -120,11 +118,6 @@ __interrupt void switch2_interrupt(void) {
         //Clear TimerB0 Interrupt Flag for Capture Compare Register 2
         //Add Interval to TB0R for TB0CCR2
         //Enable TimerB0_2
-
-
-
-        // New for WiFi Menu
-        SW2_pressed = TRUE;
     }
 //------------------------------------------------------------------------------
 }

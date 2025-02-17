@@ -128,13 +128,6 @@ unsigned int nextState;
 unsigned int motorDrain;
 unsigned int init_cmd_state;
 
-// WiFi Menu
-unsigned int wifi_menu;
-extern unsigned int SW2_pressed;
-char ncsu_wifi[32] = "AT+CWJAP=\"ncsu\",\"\"";
-char home_wifi[32] = "AT+CWJAP=\"Savugot\",\"31947657\"";
-char wifi_str[32];
-unsigned int initial_process;
 
 void main(void){
     //    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
@@ -192,7 +185,7 @@ void main(void){
     sw1_position = 1;
 
     iot_on_time = 0;
-    initial_process = 0;
+    unsigned int initial_process = 0;
     initialize_done = 0;
     commanding_send = WAIT;
     state = WAIT; // For Black Line
@@ -233,8 +226,7 @@ void main(void){
                     strcpy(display_line[2], "          ");
                     strcpy(display_line[3], "          ");
                     display_changed = TRUE;
-                    initial_process = 9; // Changed from 1 to 9 to add multiple wifi options
-                    displayclr = TRUE;
+                    initial_process = 1;
                 }
             }
 
@@ -245,57 +237,7 @@ void main(void){
 
             else if (iot_on_time < 50){
                 switch (initial_process){
-                case 9: { // Determine WiFi Network
-                    iot_on_time = 0;
-                    // Display WiFi Menu Options
-                    displayclr = FALSE;
-                    wifi_menu = ADC_thumb >> 8; // Leaves 1 Bit remaining
-                    wifi_menu = wifi_menu >> 1;
-                    lcd_BIG_mid();
-                    // Use ThumbWheel to Move between Options
-                    //                    strcpy(display_line[0], "WiFiSelect");
-                    HexToBCD(wifi_menu);
-                    adc_line(1,3);
-                    display_changed = TRUE;
-                    switch(wifi_menu){
-                    case 0: { // NCSU
-                        strcpy(display_line[1], "   NCSU   ");
-                        strcpy(display_line[2], "  Savugot ");
-                        strcpy(wifi_str, ncsu_wifi);
-                        break;
-                    }
-                    case 1: { // Home
-                        strcpy(display_line[1], "  Savugot ");
-                        strcpy(display_line[2], "   NCSU   ");
-                        strcpy(wifi_str, home_wifi);
-                        break;
-                    }
-                    case 2:{
-                        strcpy(display_line[1], "  Case 2  ");
-                    }
-                    case 3:{
-                        strcpy(display_line[1], "  Case 3  ");
-                    }
-                    case 4:{ // Impossible??
-                        strcpy(display_line[1], "  Case 4  ");
-                    }
-                    // To add more WiFi's, add more cases,
-                    // and decrease the number of bitshifts applied to to wifi_menu variable
-                    default: break;
-                    }
-                    display_changed = TRUE;
-
-                    // if SW2 has been pressed (confirm WiFi button)
-                    if(SW2_pressed){
-                        SW2_pressed = FALSE;
-                        initial_process = 1;
-                        strcpy(IOT_Ring_Rx, wifi_str);
-                        displayclr = TRUE;
-                    }
-                    break;
-                }
                 case 1:
-                    displayclr = FALSE;
                     vv = 0;
                     strcpy(display_line[3], "    1     ");
                     display_changed = TRUE;

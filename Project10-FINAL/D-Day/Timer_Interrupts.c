@@ -52,7 +52,7 @@ extern unsigned int lostCounter;
 extern unsigned int lostflg;
 extern unsigned int arch_counter;
 extern unsigned int motorDrain;
-extern unsigned int initial_process;
+
 //------------------------------------------------------------------------------
 
 #pragma vector = TIMER0_B0_VECTOR
@@ -106,6 +106,7 @@ __interrupt void Timer0_B0_ISR(void){
     }
 
     if (run_time_flag){
+        P6OUT ^= GRN_LED;
         run_time++;
     }
 
@@ -143,7 +144,7 @@ __interrupt void Timer0_B0_ISR(void){
 
 #pragma vector=TIMER0_B1_VECTOR
 __interrupt void TIMER0_B1_ISR(void){
-    P1OUT ^= RED_LED;
+//        P1OUT ^= RED_LED;
     //----------------------------------------------------------------------------
     // TimerB0 1-2, Overflow Interrupt Vector (TBIV) handler
     //----------------------------------------------------------------------------
@@ -158,25 +159,24 @@ __interrupt void TIMER0_B1_ISR(void){
             DAC_data -= 50;
             SAC3DAT = DAC_data;
         }
-//        if(initial_process == 9){
-//            ADCCTL0 |= ADCSC; // Start next sample
-//        }
         break;
     case 4: // CCR2 used for ADC Sampling. 1 Sample every 20ms, 60ms for all 3 samples
 //        P2IFG &= ~SW2;
 //        P2IE |= SW2;
-        TB0CCTL2 &= ~CCIFG;
-        TB0CCTL2 &= ~CCIE;
-        TB0CCR2 += TB0CCR2_INTERVAL; // Add Offset to TBCCR1
-        TB0CCTL0 |= CCIE;
-
+//        TB0CCTL2 &= ~CCIFG;
+//        TB0CCTL2 &= ~CCIE;
+//        TB0CCR2 += TB0CCR2_INTERVAL; // Add Offset to TBCCR1
+//        TB0CCTL0 |= CCIE;
+        /*strcpy(display_line[0], "          ");
+        strcpy(display_line[1], "          ");
+        strcpy(display_line[2], "          ");
+        strcpy(display_line[3], "          ");
+        display_changed = TRUE;*/
+        TB0CCR2 += TB0CCR2_INTERVAL;
         ADCCTL0 |= ADCSC; // Start next sample
-        P6OUT ^= GRN_LED;
         break;
     case 14: // overflow
         //...... Add What you need happen in the interrupt ......
-        TB0CCR1 = TB0CCR1_INTERVAL; // CCR1
-        TB0CCR2 = TB0CCR2_INTERVAL; // CCR2
         break;
     default: break;
     }

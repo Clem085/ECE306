@@ -82,7 +82,6 @@ __interrupt void ADC_ISR(void){
                     break;
                 }
         ADCCTL0 |= ADCENC; // Enable Conversions
-        ADCCTL0 &= ~ADCSC; // Start next sample
         break;
         default:
 

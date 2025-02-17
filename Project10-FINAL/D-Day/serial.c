@@ -78,6 +78,7 @@ void IOT_Process(void){
 
 void Init_Serial_UCA0(void){
     //------------------------------------------------------------------------------
+    //                                                      TX error (%) RX error (%)
     // BRCLK    Baudrate    UCOS16  UCBRx   UCFx    UCSx    neg      pos     neg    pos
     // 8000000  4800         1      104     2       0xD6    -0.08   0.04    -0.10   0.14
     // 8000000  9600         1      52      1       0x49    -0.08   0.04    -0.10   0.14
