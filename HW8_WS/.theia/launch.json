@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "HW_09.cc2",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "HW_09.cc2",
+                "resourceId": "/HW_09.cc2"
+            }
+        },
+        {
+            "name": "PROJ_04.cc",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "PROJ_04.cc",
+                "resourceId": "/PROJ_04.cc"
+            }
+        }
+    ]
+}

@@ -1,0 +1,42 @@
+/*
+ * IR.c
+ *
+ *  Created on: Oct 19, 2024
+ *      Author: jammi
+ */
+
+// #include as of 10-18-24
+    // Header Files
+#include  "msp430.h"
+#include  "functions.h"
+#include  "LCD.h"
+#include  "ports.h"
+#include  "macros.h"
+#include  "motors.h"
+#include  "Display.h"
+#include  "timers.h"
+#include  "switches.h"
+#include  "ThumbWheel.h"
+#include  "ADC.h"
+    // Libraries
+#include  <string.h>
+#include  <stdio.h>
+
+// Toggle IR_LED
+char IR_status;
+
+// Controls Display Backlight
+void IR_control(void){
+    /*  Parameter Values
+    action
+        0: Backlight OFF
+        1: Backlight ON
+     */
+    if(IR_status == OFF){
+        P2OUT  &= ~IR_LED;
+    }
+    else{// IR_status = ON
+        P2OUT  |=  IR_LED;
+    }
+}
+

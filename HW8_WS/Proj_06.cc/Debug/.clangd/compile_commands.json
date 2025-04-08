@@ -1,0 +1,67 @@
+[
+   {
+      "directory" : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2001/ccs/ccs_base/msp430/include\" -I\"C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc\" -I\"C:/ti/ccs2001/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE",
+      "file"      : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/ADC.c"
+   },
+   {
+      "directory" : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2001/ccs/ccs_base/msp430/include\" -I\"C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc\" -I\"C:/ti/ccs2001/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE",
+      "file"      : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/DAC.c"
+   },
+   {
+      "directory" : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2001/ccs/ccs_base/msp430/include\" -I\"C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc\" -I\"C:/ti/ccs2001/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE",
+      "file"      : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Display.c"
+   },
+   {
+      "directory" : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2001/ccs/ccs_base/msp430/include\" -I\"C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc\" -I\"C:/ti/ccs2001/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE",
+      "file"      : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Wheels.c"
+   },
+   {
+      "directory" : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2001/ccs/ccs_base/msp430/include\" -I\"C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc\" -I\"C:/ti/ccs2001/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE",
+      "file"      : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/clocks.c"
+   },
+   {
+      "directory" : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2001/ccs/ccs_base/msp430/include\" -I\"C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc\" -I\"C:/ti/ccs2001/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE",
+      "file"      : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/init.c"
+   },
+   {
+      "directory" : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2001/ccs/ccs_base/msp430/include\" -I\"C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc\" -I\"C:/ti/ccs2001/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE",
+      "file"      : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/led.c"
+   },
+   {
+      "directory" : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2001/ccs/ccs_base/msp430/include\" -I\"C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc\" -I\"C:/ti/ccs2001/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE",
+      "file"      : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/main.c"
+   },
+   {
+      "directory" : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2001/ccs/ccs_base/msp430/include\" -I\"C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc\" -I\"C:/ti/ccs2001/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE",
+      "file"      : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/movement.c"
+   },
+   {
+      "directory" : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2001/ccs/ccs_base/msp430/include\" -I\"C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc\" -I\"C:/ti/ccs2001/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE",
+      "file"      : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/ports.c"
+   },
+   {
+      "directory" : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2001/ccs/ccs_base/msp430/include\" -I\"C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc\" -I\"C:/ti/ccs2001/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE",
+      "file"      : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/switches.c"
+   },
+   {
+      "directory" : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2001/ccs/ccs_base/msp430/include\" -I\"C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc\" -I\"C:/ti/ccs2001/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE",
+      "file"      : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/system.c"
+   },
+   {
+      "directory" : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2001/ccs/ccs_base/msp430/include\" -I\"C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc\" -I\"C:/ti/ccs2001/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430FR2355__ -D_FRWP_ENABLE -D_INFO_FRWP_ENABLE",
+      "file"      : "C:/Users/consa/Downloads/Programming/MSP430-ECE306/HW8_WS/Proj_06.cc/timer.c"
+   }
+]

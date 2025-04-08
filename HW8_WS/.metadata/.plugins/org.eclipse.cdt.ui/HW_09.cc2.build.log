@@ -1,0 +1,64 @@
+
+**** Build of configuration Debug for project HW_09.cc2 ****
+
+"C:\\ti\\ccs1280\\ccs\\utils\\bin\\gmake" -k -j 14 all -O 
+ 
+Building file: "../ADC.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="C:/Users/corin/ECE306_Workspaces/HW8_WS/HW_09.cc2" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="ADC.d_raw"  "../ADC.c"
+ 
+>> Compilation failure
+subdir_rules.mk:9: recipe for target 'ADC.obj' failed
+"../ADC.c", line 68: error #20: identifier "adc_char" is undefined
+"../ADC.c", line 74: error #20: identifier "adc_char" is undefined
+"../ADC.c", line 80: error #20: identifier "adc_char" is undefined
+"../ADC.c", line 86: error #20: identifier "adc_char" is undefined
+"../ADC.c", line 88: error #20: identifier "adc_char" is undefined
+"../ADC.c", line 67: remark #1544-D: (ULP 13.1) Detected loop counting up. Recommend loops count down as detecting zeros is easier
+5 errors detected in the compilation of "../ADC.c".
+gmake: *** [ADC.obj] Error 1
+Building file: "../menu.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="C:/Users/corin/ECE306_Workspaces/HW8_WS/HW_09.cc2" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="menu.d_raw"  "../menu.c"
+ 
+>> Compilation failure
+subdir_rules.mk:9: recipe for target 'menu.obj' failed
+"../menu.c", line 17: fatal error #1965: cannot open source file "motors.h"
+1 catastrophic error detected in the compilation of "../menu.c".
+Compilation terminated.
+gmake: *** [menu.obj] Error 1
+Building file: "../timer.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --use_hw_mpy=F5 --include_path="C:/ti/ccs1280/ccs/ccs_base/msp430/include" --include_path="C:/Users/corin/ECE306_Workspaces/HW8_WS/HW_09.cc2" --include_path="C:/ti/ccs1280/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --advice:power=all --advice:hw_config=all --define=__MSP430FR2355__ --define=_FRWP_ENABLE --define=_INFO_FRWP_ENABLE -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU40 --preproc_with_compile --preproc_dependency="timer.d_raw"  "../timer.c"
+ 
+>> Compilation failure
+subdir_rules.mk:9: recipe for target 'timer.obj' failed
+"../timer.c", line 138: error #20: identifier "count_debounce_SW1" is undefined
+"../timer.c", line 139: error #20: identifier "DEBOUNCE_TIME" is undefined
+"../timer.c", line 155: error #20: identifier "count_debounce_SW2" is undefined
+"../timer.c", line 218: error #20: identifier "menuType" is undefined
+"../timer.c", line 218: error #20: identifier "OUTER_MENU" is undefined
+"../timer.c", line 219: error #20: identifier "INNER_MENU" is undefined
+"../timer.c", line 220: error #20: identifier "songInit" is undefined
+"../timer.c", line 260: warning #225-D: function "strcpy" declared implicitly
+"../timer.c", line 265: error #20: identifier "menuType" is undefined
+"../timer.c", line 265: error #20: identifier "OUTER_MENU" is undefined
+"../timer.c", line 260: remark #1538-D: (ULP 10.1) ISR switch2_interrupt calls function strcpy. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../timer.c", line 261: remark #1538-D: (ULP 10.1) ISR switch2_interrupt calls function strcpy. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../timer.c", line 262: remark #1538-D: (ULP 10.1) ISR switch2_interrupt calls function strcpy. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../timer.c", line 263: remark #1538-D: (ULP 10.1) ISR switch2_interrupt calls function strcpy. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../timer.c", line 323: error #20: identifier "DAC_overflow_counter" is undefined
+"../timer.c", line 368: warning #225-D: function "dispPrint" declared implicitly
+"../timer.c", line 382: warning #225-D: function "dispPrint" declared implicitly
+"../timer.c", line 396: warning #225-D: function "dispPrint" declared implicitly
+"../timer.c", line 367: remark #1538-D: (ULP 10.1) ISR ADC_ISR calls function HexToBCD. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../timer.c", line 368: remark #1538-D: (ULP 10.1) ISR ADC_ISR calls function dispPrint. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../timer.c", line 381: remark #1538-D: (ULP 10.1) ISR ADC_ISR calls function HexToBCD. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../timer.c", line 382: remark #1538-D: (ULP 10.1) ISR ADC_ISR calls function dispPrint. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../timer.c", line 395: remark #1538-D: (ULP 10.1) ISR ADC_ISR calls function HexToBCD. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+"../timer.c", line 396: remark #1538-D: (ULP 10.1) ISR ADC_ISR calls function dispPrint. Recommend moving function call away from ISR, or inlining the function, or using pragmas
+10 errors detected in the compilation of "../timer.c".
+gmake: *** [timer.obj] Error 1
+gmake: Target 'all' not remade because of errors.
+
+**** Build Finished ****

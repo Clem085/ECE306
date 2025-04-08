@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "TalkToMEEE",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "TalkToMEEE",
+                "resourceId": "/TalkToMEEE"
+            }
+        }
+    ]
+}
