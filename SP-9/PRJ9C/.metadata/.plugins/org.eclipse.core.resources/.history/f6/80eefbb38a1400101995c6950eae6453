@@ -1,0 +1,85 @@
+/////*
+//// * IOT.c
+//// *
+//// *  Created on: Apr 2, 2025
+//// *      Author: price
+//// */
+//
+//#include <msp430.h>
+//#include <string.h>
+//#include  "include\functions.h"
+//#include  "Include\LCD.h"
+//#include  "include\ports.h"
+//#include "macros.h"
+//#include "include\shapes.h"
+//
+//void uart_init(void);
+//void uart_send_string(const char *str);
+//void delay_ms(unsigned int ms);
+//
+//int IOT_function(void) {
+//    WDTCTL = WDTPW | WDTHOLD;  // Stop watchdog timer
+//    uart_init();
+//
+//    delay_ms(1000);  // Allow ESP32 to initialize
+//
+//    // Reset ESP32 module
+//    uart_send_string("AT+GMR\r\n");
+//    delay_ms(500);
+//
+//    // Check IoT Status
+//    uart_send_string("AT+CIPSTATUS\r\n");
+//    delay_ms(500);
+//
+//    // Check UART status
+//    uart_send_string("AT+UART_CUR?\r\n");
+//    delay_ms(500);
+//
+//    // Enable saving settings
+//    uart_send_string("AT+SYSSTORE=1\r\n");
+//    delay_ms(500);
+//
+//    // Set Station Mode
+//    uart_send_string("AT+CWMODE=1\r\n");
+//    delay_ms(500);
+//
+//    // Retrieve MAC address
+//    uart_send_string("AT+CIPSTAMAC?\r\n");
+//    delay_ms(500);
+//
+//    // Scan for available networks
+//    uart_send_string("AT+CWLAP\r\n");
+//    delay_ms(2000);
+//
+//    while (1);
+//}
+//
+//void uart_init(void) {
+//    UCA0CTL1 |= UCSWRST;  // Put UART in reset mode
+//    UCA0CTL1 |= UCSSEL_2; // SMCLK as clock source
+//    UCA0BR0 = 104;        // Baud rate 9600 (for 1MHz clock)
+//    UCA0BR1 = 0;
+//    UCA0MCTL = UCBRS0;    // Modulation
+//    UCA0CTL1 &= ~UCSWRST; // Release from reset
+//    UCA0IE |= UCRXIE;     // Enable RX interrupt
+//}
+//
+//void uart_send_string(const char *str) {
+//    while (*str) {
+//        while (!(IFG2 & UCA0TXIFG));  // Wait until TX buffer is ready
+//        UCA0TXBUF = *str++;           // Send character
+//    }
+//}
+//
+//void delay_ms(unsigned int ms) {
+//    while (ms--) {
+//        __delay_cycles(1000);  // Assuming 1MHz clock
+//    }
+//}
+//
+//#pragma vector=USCIAB0RX_VECTOR
+//__interrupt void USCI0RX_ISR(void) {
+//    while (!(IFG2 & UCA0RXIFG)); // Wait for received character
+//    char received = UCA0RXBUF;   // Read received data (optional processing)
+//}
+//

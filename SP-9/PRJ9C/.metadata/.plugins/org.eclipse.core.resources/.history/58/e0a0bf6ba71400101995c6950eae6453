@@ -1,0 +1,246 @@
+//------------------------------------------------------------------------------
+//
+//  Description: This file contains the Main Routine - "While" Operating System
+//
+//  Salena Price
+//  Jan 2025
+//  Built with Code Composer Version: CCS12.4.0.00007_win64
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+#include  "msp430.h"
+#include  <string.h>
+#include  "include\functions.h"
+#include  "Include\LCD.h"
+#include  "include\ports.h"
+#include "macros.h"
+#include "include\shapes.h"
+
+// Function Prototypes
+void main(void);
+void Init_Conditions(void);
+void Display_Process(void);
+void Init_LEDs(void);
+void Carlson_StateMachine(void);
+void wheels_off(void);
+void wheels_forward(void);
+void wheels_reverse(void);
+
+
+  // Global Variables
+char slow_input_down;
+char display_line[4][11];
+char *display[4];
+unsigned char display_mode;
+unsigned char display_changed;
+unsigned char update_display;
+unsigned int update_display_count;
+unsigned int Time_Sequence;
+char one_time;
+unsigned int test_value;
+char chosen_direction;
+char change;
+unsigned int blink_count;
+
+unsigned int wheel_move;
+char forward;
+extern unsigned int ADC_Left_Detect;
+extern unsigned int ADC_Right_Detect;
+extern unsigned int ADC_Thumb;
+extern unsigned int adc_char[];
+
+//used in shapes.c
+unsigned int Last_Time_Sequence; // a variable to identify Time_Sequence has changed
+extern volatile unsigned int cycle_time; // is a new time base used to control making shapes
+extern volatile unsigned int time_change; // is an identifier that a change has occurred
+extern unsigned int start_pressed;
+extern unsigned int shapes;
+extern unsigned int state;
+extern unsigned int Motor_Count;
+
+extern volatile unsigned int sw1_position;
+extern volatile unsigned int okay_to_look_at_switch1;
+extern unsigned int sw2_position;
+extern volatile unsigned int okay_to_look_at_switch2;
+extern unsigned int ADC_Channel;
+unsigned int test_value;
+char chosen_direction;
+char change;
+unsigned int Bringing_Up = 1;
+unsigned int SW1pressed = 0;
+unsigned int SW2pressed = 0;
+char speed = 'A';
+unsigned int tb_index = 0;
+unsigned int display_index = 0;
+unsigned int Baud_Rate = 0;
+char ring_buff[16];
+unsigned int pb_index = 0;
+unsigned int TRANSMITTING = FALSE;
+unsigned int STARTCOUNT = 0;
+unsigned int from_AD3;
+unsigned int to_AD3;
+extern char process_buff[4][32];
+extern unsigned int line;
+
+//void main(void){
+void main(void){
+//    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
+
+//------------------------------------------------------------------------------
+// Main Program
+// This is the main routine for the program. Execution of code starts here.
+// The operating system is Back Ground Fore Ground.
+//
+//------------------------------------------------------------------------------
+  PM5CTL0 &= ~LOCKLPM5;
+// Disable the GPIO power-on default high-impedance mode to activate
+// previously configured port settings
+
+  Init_Ports();                        // Initialize Ports
+  Init_Clocks();                       // Initialize Clock System
+  Init_Conditions();                   // Initialize Variables and Initial Conditions
+  Init_Timers();                       // Initialize Timers
+  Init_LCD();                          // Initialize LCD
+  Init_Serial_UCA0(); // Initialize Serial Port for IOT
+  Init_Serial_UCA1(); // Initialize Serial Port for USB
+
+  //P2OUT &= ~RESET_LCD;
+  // Place the contents of what you want on the display, in between the quotes
+// Limited to 10 characters per line
+//  strcpy(display_line[0], "   NCSU   ");
+//  strcpy(display_line[1], " WOLFPACK ");
+//  strcpy(display_line[2], "  ECE306  ");
+//  strcpy(display_line[3], "  GP I/O  ");
+//  display_changed = TRUE;
+//  Display_Update(0,0,0,0);
+
+  wheel_move = 0;
+  forward = TRUE;
+  wheels_off();
+  one_time = 0;
+  Motor_Count = 0;
+
+  sw1_position = RELEASED;
+  sw2_position = RELEASED;
+  okay_to_look_at_switch1 = OKAY;
+  okay_to_look_at_switch2 = OKAY;
+
+ // Init_ADC();
+  ADC_Channel = 0;
+
+//------------------------------------------------------------------------------
+// Begining of the "While" Operating System
+//------------------------------------------------------------------------------
+  while(ALWAYS) {                      // Can the Operating system run
+
+    // Carlson_StateMachine();            // Run a Time Based State Machine
+   // Switches_Process();                // Check for switch state change
+    Display_Process();                 // Update Display
+    P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+
+    if(Last_Time_Sequence != Time_Sequence){
+        Last_Time_Sequence = Time_Sequence;
+        cycle_time++;
+        time_change++;
+
+     }
+//    HEXtoBCD(ADC_Left_Detect);
+//    adc_line(1, 0);
+//    HEXtoBCD(ADC_Right_Detect);
+//    adc_line(1, 5);
+//    HEXtoBCD(ADC_Thumb);
+//    adc_line(2, 3);
+
+
+    Buffer_Process();
+    Switch_Press = Switch2;
+       Message_State = WAITING;
+
+       // Display State Machine
+       switch (Message_State){
+       case WAITING:
+           strcpy(display_line[0], " WAITING  ");
+           display_changed = TRUE;
+           Message_State = 0;
+           break;
+
+       case RECEIVED:
+           strcpy(display_line[0], " RECEIVED ");
+           display_changed = TRUE;
+           Message_State = 0;
+           break;
+
+       case TRANSMIT:
+           strcpy(display_line[0], " TRANSMIT ");
+           display_changed = TRUE;
+           Message_State = 0;
+           break;
+
+       default:
+           break;
+       }
+
+
+    //    Switch Press State Machine
+       switch (Switch_Press){ // Switch_Press is either SW1 or SW2
+       case Switch1:
+           // command sends back to AD3
+           // move the command from line 4 to line 2
+           Switch_Press = FALSE;
+
+           // copy line4 to line2 and clear line4
+           strncpy(display_line[1], process_buff[line], 10);
+           strcpy(display_line[3], "          ");
+           display_changed = TRUE;
+
+           // turn on TX interrupt... TX IFG will immediately begin
+           UCA0IE |= UCTXIE;
+
+           // change Message to TRANSMIT
+           Message_State = TRANSMIT;
+           break;
+
+       case Switch2:
+           // change the baud rate
+           // update baud rate on line 3 of display
+
+           // switch from old baud rate to new baud rate
+           Switch_Press  = FALSE;
+           if(Baud_Rate == BR1){
+               Baud_Rate = BR2;
+           }
+           else{
+               Baud_Rate = BR1;
+           }
+
+           switch (Baud_Rate) {// Baud_Rate is = to what you want the BR to be
+           case BR1: // change Baud Rate from 460,800 to 115,200
+               UCA0BRW = 4;
+               UCA0MCTLW = 0x5551;
+
+               // update line3 of display
+               strcpy(display_line[2], " 115,200  ");
+               display_changed = TRUE;
+               break;
+
+           case BR2: // change Baud Rate from 115,200 to 460,800
+               UCA0BRW = 17;
+               UCA0MCTLW = 0x4A00;
+
+               // update line3 of display
+               strcpy(display_line[2], " 460,800  ");
+               display_changed = TRUE;
+               break;
+
+           default:
+               break;
+           }
+
+           break;
+
+           default:
+               break;
+           }
+     }
+ //------------------------------------------------------------------------------
+ }

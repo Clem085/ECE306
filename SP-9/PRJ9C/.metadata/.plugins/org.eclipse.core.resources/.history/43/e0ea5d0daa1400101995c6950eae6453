@@ -1,0 +1,366 @@
+/////*
+//// * IOT.c
+//// *
+//// *  Created on: Apr 2, 2025
+//// *      Author: price
+//// */
+//
+//#include <msp430.h>
+//#include <string.h>
+//#include  "include\functions.h"
+//#include  "Include\LCD.h"
+//#include  "include\ports.h"
+//#include "macros.h"
+//#include "include\shapes.h"
+//
+//extern unsigned int IOT_timer;
+//
+//void IOT_Process(void){
+//     switch (initialize_done){
+//        case 0:
+//            if (IOT_timer < 15){
+//                if (iot_on_time <= 10){
+//                    strcpy(display_line[0], "   IOT    ");
+//                    strcpy(display_line[1], "   OFF    ");
+//                    strcpy(display_line[2], "          ");
+//                    strcpy(display_line[3], "          ");
+//                    display_changed = TRUE;
+//                }
+//                else{
+//                    P3OUT |= IOT_EN;
+//                    strcpy(display_line[0], "   IOT    ");
+//                    strcpy(display_line[1], "   ON     ");
+//                    strcpy(display_line[2], "          ");
+//                    strcpy(display_line[3], "          ");
+//                    display_changed = TRUE;
+//                    initial_process = 1;
+//                }
+//            }
+//
+//            else if (IOT_timer < 100){
+//                vv = 1;
+//            }
+//
+//
+//            else if (IOT_timer < 150){
+//                switch (initial_process){
+//                case 1:
+//                    vv = 0;
+//                    strcpy(display_line[3], "    1     ");
+//                    display_changed = TRUE;
+//                    if (iot_TX_buf[response_parse++] == '\r'){
+//                        if (iot_TX_buf[response_parse-2] == 'P'){
+//                            strcpy(IOT_Ring_Rx, stop_save_sett);
+//                            UCA1IE |= UCTXIE;
+//                            initial_process = 2;
+//                            response_parse = 0;
+//                            while (IOT_Ring_Rx[vv] == 0x00){
+//                                IOT_Ring_Rx[vv++] = 0;
+//                            }
+//                        }
+//                    }
+//                    break;
+//                case 2:
+//                    vv= 0;
+//                    strcpy(display_line[3], "    2     ");
+//                    display_changed = TRUE;
+//                    if (iot_TX_buf[response_parse++] == '\r'){
+//                        if (iot_TX_buf[response_parse-2] == 'K'){
+//                            legacy = 0;
+//                            strcpy(IOT_Ring_Rx, update_conn_sett);
+//                            UCA1IE |= UCTXIE;
+//                            initial_process = 3;
+//                            response_parse = 0;
+//                        }
+//                    }
+//                    if (response_parse > 31){
+//                        response_parse = 0;
+//                    }
+//                    if (legacy > 31){
+//                        legacy = 0;
+//                    }
+//                    break;
+//                case 3:
+//                    vv= 0;
+//                    strcpy(display_line[3], "    3     ");
+//                    display_changed = TRUE;
+//                    if (iot_TX_buf[response_parse++] == '\r'){
+//                        vv = 0;
+//                        if (iot_TX_buf[response_parse-10] == 'X'){
+//                            legacy = 0;
+//                            strcpy(IOT_Ring_Rx, conf_server);
+//                            UCA1IE |= UCTXIE;
+//                            initial_process = 4;
+//                            response_parse = 0;
+//                        }
+//                    }
+//                    if (response_parse > 31){
+//                        response_parse = 0;
+//                    }
+//                    if (legacy > 31){
+//                        legacy = 0;
+//                    }
+//                    break;
+//                case 4:
+//                    vv= 0;
+//                    strcpy(display_line[3], "    4     ");
+//                    display_changed = TRUE;
+//                    if (iot_TX_buf[response_parse++] == '\r'){
+//                        vv = 0;
+//                            if (iot_TX_buf[response_parse + 23] == '8'){
+//                                legacy = 0;
+//                                strcpy(IOT_Ring_Rx, SSID_access);
+//                                UCA1IE |= UCTXIE;
+//                                initial_process = 5;
+//                                response_parse = 0;
+//                            }
+//                    }
+//                    if (response_parse > 31){
+//                        response_parse = 0;
+//                    }
+//                    if (legacy > 31){
+//                        legacy = 0;
+//                    }
+//                    break;
+//                case 5:
+//                    // printing the ssid
+//                    strcpy(display_line[3], "    5     ");
+//                    display_changed = TRUE;
+//                    strcpy(display_line[1], "          ");
+//                    strcpy(display_line[0], "          ");
+//                    strcpy(display_line[2], "          ");
+//                    strcpy(display_line[3], "          ");
+//                    display_changed = TRUE;
+//                    initial_process = 6;
+//                    break;
+//                case 6:
+//                    vv= 0;
+//                    strcpy(display_line[3], "    6     ");
+//                    display_changed = TRUE;
+//                        if (iot_TX_buf[response_parse++] == '\r'){
+//                            vv = 0;
+//                            if (iot_TX_buf[response_parse-9] == ','){
+//                                legacy = 0;
+//                                strcpy(IOT_Ring_Rx, IP_access);
+//                                UCA1IE |= UCTXIE;
+//                                initial_process = 7;
+//                                response_parse = 0;
+//                                command4_flag = 0;
+//                                strcpy(display_line[1], " SSID CAP ");
+//                                strcpy(display_line[0], "          ");
+//                                                display_changed = TRUE;
+//                                strcpy(display_line[0], "ncsu      ");
+//                                strcpy(display_line[2], "          ");
+//                                strcpy(display_line[3], "          ");
+//                                display_changed = TRUE;
+//                            }
+//                        }
+//                    if (response_parse > 31){
+//                        response_parse = 0;
+//                    }
+//                    if (legacy > 31){
+//                        legacy = 0;
+//                    }
+//                    break;
+//                case 7:
+//                    vv= 0;
+//                    strcpy(display_line[3], "    7     ");
+//                    display_changed = TRUE;
+//                    if (iot_TX_buf[response_parse++] == '\r'){
+//                        vv = 0;
+//                        if (iot_TX_buf[response_parse-8] == '"'){
+//                            legacy = 0;
+//                            strcpy(IOT_Ring_Rx, check_okay);
+//                            UCA1IE |= UCTXIE;
+//                            initial_process = 8;
+//                            response_parse = 0;
+//                            strcpy(display_line[1], " SSID CAP ");
+//                            strcpy(display_line[0], "          ");
+//                                            display_changed = TRUE;
+//                            strcpy(display_line[0], "ncsu      ");
+//                            strcpy(display_line[2], ip_display1);
+//                            strcpy(display_line[3], ip_display2);
+//                            display_changed = TRUE;
+//                        }
+//                    }
+//                    if (response_parse > 31){
+//                        response_parse = 0;
+//                    }
+//                    if (legacy > 31){
+//                        legacy = 0;
+//                    }
+//                    break;
+//                case 8:
+//                    strcpy(display_line[3], "    8     ");
+//                    display_changed = TRUE;
+//                    initialize_done = 1;
+//                    strcpy(display_line[4], "  READY!  ");
+//                    display_changed = TRUE;
+//                    break;
+//
+//                }
+//            }
+//            break;
+//        case 1:
+//            vv = 0;
+//            if (iot_TX_buf[response_parse++] == '^'){
+//                if(iot_TX_buf[response_parse] == '3' && iot_TX_buf[response_parse+1] == '0' && iot_TX_buf[response_parse+2] == '6'&& iot_TX_buf[response_parse+3] == '1'){
+//                response_parse = response_parse +4;
+//                    switch (iot_TX_buf[response_parse]){
+//                case 'F':
+//                    if(movement){
+//                        break;
+//                    }
+//                    setTime = (int)iot_TX_buf[response_parse+1];
+//                    run_time_flag = 1;
+//                    command_op = FORWARDS;
+//                    run_time = 0;
+//                    for (vv = 0; vv < 32; vv++){
+//                        iot_TX_buf[vv] = 0;
+//                    }
+//                    break;
+//                case 'B':
+//                    if(movement){
+//                        break;
+//                    }
+//                    setTime = (int)iot_TX_buf[response_parse+1];
+//                    run_time_flag = 1;
+//                    command_op = BACK;
+//                    run_time = 0;
+//                    for (vv = 0; vv < 32; vv++){
+//                        iot_TX_buf[vv] = 0;
+//                    }
+//                    break;
+//                case 'R':
+//                    if(movement){
+//                        break;
+//                    }
+//                    setTime = (int)iot_TX_buf[response_parse+1];
+//                    run_time_flag = 1;
+//                    command_op = RIGHT;
+//                    run_time = 0;
+//                    for (vv = 0; vv < 32; vv++){
+//                        iot_TX_buf[vv] = 0;
+//                    }
+//                    break;
+//                case 'L':
+//                    if(movement){
+//                        break;
+//                    }
+//                    setTime = (int)iot_TX_buf[response_parse+1];
+//                    run_time_flag = 1;
+//                    command_op = LEFT;
+//                    run_time = 0;
+//                    for (vv = 0; vv < 32; vv++){
+//                        iot_TX_buf[vv] = 0;
+//                    }
+//                    break;
+//
+//                case 'S':
+//                    if(movement){
+//                        break;
+//                    }
+//                   setTime = (int)iot_TX_buf[response_parse+1];
+//                   command_op = WAIT;
+//                   run_time = 0;
+//
+//                   for (vv = 0; vv < 32; vv++){
+//                       iot_TX_buf[vv] = 0;
+//                   }
+//                    break;
+//
+//                }
+//                }
+//            }
+//
+//            if (response_parse > 31) {
+//                response_parse = 0;
+//            }
+//
+//            char tempStr[10];
+//            switch (command_op){
+//            case WAIT:
+//                motor_off();
+//                if (run_time < 50){
+//                    strcpy(display_line[0], "          ");
+//                    display_changed = TRUE;
+//                    dispPrint("IP address", '2');
+//                    strcpy(display_line[0], "          ");
+//                    display_changed = TRUE;
+//                    dispPrint(ssid_display, '1');
+//                    dispPrint(ip_display1, '3');
+//                    dispPrint(ip_display2, '4');
+//                    display_changed = TRUE;
+//                }
+//                else{
+//                    strcpy(display_line[1], " WAITDONE ");
+//                    strcpy(display_line[3], "         W");
+//                    display_changed = TRUE;
+//                }
+//
+//                break;
+//            case FORWARDS:
+//                motor_run_forward();
+//                strcpy(tempStr,ip_display2);
+//                strcat(tempStr,"F");
+//                dispPrint(tempStr, '4');
+//                display_changed = TRUE;
+//                if (run_time > setTime){ // was originally 10
+//                    run_time_flag = 0;
+//                    motor_off();
+//                    run_time = 0;
+//                    command_op = WAIT;
+//                    movement = 0;
+//                }
+//                break;
+//            case BACK:
+//                motor_run_backward();
+//                strcpy(tempStr,ip_display2);
+//                strcat(tempStr,"B");
+//                dispPrint(tempStr, '4');
+//                display_changed = TRUE;
+//                if (run_time > setTime){
+//                    run_time_flag = 0;
+//                    motor_off();
+//                    run_time = 0;
+//                    command_op = WAIT;
+//                    movement = 0;
+//                }
+//                break;
+//            case RIGHT:
+//                motor_run_right();
+//                strcpy(tempStr,ip_display2);
+//                strcat(tempStr,"R");
+//                dispPrint(tempStr, '4');
+//                display_changed = TRUE;
+//                display_changed = TRUE;
+//                if (run_time >= setTime){
+//                    run_time_flag = 0;
+//                    motor_off();
+//                    run_time = 0;
+//                    command_op = WAIT;
+//                    movement = 0;
+//                }
+//                break;
+//            case LEFT:
+//                motor_run_left();
+//                strcpy(tempStr,ip_display2);
+//                strcat(tempStr,"L");
+//                dispPrint(tempStr, '4');
+//                display_changed = TRUE;
+//                display_changed = TRUE;
+//                if (run_time >= setTime){
+//                    run_time_flag = 0;
+//                    motor_off();
+//                    run_time = 0;
+//                    command_op = WAIT;
+//                    movement = 0;
+//                }
+//
+//                break;
+//
+//            default: break;
+//            }
+//            break;
+//        }
+//  }

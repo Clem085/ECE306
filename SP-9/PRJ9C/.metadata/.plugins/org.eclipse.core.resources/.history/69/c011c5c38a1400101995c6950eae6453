@@ -1,0 +1,23 @@
+///*
+// * IOT.c
+// *
+// *  Created on: Apr 2, 2025
+// *      Author: price
+// */
+
+#include <msp430.h>
+#include <string.h>
+#include  "include\functions.h"
+#include  "Include\LCD.h"
+#include  "include\ports.h"
+#include "macros.h"
+#include "include\shapes.h"
+
+if (data == '^') {
+    char cmd = next_char(); // You need to implement getting the next char
+    if (cmd == 'S') {
+        // Implement Stop
+    } else if (cmd == 'R') {
+        // Implement Restart
+    }
+}

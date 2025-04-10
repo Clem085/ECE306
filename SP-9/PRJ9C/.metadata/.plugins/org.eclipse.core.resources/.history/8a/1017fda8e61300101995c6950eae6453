@@ -1,0 +1,242 @@
+/*
+ * IOT.c
+ *
+ *  Created on: Mar 24, 2025
+ *      Author: price
+ */
+
+#include  "msp430.h"
+#include  <string.h>
+#include  "include\functions.h"
+#include  "Include\LCD.h"
+#include  "include\ports.h"
+#include "macros.h"
+#include "include\shapes.h"
+
+char ring_buff[16];
+ char ring_buff_A1TX[16];
+ char ring_buff_A1RX[16];
+ char ring_buff_A0TX[16];
+ char ring_buff_A0RX[16];
+extern unsigned int ring_rx_rd_A0;
+extern unsigned int ring_rx_wr_A0;
+extern unsigned int ring_tx_rd_A0;
+extern unsigned int ring_tx_wr_A0;
+extern unsigned int tb_index;
+extern char transmit_buff[11];
+
+extern unsigned int ring_tx_rd_A1;
+extern unsigned int ring_tx_wr_A1;
+extern unsigned int ring_rx_rd_A1;
+extern unsigned int ring_rx_wr_A1;
+extern unsigned int TRANSMITTING;
+
+extern char display_line[4][11];
+extern unsigned int display_index;
+unsigned int ring_rx_wr_temp;
+char AD3_tx;
+char AD3_tx_A1;
+unsigned int line = 0;
+
+char process_buff[4][32] = {0};
+unsigned int pb_wr = 0;
+unsigned int DISPLAY_PB = 0;
+
+extern volatile unsigned char display_changed;
+extern unsigned int Message_State;
+extern unsigned int Baud_Rate;
+unsigned int tx_2_AD3 = 0;
+
+extern unsigned int from_AD3;
+
+// Ring Buffer to Process Buffer
+void Buffer_Process(void){
+
+    // when there are newly written chars that have not been copied to process buffer
+    if(ring_rx_wr_A0 != ring_rx_rd_A0){
+
+        // copy RB char to PB
+        process_buff[line][pb_wr] = ring_buff[ring_rx_rd_A0++];
+
+        // make sure RB rd index loops back
+        if(ring_rx_rd_A0 == 16){
+            ring_rx_rd_A0 = BEGINNING;
+        }
+
+
+        if(process_buff[line][pb_wr++] == LF){
+            // char that was JUST copied is LF, message is done being copied into PB line
+            Message_State = RECEIVED;
+            DISPLAY_PB = YES;
+            pb_wr = BEGINNING;  // reset index to beginning for next command... line is changed after to avoid using a temp before incrementing
+
+        }
+    } else{ // NOTHING NEW HAS BEEN WRITTEN, RB wr and rd are caught up
+        switch(DISPLAY_PB){
+            case YES:
+                strncpy(display_line[3], process_buff[line], 10);
+                display_changed = TRUE;
+                DISPLAY_PB = FALSE;
+                break;
+
+            default:
+                break;
+        }
+    }
+}
+
+// Transmit function for USCI_A1
+void USCI_A1_Transmit(void) {
+    tb_index = 0;                // start fresh from SW press, transmit_buff index = 0
+//    UCA1IE |= UCTXIE;            // enable the TX interrupt: with UCTXIE set, you write to UCA1TXBUF and IRQ
+                                 // !!!!!!! Need to disable UCTXIE after the transmission string is done, so that it can be enabled again
+}
+
+#pragma vector=EUSCI_A0_VECTOR
+__interrupt void eUSCI_A0_ISR(void){
+//-----------------------------------------------------------------------------
+// Echo back RXed character, confirm TX buffer is ready first
+    switch(__even_in_range(UCA0IV,0x08)){
+         case 0: // Vector 0 - no interrupt
+             break;
+
+         case 2: // Vector 2 - RXIFG
+             // copy received char to ring_buffer
+             AD3_tx = UCA0RXBUF;
+             ring_buff[ring_rx_wr_A0++] = AD3_tx;
+
+
+             // if writing to ring reaches the end
+             if(ring_rx_wr_A0 == 16){
+                 ring_rx_wr_A0 = BEGINNING;
+             }
+
+             break;
+
+         case 4: // Vector 4 - TXIFG
+             UCA0TXBUF = process_buff[line][tx_2_AD3++];
+
+             // disable TXIE when the 10 chars + CR/LF are transferred from PBline
+             if (tx_2_AD3 >= 12){
+                 UCA0IE &= ~UCTXIE; // Disable TX interrupt
+                 tx_2_AD3 = BEGINNING;
+
+                 // increment line and check within storage size
+                 if(++line >= 4){ // stay within PB storage size
+                     line = 0;
+                 }
+
+                 // clear the line you just moved to, to prep it for the next command
+                 unsigned int i;
+                 for(i = 0; i <= 31; i++){
+                     process_buff[line][i] = 0;
+                 }
+             }
+             break;
+
+         default:
+             break;
+     }
+//------------------------------------------------------------------------------
+}
+
+#pragma vector=EUSCI_A1_VECTOR
+__interrupt void eUSCI_A1_ISR(void){
+//-----------------------------------------------------------------------------
+// Echo back RXed character, confirm TX buffer is ready first
+    switch(__even_in_range(UCA1IV,0x08)){
+         case 0: // Vector 0 - no interrupt
+             break;
+
+         case 2: // Vector 2 - RXIFG
+             // copy received char to ring_buffer
+             AD3_tx_A1 = UCA1RXBUF;
+             ring_buff[ring_rx_wr_A1++] = AD3_tx_A1;
+
+
+             // if writing to ring reaches the end
+             if(ring_rx_wr_A1 == 16){
+                 ring_rx_wr_A1 = BEGINNING;
+             }
+
+             break;
+
+         case 4: // Vector 4 - TXIFG
+             UCA1TXBUF = process_buff[line][tx_2_AD3++];
+
+             // disable TXIE when the 10 chars + CR/LF are transferred from PBline
+             if (tx_2_AD3 >= 12){
+                 UCA1IE &= ~UCTXIE; // Disable TX interrupt
+                 tx_2_AD3 = BEGINNING;
+
+                 // increment line and check within storage size
+                 if(++line >= 4){ // stay within PB storage size
+                     line = 0;
+                 }
+
+                 // clear the line you just moved to, to prep it for the next command
+                 unsigned int i;
+                 for(i = 0; i <= 31; i++){
+                     process_buff[line][i] = 0;
+                 }
+             }
+             break;
+
+         default:
+             break;
+     }
+//------------------------------------------------------------------------------
+}
+
+void Init_Serial_UCA0(void) {
+ //------------------------------------------------------------------------------
+ // Configure eUSCI_A0 for UART mode
+      UCA0CTLW0 = 0;
+      UCA0CTLW0 |= UCSWRST ; // Put eUSCI in reset
+      UCA0CTLW0 |= UCSSEL__SMCLK; // Set SMCLK as fBRCLK
+      UCA0CTLW0 &= ~UCMSB; // MSB, LSB select
+      UCA0CTLW0 &= ~UCSPB; // UCSPB = 0(1 stop bit) OR 1(2 stop bits)
+      UCA0CTLW0 &= ~UCPEN; // No Parity
+      UCA0CTLW0 &= ~UCSYNC;
+      UCA0CTLW0 &= ~UC7BIT;
+      UCA0CTLW0 |= UCMODE_0;
+
+      UCA0BRW = 4 ; // 115,200 baud
+      UCA0MCTLW = 0x5551 ;
+      Baud_Rate = BR2; // BR1 triggers the display to be other, but the
+
+
+      UCA0CTLW0 &= ~UCSWRST ; // release from reset
+//      UCA0TXBUF = 0x00; // Prime the Pump
+      UCA0IE |= UCRXIE; // Enable RX interrupt
+ //------------------------------------------------------------------------------
+}
+
+void Init_Serial_UCA1(void) {
+ //------------------------------------------------------------------------------
+ // Configure eUSCI_A0 for UART mode
+      UCA1CTLW0 = 0;
+      UCA1CTLW0 |= UCSWRST ; // Put eUSCI in reset
+      UCA1CTLW0 |= UCSSEL__SMCLK; // Set SMCLK as fBRCLK
+      UCA1CTLW0 &= ~UCMSB; // MSB, LSB select
+      UCA1CTLW0 &= ~UCSPB; // UCSPB = 0(1 stop bit) OR 1(2 stop bits)
+      UCA1CTLW0 &= ~UCPEN; // No Parity
+      UCA1CTLW0 &= ~UCSYNC;
+      UCA1CTLW0 &= ~UC7BIT;
+      UCA1CTLW0 |= UCMODE_0;
+
+      UCA0BRW = 17;
+      UCA0MCTLW = 0x4A00;
+  //    Baud_Rate = BR2; // BR1 triggers the display to be other, but the
+
+
+      UCA1CTLW0 &= ~UCSWRST ; // release from reset
+//      UCA0TXBUF = 0x00; // Prime the Pump
+      UCA1IE |= UCRXIE; // Enable RX interrupt
+ //------------------------------------------------------------------------------
+}
+
+
+
+
+

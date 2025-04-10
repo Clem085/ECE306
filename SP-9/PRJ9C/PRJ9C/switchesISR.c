@@ -1,0 +1,286 @@
+/*
+ * switchesISR.c
+ *
+ *  Created on: Feb 17, 2025
+ *      Author: price
+ */
+
+
+/*
+ * timers.c
+ *
+ *  Created on: Feb 17, 2025
+ *      Author: price
+ */
+
+#include  "msp430.h"
+#include  <string.h>
+#include  "include\functions.h"
+#include  "Include\LCD.h"
+#include  "include\ports.h"
+#include "macros.h"
+#include "include\shapes.h"
+
+extern volatile unsigned int TB0CCR0;
+extern volatile unsigned int TB0CCR1;
+extern volatile unsigned int TB0CCR2;
+unsigned int Motor_Count;
+extern unsigned int blink_count;
+extern volatile unsigned char display_changed;
+extern char display_line[4][11];
+extern volatile unsigned char update_display;
+unsigned int sw1_postion;
+unsigned int time_change;
+
+extern unsigned int delay_start;
+extern volatile unsigned int Time_Sequence;
+extern volatile char one_time;
+extern unsigned int event;
+
+extern volatile unsigned int sw1_position;
+extern unsigned char okay_to_look_at_switch1;
+extern unsigned int sw2_position;
+extern unsigned char okay_to_look_at_switch2;
+extern unsigned int debounce_count;
+unsigned int debounce_count_sw1;
+unsigned int debounce_count_sw2;
+
+unsigned char debounceCheckSW1;
+unsigned char debounceCheckSW2;
+unsigned int ADC_time_count;
+
+extern unsigned int Switch_Press;
+
+extern unsigned int DAC_data;
+char PRJ7Timer[3]; //ones, tens, hundreds
+extern int j;
+unsigned int SW1_PRESS_COUNT= 0;
+
+unsigned int IOT_timer;
+
+void Init_Timers(void){
+    Init_Timer_B0();
+    Init_Timer_B3();
+
+}
+
+
+//------------------------------------------------------------------------------
+// Timer B0 initialization sets up both B0_0, B0_1-B0_2 and overflow
+void Init_Timer_B0(void) {
+    TB0CTL = TBSSEL__SMCLK; // SMCLK source
+    TB0CTL |= TBCLR; // Resets TB0R, clock divider, count direction
+    TB0CTL |= MC__CONTINOUS; // Continuous up
+    TB0CTL |= ID__2; // Divide clock by 8
+    TB0EX0 = TBIDEX__8; // Divide clock by an additional 8
+    TB0CCR0 = TB0CCR0_INTERVAL; // CCR0
+    TB0CCTL0 |= CCIE; // CCR0 enable interrupt
+
+     TB0CCR1 = TB0CCR1_INTERVAL; // CCR1
+     TB0CCTL1 |= CCIE; // CCR1 enable interrupt
+
+     TB0CCR2 = TB0CCR2_INTERVAL; // CCR2
+     TB0CCTL2 |= CCIE; // CCR2 enable interrupt
+
+     TB0CTL &= ~TBIE; // Disable Overflow Interrupt
+     TB0CTL &= ~TBIFG; // Clear Overflow Interrupt flag
+}
+//------------------------------------------------------------------------------
+
+//#pragma vector = TIMER0_B0_VECTOR
+//__interrupt void Timer0_B0_ISR(void){
+////------------------------------------------------------------------------------
+//// TimerB0 0 Interrupt handler
+////----------------------------------------------------------------------------
+////...... Add What you need happen in the interrupt ......
+//    one_time = 1;
+//    Time_Sequence++;
+//
+//    TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
+////----------------------------------------------------------------------------
+//}
+#pragma vector=TIMER0_B1_VECTOR
+__interrupt void TIMER0_B1_ISR(void){
+//----------------------------------------------------------------------------
+// TimerB0 1-2, Overflow Interrupt Vector (TBIV) handler
+//----------------------------------------------------------------------------
+    switch(__even_in_range(TB0IV,14)){
+        case 0:
+
+        break; // No interrupt
+        case 2: // CCR1 not used
+
+
+            TB0CCR1 &= ~ CCIE;
+            P4IFG &= ~ SW1;
+            P4IE |= SW1;
+
+        TB0CCR1 += TB0CCR1_INTERVAL; // Add Offset to TBCCR1
+        break;
+        case 4: // CCR2 not used
+
+          TB0CCR2 &= ~ CCIE;   //clear flag
+          P2IFG &= ~ SW2;    //turn switches on
+          P2IE |= SW2;    //turn timer off
+
+        TB0CCR2 += TB0CCR2_INTERVAL; // Add Offset to TBCCR2
+        break;
+        case 14: // overflow
+
+        //    DAC_data = DAC_data - 50;
+         //   if (overflow++ == 2){
+
+           // }
+
+        break;
+      default: break;
+    }
+
+
+    //----------------------------------------------------------------------------
+    }
+
+
+
+//Timer 1
+#pragma vector = TIMER0_B0_VECTOR // Timer B0 – 0 Capture compare
+__interrupt void Timer0_B0_ISR(void){
+//--------------------------------------------------------------------
+// TimerB0 0 Interrupt handler
+//--------------------------------------------------------------------
+// LCD Backlight
+
+//    if (ADC_time_count++ >=S0250){
+//        ADCCTL0 |= ADCSC;  // Start a new ADC
+//    }
+
+  //  if(blink_count++ > FIFTY_MS_COUNT){
+//        if(sw2_position == RELEASED && sw1_position == RELEASED) {
+//            strcpy(display_line[0], "   NCSU   ");
+//            strcpy(display_line[1], " WOLFPACK ");
+//            strcpy(display_line[2], "  ECE306  ");
+//            strcpy(display_line[3], "  GP I/O  ");
+//            display_changed = TRUE;
+//            Display_Update(0,0,0,0);
+//            blink_count = 0; // Reset for next count
+//            P6OUT ^= LCD_BACKLITE; // Flip State of LCD_BACKLIT
+//          //  S0250 (12500/Time_Sequence_Rate)
+//        }
+
+   // }
+// Time Sequence
+    one_time = 1;
+    if(Time_Sequence++ > 4){ //values might need to change again for the display
+        update_display = 1;
+        IOT_timer++;
+    }
+
+    debounce_count += 1;
+    delay_start++;
+    TB0CCR0 += TB0CCR0_INTERVAL; // Add interval Offset to TACCR0
+
+   // PRJ7Timer[j++];
+
+    if (sw1_postion == PRESSED){
+        time_change++;
+    }
+//--------------------------------------------------------------------
+}
+
+
+#pragma vector=PORT4_VECTOR
+__interrupt void switchP4_interrupt(void){
+// Switch 1
+    if (P4IFG & SW1) {
+        sw1_position = PRESSED;
+        SW1_PRESS_COUNT++;
+        //if (okay_to_look_at_switch1 && sw1_position){
+            P4IE &= ~SW1;
+            P4IFG &= ~SW1; // IFG SW1 cleared
+          //  P6OUT &= ~LCD_BACKLITE;
+            P2OUT |= IR_LED;  //turns on emitter
+            Display_EMITON();
+            Switch_Press = Switch1;
+            //debounce time
+
+            TB0CCTL1 &= ~CCIFG; // CC Flag off
+            TB0CCR2 += TB0CCR2_INTERVAL;  //sets debounce time
+            TB0CCR1 &= ~ CCIE;   //switch interrupt off (interrupt enable - set to low)
+            P4IFG &= ~ SW1;    //turn flag off (IFG - interrupt flag gate) - clear flag
+            P4IE |= SW1;    //turn switch on
+//            sw1_position = PRESSED;
+//            okay_to_look_at_switch1 = NOT_OKAY;
+//            debounceCheckSW1 = START;
+
+
+       // }
+    }
+}
+
+#pragma vector=PORT2_VECTOR
+__interrupt void switchP2_interrupt(void){
+// Switch 2
+    if (P2IFG & SW2) {
+      //  if (okay_to_look_at_switch2 && sw2_position){
+            P2IE &= ~SW2;
+            P2IFG &= ~SW2; // IFG SW2 cleared
+     //       P6OUT |= LCD_BACKLITE;
+
+            sw2_position = PRESSED;
+          //  okay_to_look_at_switch2 = NOT_OKAY;
+            debounceCheckSW2 = START;
+            P2OUT &= ~IR_LED;  //turns on emitter
+            Display_EMITOFF();
+            Switch_Press = Switch2;
+
+            TB0CCR2 &= ~ CCIE;   //switch interrupt off (interrupt enable - set to low)
+            P2IFG &= ~ SW2;    //turn flag off (IFG - interrupt flag gate) - clear flag
+            P2IE |= SW2;    //turn switch off
+            TB0CCTL1 &= ~CCIFG; // CC Flag off
+            TB0CCR1 += TB0CCR1_INTERVAL;  //sets debounce time
+
+            //turn on timer CCR1 (whichever isn't used)
+            //add length of debounce to timer
+
+        //}
+    }
+}
+
+
+
+
+
+
+
+//BLACKLINE DETECT
+void Init_Timer_B3(void) {
+//------------------------------------------------------------------------------
+// SMCLK source, up count mode, PWM Right Side
+// TB3.1 P6.0 LCD_BACKLITE
+// TB3.2 P6.1 R_FORWARD
+// TB3.3 P6.2 R_REVERSE
+// TB3.4 P6.3 L_FORWARD
+// TB3.5 P6.4 L_REVERSE
+//------------------------------------------------------------------------------
+     TB3CTL = TBSSEL__SMCLK; // SMCLK
+     TB3CTL |= MC__UP; // Up Mode
+     TB3CTL |= TBCLR; // Clear TAR
+
+     PWM_PERIOD = WHEEL_PERIOD; // PWM Period [Set this to 50005]
+
+     TB3CCTL1 = OUTMOD_7; // CCR1 reset/set
+     LCD_BACKLITE_DIMING = PERCENT_80; // P6.0 Right Forward PWM duty cycle
+
+     TB3CCTL2 = OUTMOD_7; // CCR2 reset/set
+     RIGHT_FORWARD_SPEED = WHEEL_OFF; // P6.1 Right Forward PWM duty cycle
+
+     TB3CCTL3 = OUTMOD_7; // CCR3 reset/set
+     RIGHT_REVERSE_SPEED = WHEEL_OFF; // P6.3 Right Reverse PWM duty cycle
+
+     TB3CCTL4 = OUTMOD_7; // CCR4 reset/set
+     LEFT_FORWARD_SPEED = WHEEL_OFF; // P6.2 Left Forward PWM duty cycle
+
+     TB3CCTL5 = OUTMOD_7; // CCR5 reset/set
+     LEFT_REVERSE_SPEED = WHEEL_OFF; // P6.4 Left Reverse PWM duty cycle
+//------------------------------------------------------------------------------
+}
