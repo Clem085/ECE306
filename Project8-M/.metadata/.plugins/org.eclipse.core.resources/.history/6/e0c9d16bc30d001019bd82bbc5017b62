@@ -1,0 +1,30 @@
+//===========================================================================
+//  File Name: serial.h
+//  Description: Header file for serial.c - Contains Globals, Macros, & function declarations
+//  Programmer: Molana
+//  Date Created: March, 2025
+//===========================================================================
+#ifndef SERIAL_H_
+#define SERIAL_H_
+
+char baud_toggle;
+
+
+
+// Macro Definitions
+#define BEGINNING            (0)
+//#define SMALL_RING_SIZE     (16) // Must be placed ABOVE USB_Char_Rx[], Just set to 16 manually each place its used
+#define SMALL_RING_SIZE (16)
+#define LARGE_RING_SIZE (32)
+#define CHARACTER       (0)
+
+// Function Declarations
+void Init_Serial_UCA0(char);
+void baud_rate_disp(void);
+void USCI_A0_transmit(void);
+
+
+
+
+
+#endif /* SERIAL_H_ */

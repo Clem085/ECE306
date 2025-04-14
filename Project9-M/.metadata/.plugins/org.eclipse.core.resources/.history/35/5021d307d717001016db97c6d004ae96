@@ -1,0 +1,445 @@
+/* ============================================================================
+ * Serial Communication Module
+ *
+ * File        : serial.c
+ * Description : Handles UART communication for MSP430 microcontroller
+ *               - Manages two UART ports (UCA0 and UCA1)
+ *               - Supports multiple baud rates (115200 and 460800)
+ *               - Implements ring buffers for reliable data transfer
+ *               - Processes IoT command messages with state tracking
+ *
+ * Author      : Molana
+ * Created     : March 2025
+ * ============================================================================
+ */
+
+// System includes
+#include "msp430.h"
+#include "functions.h"
+#include "LCD.h"
+#include "ports.h"
+#include "macros.h"
+#include "motors.h"
+#include "Display.h"
+#include "timers.h"
+#include "interrupts.h"
+#include "switches.h"
+#include "ADC.h"
+#include "IR.h"
+#include "serial.h"
+#include "menu.h"
+#include <string.h>
+#include <stdio.h>
+
+/* ============================================================================
+ * Global Variables
+ * ============================================================================*/
+
+// IoT Communication Variables
+volatile unsigned int iot_rx_wr;        // IoT receive buffer write pointer
+volatile unsigned int iot_rx_rd;        // IoT receive buffer read pointer
+char IOT_Data[11][11];                 // Circular buffer for IoT messages (11x11)
+char IOT_Ring_Rx[11];                  // Raw IoT receive ring buffer
+_Bool IOT_received_str = 0;
+
+// Network Configuration
+volatile int ip_address[11];            // Stores parsed IP address
+char ip_mac[11];                       // MAC address storage
+
+// Communication Control
+volatile unsigned int direct_iot;       // Direct IoT access index
+volatile unsigned int iot_index;        // General IoT buffer index
+volatile int ip_address_found;         // Flag when IP is detected
+volatile unsigned int iot_tx;           // IoT transmit buffer index
+volatile unsigned int boot_state;       // System boot status
+volatile unsigned int IOT_parse;        // IoT message parsing flag
+
+// USB Communication Buffers
+volatile unsigned int usb_rx_ring_wr = 0; // USB receive write pointer
+volatile unsigned int usb_rx_ring_rd;   // USB receive read pointer
+volatile unsigned int usb_tx_ring_wr;   // USB transmit write pointer
+volatile unsigned int usb_tx_ring_rd;   // USB transmit read pointer
+volatile char USB_Char_Rx[SMALL_RING_SIZE]; // USB receive buffer
+volatile char USB_Char_Tx[11];          // USB transmit buffer
+volatile char IOT_Char_Rx[11];          // IoT receive buffer
+volatile char IOT_Char_Tx[11];          // IoT transmit buffer
+
+// System State
+volatile int Still_Put_In_Processor = 1; // Data processing control flag
+volatile unsigned int test_Value;       // Test/validation value
+
+// Message Processing
+unsigned int nextline;                  // Next display line index
+int unsigned line = 0;                  // Current display line
+int character = 0;                      // Character position in message
+char pb_index;                          // Process buffer index
+volatile char NCSU[] = "NCSU  #1  ";    // Default identification string
+volatile unsigned int ncsu_index = 0;   // String transmission index
+volatile char USB_Ring_Rx[11];          // USB receive ring buffer
+volatile char IOT_RING_Rx[32];
+volatile unassigned int tx_index = 0 ;
+char iot_TX_buf[11];                    // IoT transmit buffer
+unsigned int initialize_IoT = 0;
+unsigned int initialize_IoT_Process = 0;
+int index_trav;
+
+/* ============================================================================
+ * Function Implementations
+ * ============================================================================*/
+
+/**
+ * Initializes UART port UCA0 with specified baud rate
+ *
+ * @param speed Baud rate selection (1=115200, 2=460800)
+ *
+ * Features:
+ * - Configures UART for 8N1 operation
+ * - Uses SMCLK (8MHz) as clock source
+ * - Initializes ring buffers for RX/TX
+ * - Enables RX interrupts
+ * - Supports two standard baud rates
+ */
+void Init_Serial_UCA0(char speed) {
+    // Baud rate configuration reference:
+    // BRCLK   Baudrate UCOS16  UCBRx  UCFx    UCSx    Error(%)
+    // 8000000  115200     1       4     5     0x55   -0.80 0.64 -1.12 1.76
+    // 8000000  460800     0      17     0     0x4A   -2.72 2.56 -3.76 7.28
+
+    // Initialize UART control registers
+    UCA0CTLW0 = 0;
+    UCA0CTLW0 |= UCSWRST;               // Hold in reset during config
+    UCA0CTLW0 |= UCSSEL__SMCLK;         // Select SMCLK (8MHz)
+    UCA0CTLW0 &= ~UCMSB;                // LSB first transmission
+    UCA0CTLW0 &= ~UCSPB;                // 1 stop bit
+    UCA0CTLW0 &= ~UCPEN;                // No parity
+    UCA0CTLW0 &= ~UCSYNC;               // Asynchronous mode
+    UCA0CTLW0 &= ~UC7BIT;               // 8-bit data
+    UCA0CTLW0 |= UCMODE_0;              // Standard UART mode
+    int i;
+    // Initialize receive ring buffer
+    for(i=0; i<SMALL_RING_SIZE; i++) {
+        USB_Char_Rx[i] = 0x00;          // Clear buffer
+    }
+    usb_rx_ring_wr = BEGINNING;         // Initialize pointers
+    usb_rx_ring_rd = BEGINNING;
+
+    // Initialize transmit ring buffer
+    for(i = 0; i<LARGE_RING_SIZE; i++) {
+        USB_Char_Tx[i] = 0x00;
+    }
+    usb_tx_ring_wr = BEGINNING;
+    usb_tx_ring_rd = BEGINNING;
+
+    // Configure baud rate
+    switch(speed) {
+        case 1:  // 115200 baud
+            UCA0BRW = 4;                // Baud rate divisor
+            UCA0MCTLW = 0x5551;         // Modulation settings
+            break;
+        case 2:  // 460800 baud
+            UCA0BRW = 17;
+            UCA0MCTLW = 0x4A00;
+            break;
+    }
+
+    // Enable UART operation
+    UCA0CTLW0 &= ~UCSWRST;              // Release from reset
+    //UCA0TXBUF = 0x00;                   // Prime transmit buffer (FIND ME)
+    UCA0IE |= UCRXIE;                   // Enable RX interrupts
+}
+
+/**
+ * Initializes secondary UART port UCA1
+ *
+ * @param speed Baud rate selection (1=115200, 2=460800)
+ *
+ * Note: Configuration identical to UCA0 but for secondary port
+ */
+void Init_Serial_UCA1(char speed) {
+    // Initialize UART control registers
+    int i;
+
+    UCA1CTLW0 = 0;
+    UCA1CTLW0 |= UCSWRST;
+    UCA1CTLW0 |= UCSSEL__SMCLK;
+    UCA1CTLW0 &= ~UCMSB;
+    UCA1CTLW0 &= ~UCSPB;
+    UCA1CTLW0 &= ~UCPEN;
+    UCA1CTLW0 &= ~UCSYNC;
+    UCA1CTLW0 &= ~UC7BIT;
+    UCA1CTLW0 |= UCMODE_0;
+
+    // Initialize buffers
+    for(i=0; i<SMALL_RING_SIZE; i++) {
+        IOT_Char_Rx[i] = 0x00;
+    }
+    usb_rx_ring_wr = BEGINNING;
+    usb_rx_ring_rd = BEGINNING;
+
+    for(i=0; i<LARGE_RING_SIZE; i++) {
+        IOT_Char_Tx[i] = 0x00;
+    }
+    usb_tx_ring_wr = BEGINNING;
+    usb_tx_ring_rd = BEGINNING;
+
+    // Set baud rate
+    switch(speed) {
+        case 1:
+            UCA0BRW = 4;
+            UCA0MCTLW = 0x5551;
+            break;
+        case 2:
+            UCA1BRW = 17;
+            UCA1MCTLW = 0x4A00;
+            break;
+    }
+
+    // Enable UART
+    UCA1CTLW0 &= ~UCSWRST;
+   // UCA1TXBUF = 0x00; // FIND ME
+    UCA1IE |= UCRXIE;
+}
+
+/**
+ * Initiates transmission on UCA0
+ *
+ * Requirements:
+ * - Data must be loaded in process_buffer
+ * - Buffer must be NULL-terminated
+ * - Includes CR/LF if needed
+ */
+void USCI_A0_transmit(void) {
+    pb_index = 0;                      // Start from buffer beginning
+    UCA0IE |= UCTXIE;                  // Enable transmit interrupts
+
+}
+
+/**
+ * Processes incoming IoT messages
+ *
+ * Functionality:
+ * - Reads from IoT ring buffer
+ * - Handles message framing (newline terminated)
+ * - Updates system state accordingly
+ */
+void IOT_Process(void) {
+//    unsigned int iot_rx_wr_temp = iot_rx_wr;
+
+    switch(initialize_IoT){
+    case 0: // setting up the IoT
+            if (iot_on_time <= 10){
+                strcpy(display_line[0], "IOT OFF")
+                display_changed = TRUE;
+            }
+         else if (iot_on_time <= 15){
+             P3OUT |= IOT_EN;
+             strcpy(display_line[0], "IOT ON")
+             display_changed = TRUE;
+         }
+
+
+         else if (iot_on_time < 50){
+             switch (initialize_IoT_Process){
+             case 1:
+                 index_trav = 0;
+                                     strcpy(display_line[3], "    1     ");
+                                     display_changed = TRUE;
+                                     if (iot_TX_buf[response_parse++] == '\r'){
+                                         //          response_parse--;
+                                         if (iot_TX_buf[response_parse-2] == 'P'){
+                                             strcpy(IOT_Ring_Rx, stop_save_sett);
+                                             UCA1IE |= UCTXIE;
+                                             initial_process = 2;
+                                             response_parse = 0;
+
+                                             while (IOT_Ring_Rx[index_trav] == 0x00){
+                                                 IOT_Ring_Rx[index_trav++] = 0;
+                                             }
+                                         }
+                                     }
+                                     break;
+                                 case 2:
+                                     index_trav= 0;
+                                     strcpy(display_line[3], "    2     ");
+                                     display_changed = TRUE;
+                                     if (iot_TX_buf[response_parse++] == '\r'){
+                                         if (iot_TX_buf[response_parse-2] == 'K'){
+                                             tx_index = 0;
+                                             strcpy(IOT_Ring_Rx, update_conn_sett);
+                                             UCA1IE |= UCTXIE;
+                                             initial_process = 3;
+                                             response_parse = 0;
+                                         }
+                                     }
+                                     if (response_parse > 31){
+                                         response_parse = 0;
+                                     }
+                                     if (tx_index > 31){
+                                         tx_index = 0;
+                                     }
+                                     break;
+                                 case 3:
+                                     index_trav= 0;
+                                     strcpy(display_line[3], "    3     ");
+                                     display_changed = TRUE;
+                                     if (iot_TX_buf[response_parse++] == '\r'){
+                                         index_trav = 0;
+                                         if (iot_TX_buf[response_parse-10] == 'X'){
+                                             tx_index = 0;
+                                             strcpy(IOT_Ring_Rx, conf_server);
+                                             UCA1IE |= UCTXIE;
+                                             initial_process = 4;
+                                             response_parse = 0;
+                                         }
+                                     }
+                                     if (response_parse > 31){
+                                         response_parse = 0;
+                                     }
+                                     if (tx_index > 31){
+                                         tx_index = 0;
+                                     }
+                                     break;
+                                 case 4:
+                                     index_trav= 0;
+                                     strcpy(display_line[3], "    4     ");
+                                     display_changed = TRUE;
+                                     if (iot_TX_buf[response_parse++] == '\r'){
+                                         index_trav = 0;
+                                         //                if (response_parse-9 < 0){
+                                         if (iot_TX_buf[response_parse + 23] == '8'){
+                                             tx_index = 0;
+                                             strcpy(IOT_Ring_Rx, SSID_access);
+                                             UCA1IE |= UCTXIE;
+                                             initial_process = 5;
+                                             response_parse = 0;
+                                         }
+                                     }
+                                     if (response_parse > 31){
+                                         response_parse = 0;
+                                     }
+                                     if (tx_index > 31){
+                                         tx_index = 0;
+                                     }
+                                     break;
+                                 case 5:
+                                     // printing the ssid
+                                     strcpy(display_line[3], "    5     ");
+                                     display_changed = TRUE;
+                                     strcpy(display_line[1], "          ");
+                                     strcpy(display_line[0], "          ");
+                                     strcpy(display_line[2], "          ");
+                                     strcpy(display_line[3], "          ");
+                                     display_changed = TRUE;
+                                     initial_process = 6;
+                                     break;
+                                 case 6:
+                                     index_trav= 0;
+                                     strcpy(display_line[3], "    6     ");
+                                     display_changed = TRUE;
+
+                                     if (iot_TX_buf[response_parse++] == '\r'){
+                                         index_trav = 0;
+                                         if (iot_TX_buf[response_parse-9] == ','){
+                                             tx_index = 0;
+                                             strcpy(IOT_Ring_Rx, IP_access);
+                                             UCA1IE |= UCTXIE;
+                                             initial_process = 7;
+                                             response_parse = 0;
+                                             command4_flag = 0;
+                                             //                            strcpy(display_line[1], " SSID CAP ");
+                                             //                            strcpy(display_line[0], "          ");
+                                             //                            display_changed = TRUE;
+                                             //                            //                            strcpy(display_line[0], ssid_display);
+                                             //                            strcpy(display_line[0], "ncsu      ");
+                                             //                            strcpy(display_line[2], "          ");
+                                             //                            strcpy(display_line[3], "          ");
+                                             //                            display_changed = TRUE;
+                                         }
+                                     }
+                                     //            }
+                                     if (response_parse > 31){
+                                         response_parse = 0;
+                                     }
+                                     if (tx_index > 31){
+                                         tx_index = 0;
+                                     }
+                                     break;
+                                 case 7:
+                                     index_trav= 0;
+                                     strcpy(display_line[3], "    7     ");
+                                     display_changed = TRUE;
+                                     //            if (command4_flag){
+                                     if (iot_TX_buf[response_parse++] == '\r'){
+                                         index_trav = 0;
+                                         if (iot_TX_buf[response_parse-8] == '"'){
+                                             tx_index = 0;
+                                             strcpy(IOT_Ring_Rx, check_okay);
+                                             UCA1IE |= UCTXIE;
+                                             initial_process = 8;
+                                             response_parse = 0;
+                                             //                    command4_flag = 0;
+                                             strcpy(display_line[0], "          ");
+                                             strcpy(display_line[1], "          ");
+                                             strcpy(display_line[2], "          ");
+                                             strcpy(display_line[3], "          ");
+                                             display_changed = TRUE;
+                                         }
+                                     }
+                                     if (response_parse > 31){
+                                         response_parse = 0;
+                                     }
+                                     if (tx_index > 31){
+                                         tx_index = 0;
+                                     }
+                                     break;
+                                 case 8:
+                                     strcpy(display_line[3], "    8     ");
+                                     display_changed = TRUE;
+                                     initialize_done = 1;
+                                     strcpy(display_line[4], "  READY!  ");
+                                     display_changed = TRUE;
+                                     break;
+
+
+
+                                 }
+                             }
+                             break;
+             }
+         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    // Check for new data
+//    if(iot_rx_wr_temp != iot_rx_rd) {
+//        // Store incoming character
+//        IOT_Data[line][character] = IOT_Ring_Rx[iot_rx_rd++];
+//
+//        // Handle buffer wrap-around
+//        if(iot_rx_rd >= sizeof(IOT_Ring_Rx)) {
+//            iot_rx_rd = BEGINNING;
+//        }
+//
+//        // Check for message terminator (newline)
+//        if(IOT_Data[line][character] == 0x0A) {
+//            IOT_received_str = 1;
+//            character = 0;
+//            line = (line >= 3) ? 0 : line + 1;  // Circular buffer for 4 lines
+//        }
+//}

@@ -213,11 +213,18 @@ void main(void){
                         UCA1IE |= UCTXIE;
                         initial_process = 2;
                         response_parse = 0;
+                        strcpy(display_line[2], "          ");
+                        display_changed = TRUE;
     //                    legacy = 0;
                         while (IOT_Ring_Rx[vv] == 0x00){
                             IOT_Ring_Rx[vv++] = 0;
                         }
                     }
+                }
+                if(response_parse >= 10){
+                    response_parse = 0;
+                    strcpy(display_line[2], "OVERFLOW");
+                    display_changed = TRUE;
                 }
                 break;
             case 2:

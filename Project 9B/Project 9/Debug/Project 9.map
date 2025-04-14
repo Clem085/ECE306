@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v21.6.1                     
 ******************************************************************************
->> Linked Mon Dec  2 09:57:43 2024
+>> Linked Sat Apr 12 17:37:48 2025
 
 OUTPUT FILE NAME:   <Project 9.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs_mpu"  address: 00009aaa
+ENTRY POINT SYMBOL: "_c_int00_noargs_mpu"  address: 00009ae2
 
 
 MEMORY CONFIGURATION
@@ -17,7 +17,7 @@ MEMORY CONFIGURATION
   TLVMEM                00001a00   00000200  00000000  00000200  RWIX
   BOOTCODE              00001c00   00000400  00000000  00000400  RWIX
   RAM                   00002000   00001000  000001e2  00000e1e  RWIX
-  FRAM                  00008000   00007f80  00001ad2  000064ae  RWIX
+  FRAM                  00008000   00007f80  00001b0a  00006476  RWIX
   JTAGSIGNATURE         0000ff80   00000004  00000004  00000000  RWIX  ffff 
   BSLSIGNATURE          0000ff84   00000004  00000004  00000000  RWIX  ffff 
   BSLCONFIGURATIONSIGNA 0000ff88   00000002  00000002  00000000  RWIX  ffff 
@@ -105,80 +105,80 @@ section   page    origin      length       input sections
 .mspabi.extab 
 *          0    0000806a    00000000     UNINITIALIZED
 
-.const     0    0000806a    000000f8     
-                  0000806a    000000f8     main.obj (.const:.string)
+.const     0    0000806a    00000102     
+                  0000806a    00000102     main.obj (.const:.string)
 
-.text      0    00008162    0000158e     
-                  00008162    00000846     main.obj (.text:main)
-                  000089a8    000000ee     rts430x_lc_sd_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  00008a96    000000c4     LCD.obj (.text:Init_LCD)
-                  00008b5a    000000be     clocks.obj (.text:Software_Trim)
-                  00008c18    000000be     main.obj (.text:dispPrint)
-                  00008cd6    000000aa     ports.obj (.text:Init_Port3)
-                  00008d80    00000096     ports.obj (.text:Init_Port2)
-                  00008e16    00000092     ports.obj (.text:Init_Port6)
-                  00008ea8    00000084     ports.obj (.text:Init_Port1)
-                  00008f2c    0000007a     ports.obj (.text:Init_Port4)
-                  00008fa6    00000076     ADC.obj (.text:HEXtoBCD)
-                  0000901c    0000006a     rts430x_lc_sd_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
-                  00009086    00000068     clocks.obj (.text:Init_Clocks)
-                  000090ee    00000062     ports.obj (.text:Init_Port5)
-                  00009150    00000052     init.obj (.text:Init_Conditions)
-                  000091a2    0000004c     Timers.obj (.text:Init_Timer_B3)
-                  000091ee    0000004a     Timers.obj (.text:Init_Timer_B0)
-                  00009238    00000046     serial.obj (.text:Init_Serial_UCA0)
-                  0000927e    00000046     serial.obj (.text:Init_Serial_UCA1)
-                  000092c4    00000044     LCD.obj (.text:Display_Update)
-                  00009308    00000040     LCD.obj (.text:Init_SPI_B1)
-                  00009348    00000040     rts430x_lc_sd_eabi.lib : cpy_util.asm.obj (.text:__memcpy_far)
-                  00009388    0000003e                            : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
-                  000093c6    0000003c     FRWP_INIT_LIB_CCS_msp430_large_code_small_data.lib : frwp_init.obj (.text:__mpu_init)
-                  00009402    0000003c     rts430x_lc_sd_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  0000943e    0000002c                            : strncpy.c.obj (.text:strncpy)
-                  0000946a    00000028     LCD.obj (.text:WriteData)
-                  00009492    00000028     LCD.obj (.text:WriteIns)
-                  000094ba    00000022     led.obj (.text:Display_Process)
-                  000094dc    0000001c     LCD.obj (.text:SPI_B1_write)
-                  000094f8    0000001c     LCD.obj (.text:lcd_out)
-                  00009514    0000001c     wheels.obj (.text:motor_run_backward)
-                  00009530    0000001c     wheels.obj (.text:motor_run_forward)
-                  0000954c    0000001a     ports.obj (.text:Init_Ports)
-                  00009566    0000001a     wheels.obj (.text:motor_run_left)
-                  00009580    0000001a     wheels.obj (.text:motor_run_right)
-                  0000959a    0000001a     rts430x_lc_sd_eabi.lib : strcat.c.obj (.text:strcat)
-                  000095b4    00000018     LCD.obj (.text:ClrDisplay_Buffer_0)
-                  000095cc    00000018     LCD.obj (.text:ClrDisplay_Buffer_1)
-                  000095e4    00000018     LCD.obj (.text:ClrDisplay_Buffer_2)
-                  000095fc    00000018     LCD.obj (.text:ClrDisplay_Buffer_3)
-                  00009614    00000018     rts430x_lc_sd_eabi.lib : mult16_f5hw.asm.obj (.text)
-                  0000962c    00000016     LCD.obj (.text:ClrDisplay)
-                  00009642    00000016     LCD.obj (.text:spi_chipselect_idle)
-                  00009658    00000014     wheels.obj (.text:Wheels_Stop)
-                  0000966c    00000012     wheels.obj (.text:motor_off)
-                  0000967e    00000012     LCD.obj (.text:spi_chipselect_active)
-                  00009690    00000010     rts430x_lc_sd_eabi.lib : strcpy.c.obj (.text:strcpy)
-                  000096a0    0000000e     LCD.obj (.text:DisplayOnOff)
-                  000096ae    0000000e     rts430x_lc_sd_eabi.lib : strlen.c.obj (.text:strlen)
-                  000096bc    0000000a     Timers.obj (.text:Init_Timers)
-                  000096c6    0000000a     serial.obj (.text:USCI_A0_transmit)
-                  000096d0    00000008     system.obj (.text:enable_interrupts)
-                  000096d8    00000006     rts430x_lc_sd_eabi.lib : exit.c.obj (.text:abort)
-                  000096de    00000006     LCD.obj (.text:spi_reset_active)
-                  000096e4    00000006     LCD.obj (.text:spi_reset_idle)
-                  000096ea    00000004     rts430x_lc_sd_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
-                  000096ee    00000002                            : startup.c.obj (.text:_system_post_cinit)
+.text      0    0000816c    000015bc     
+                  0000816c    00000874     main.obj (.text:main)
+                  000089e0    000000ee     rts430x_lc_sd_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  00008ace    000000c4     LCD.obj (.text:Init_LCD)
+                  00008b92    000000be     clocks.obj (.text:Software_Trim)
+                  00008c50    000000be     main.obj (.text:dispPrint)
+                  00008d0e    000000aa     ports.obj (.text:Init_Port3)
+                  00008db8    00000096     ports.obj (.text:Init_Port2)
+                  00008e4e    00000092     ports.obj (.text:Init_Port6)
+                  00008ee0    00000084     ports.obj (.text:Init_Port1)
+                  00008f64    0000007a     ports.obj (.text:Init_Port4)
+                  00008fde    00000076     ADC.obj (.text:HEXtoBCD)
+                  00009054    0000006a     rts430x_lc_sd_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
+                  000090be    00000068     clocks.obj (.text:Init_Clocks)
+                  00009126    00000062     ports.obj (.text:Init_Port5)
+                  00009188    00000052     init.obj (.text:Init_Conditions)
+                  000091da    0000004c     Timers.obj (.text:Init_Timer_B3)
+                  00009226    0000004a     Timers.obj (.text:Init_Timer_B0)
+                  00009270    00000046     serial.obj (.text:Init_Serial_UCA0)
+                  000092b6    00000046     serial.obj (.text:Init_Serial_UCA1)
+                  000092fc    00000044     LCD.obj (.text:Display_Update)
+                  00009340    00000040     LCD.obj (.text:Init_SPI_B1)
+                  00009380    00000040     rts430x_lc_sd_eabi.lib : cpy_util.asm.obj (.text:__memcpy_far)
+                  000093c0    0000003e                            : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  000093fe    0000003c     FRWP_INIT_LIB_CCS_msp430_large_code_small_data.lib : frwp_init.obj (.text:__mpu_init)
+                  0000943a    0000003c     rts430x_lc_sd_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  00009476    0000002c                            : strncpy.c.obj (.text:strncpy)
+                  000094a2    00000028     LCD.obj (.text:WriteData)
+                  000094ca    00000028     LCD.obj (.text:WriteIns)
+                  000094f2    00000022     led.obj (.text:Display_Process)
+                  00009514    0000001c     LCD.obj (.text:SPI_B1_write)
+                  00009530    0000001c     LCD.obj (.text:lcd_out)
+                  0000954c    0000001c     wheels.obj (.text:motor_run_backward)
+                  00009568    0000001c     wheels.obj (.text:motor_run_forward)
+                  00009584    0000001a     ports.obj (.text:Init_Ports)
+                  0000959e    0000001a     wheels.obj (.text:motor_run_left)
+                  000095b8    0000001a     wheels.obj (.text:motor_run_right)
+                  000095d2    0000001a     rts430x_lc_sd_eabi.lib : strcat.c.obj (.text:strcat)
+                  000095ec    00000018     LCD.obj (.text:ClrDisplay_Buffer_0)
+                  00009604    00000018     LCD.obj (.text:ClrDisplay_Buffer_1)
+                  0000961c    00000018     LCD.obj (.text:ClrDisplay_Buffer_2)
+                  00009634    00000018     LCD.obj (.text:ClrDisplay_Buffer_3)
+                  0000964c    00000018     rts430x_lc_sd_eabi.lib : mult16_f5hw.asm.obj (.text)
+                  00009664    00000016     LCD.obj (.text:ClrDisplay)
+                  0000967a    00000016     LCD.obj (.text:spi_chipselect_idle)
+                  00009690    00000014     wheels.obj (.text:Wheels_Stop)
+                  000096a4    00000012     wheels.obj (.text:motor_off)
+                  000096b6    00000012     LCD.obj (.text:spi_chipselect_active)
+                  000096c8    00000010     rts430x_lc_sd_eabi.lib : strcpy.c.obj (.text:strcpy)
+                  000096d8    0000000e     LCD.obj (.text:DisplayOnOff)
+                  000096e6    0000000e     rts430x_lc_sd_eabi.lib : strlen.c.obj (.text:strlen)
+                  000096f4    0000000a     Timers.obj (.text:Init_Timers)
+                  000096fe    0000000a     serial.obj (.text:USCI_A0_transmit)
+                  00009708    00000008     system.obj (.text:enable_interrupts)
+                  00009710    00000006     rts430x_lc_sd_eabi.lib : exit.c.obj (.text:abort)
+                  00009716    00000006     LCD.obj (.text:spi_reset_active)
+                  0000971c    00000006     LCD.obj (.text:spi_reset_idle)
+                  00009722    00000004     rts430x_lc_sd_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
+                  00009726    00000002                            : startup.c.obj (.text:_system_post_cinit)
 
 .text:_isr 
-*          0    000096f0    000003e2     
-                  000096f0    0000014e     serial.obj (.text:_isr:eUSCI_A0_ISR)
-                  0000983e    0000009e     adc_interrupts.obj (.text:_isr:ADC_ISR)
-                  000098dc    0000007e     Timer_Interrupts.obj (.text:_isr:Timer0_B0_ISR)
-                  0000995a    00000064     Ports_Interrupts.obj (.text:_isr:switch2_interrupt)
-                  000099be    00000056     serial.obj (.text:_isr:eUSCI_A1_ISR)
-                  00009a14    00000050     Timer_Interrupts.obj (.text:_isr:TIMER0_B1_ISR)
-                  00009a64    00000046     Ports_Interrupts.obj (.text:_isr:switch1_interrupt)
-                  00009aaa    00000020     rts430x_lc_sd_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs_mpu)
-                  00009aca    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+*          0    00009728    000003e2     
+                  00009728    0000014e     serial.obj (.text:_isr:eUSCI_A0_ISR)
+                  00009876    0000009e     adc_interrupts.obj (.text:_isr:ADC_ISR)
+                  00009914    0000007e     Timer_Interrupts.obj (.text:_isr:Timer0_B0_ISR)
+                  00009992    00000064     Ports_Interrupts.obj (.text:_isr:switch2_interrupt)
+                  000099f6    00000056     serial.obj (.text:_isr:eUSCI_A1_ISR)
+                  00009a4c    00000050     Timer_Interrupts.obj (.text:_isr:TIMER0_B1_ISR)
+                  00009a9c    00000046     Ports_Interrupts.obj (.text:_isr:switch1_interrupt)
+                  00009ae2    00000020     rts430x_lc_sd_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs_mpu)
+                  00009b02    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
 
 .bss       0    00002000    000000e9     UNINITIALIZED
                   00002000    0000002c     (.common:display_line)
@@ -361,7 +361,7 @@ MODULE SUMMARY
        Total:                       656    0         9      
                                                             
     .\
-       main.obj                     2308   248       192    
+       main.obj                     2354   258       192    
        ports.obj                    844    0         0      
        serial.obj                   570    4         30     
        clocks.obj                   294    0         0      
@@ -375,14 +375,14 @@ MODULE SUMMARY
        led.obj                      34     0         0      
        Switches.obj                 0      0         4      
     +--+----------------------------+------+---------+---------+
-       Total:                       5090   262       312    
+       Total:                       5136   272       312    
                                                             
-    C:\ti\ccs1280\ccs\ccs_base\msp430\lib\FR2xx\FRWP_INIT_LIB_CCS_msp430_large_code_small_data.lib
+    C:\ti\ccs2001\ccs\ccs_base\msp430\lib\FR2xx\FRWP_INIT_LIB_CCS_msp430_large_code_small_data.lib
        frwp_init.obj                60     0         0      
     +--+----------------------------+------+---------+---------+
        Total:                       60     0         0      
                                                             
-    C:\ti\ccs1280\ccs\tools\compiler\ti-cgt-msp430_21.6.1.LTS\lib\rts430x_lc_sd_eabi.lib
+    C:\ti\ccs2001\ccs\tools\compiler\ti-cgt-msp430_21.6.1.LTS\lib\rts430x_lc_sd_eabi.lib
        copy_decompress_lzss.c.obj   238    0         0      
        autoinit.c.obj               106    0         0      
        cpy_util.asm.obj             64     0         0      
@@ -421,7 +421,7 @@ MODULE SUMMARY
        Stack:                       0      0         160    
        Linker Generated:            0      106       0      
     +--+----------------------------+------+---------+---------+
-       Grand Total:                 6512   404       481    
+       Grand Total:                 6558   414       481    
 
 
 LINKER GENERATED COPY TABLES
@@ -474,7 +474,7 @@ address   name
 00000713  ADCMEM0_H                              
 00000712  ADCMEM0_L                              
 00002096  ADC_Channel                            
-0000983e  ADC_ISR                                
+00009876  ADC_ISR                                
 00002098  ADC_Left_Detect                        
 0000209a  ADC_Right_Detect                       
 0000209c  ADC_thumb                              
@@ -526,7 +526,7 @@ address   name
 00000672  BAKMEM9                                
 00000673  BAKMEM9_H                              
 00000672  BAKMEM9_L                              
-000096d8  C$$EXIT                                
+00009710  C$$EXIT                                
 000002ee  CAPTIOCTL                              
 000002ef  CAPTIOCTL_H                            
 000002ee  CAPTIOCTL_L                            
@@ -606,14 +606,14 @@ address   name
 00000190  CSCTL8                                 
 00000191  CSCTL8_H                               
 00000190  CSCTL8_L                               
-0000962c  ClrDisplay                             
-000095b4  ClrDisplay_Buffer_0                    
-000095cc  ClrDisplay_Buffer_1                    
-000095e4  ClrDisplay_Buffer_2                    
-000095fc  ClrDisplay_Buffer_3                    
-000096a0  DisplayOnOff                           
-000094ba  Display_Process                        
-000092c4  Display_Update                         
+00009664  ClrDisplay                             
+000095ec  ClrDisplay_Buffer_0                    
+00009604  ClrDisplay_Buffer_1                    
+0000961c  ClrDisplay_Buffer_2                    
+00009634  ClrDisplay_Buffer_3                    
+000096d8  DisplayOnOff                           
+000094f2  Display_Process                        
+000092fc  Display_Update                         
 000001a0  FRCTL0                                 
 000001a1  FRCTL0_H                               
 000001a0  FRCTL0_L                               
@@ -623,7 +623,7 @@ address   name
 000001a6  GCCTL1                                 
 000001a7  GCCTL1_H                               
 000001a6  GCCTL1_L                               
-00008fa6  HEXtoBCD                               
+00008fde  HEXtoBCD                               
 000006c4  ICCILSR0                               
 000006c5  ICCILSR0_H                             
 000006c4  ICCILSR0_L                             
@@ -644,22 +644,22 @@ address   name
 000006c0  ICCSC_L                                
 0000202c  IOT_Ring_Rx                            
 0000212a  IP_access                              
-00009086  Init_Clocks                            
-00009150  Init_Conditions                        
-00008a96  Init_LCD                               
-00008ea8  Init_Port1                             
-00008d80  Init_Port2                             
-00008cd6  Init_Port3                             
-00008f2c  Init_Port4                             
-000090ee  Init_Port5                             
-00008e16  Init_Port6                             
-0000954c  Init_Ports                             
-00009308  Init_SPI_B1                            
-00009238  Init_Serial_UCA0                       
-0000927e  Init_Serial_UCA1                       
-000091ee  Init_Timer_B0                          
-000091a2  Init_Timer_B3                          
-000096bc  Init_Timers                            
+000090be  Init_Clocks                            
+00009188  Init_Conditions                        
+00008ace  Init_LCD                               
+00008ee0  Init_Port1                             
+00008db8  Init_Port2                             
+00008d0e  Init_Port3                             
+00008f64  Init_Port4                             
+00009126  Init_Port5                             
+00008e4e  Init_Port6                             
+00009584  Init_Ports                             
+00009340  Init_SPI_B1                            
+00009270  Init_Serial_UCA0                       
+000092b6  Init_Serial_UCA1                       
+00009226  Init_Timer_B0                          
+000091da  Init_Timer_B3                          
+000096f4  Init_Timers                            
 000004c4  MAC                                    
 000004da  MAC32H                                 
 000004db  MAC32H_H                               
@@ -1020,7 +1020,7 @@ address   name
 00000104  SFRRPCR                                
 00000105  SFRRPCR_H                              
 00000104  SFRRPCR_L                              
-000094dc  SPI_B1_write                           
+00009514  SPI_B1_write                           
 0000211e  SSID_access                            
 000004ce  SUMEXT                                 
 000004cf  SUMEXT_H                               
@@ -1064,7 +1064,7 @@ address   name
 0000015a  SYSUNIV                                
 0000015b  SYSUNIV_H                              
 0000015a  SYSUNIV_L                              
-00008b5a  Software_Trim                          
+00008b92  Software_Trim                          
 00000392  TB0CCR0                                
 00000393  TB0CCR0_H                              
 00000392  TB0CCR0_L                              
@@ -1209,9 +1209,9 @@ address   name
 00000450  TB3R                                   
 00000451  TB3R_H                                 
 00000450  TB3R_L                                 
-00009a14  TIMER0_B1_ISR                          
+00009a4c  TIMER0_B1_ISR                          
 000020a0  Time_Sequence                          
-000098dc  Timer0_B0_ISR                          
+00009914  Timer0_B0_ISR                          
 00000510  UCA0ABCTL                              
 00000511  UCA0ABCTL_H                            
 00000510  UCA0ABCTL_L                            
@@ -1386,13 +1386,13 @@ address   name
 000005ce  UCB1TXBUF                              
 000005cf  UCB1TXBUF_H                            
 000005ce  UCB1TXBUF_L                            
-000096c6  USCI_A0_transmit                       
+000096fe  USCI_A0_transmit                       
 000001cc  WDTCTL                                 
 000001cd  WDTCTL_H                               
 000001cc  WDTCTL_L                               
-00009658  Wheels_Stop                            
-0000946a  WriteData                              
-00009492  WriteIns                               
+00009690  Wheels_Stop                            
+000094a2  WriteData                              
+000094ca  WriteIns                               
 00003000  __STACK_END                            
 000000a0  __STACK_SIZE                           
 0000805a  __TI_CINIT_Base                        
@@ -1400,10 +1400,10 @@ address   name
 0000806a  __TI_CINIT_Warm                        
 00008048  __TI_Handler_Table_Base                
 00008054  __TI_Handler_Table_Limit               
-00009aca  __TI_ISR_TRAP                          
-0000901c  __TI_auto_init_nobinit_nopinit_hold_wdt
-000089a8  __TI_decompress_lzss                   
-00009402  __TI_decompress_none                   
+00009b02  __TI_ISR_TRAP                          
+00009054  __TI_auto_init_nobinit_nopinit_hold_wdt
+000089e0  __TI_decompress_lzss                   
+0000943a  __TI_decompress_none                   
 0000ffce  __TI_int22                             
 0000ffd0  __TI_int23                             
 0000ffd2  __TI_int24                             
@@ -1431,18 +1431,18 @@ address   name
 ffffffff  __TI_pprof_out_hndl                    
 ffffffff  __TI_prof_data_size                    
 ffffffff  __TI_prof_data_start                   
-00009388  __TI_zero_init_nomemset                
+000093c0  __TI_zero_init_nomemset                
 ffffffff  __c_args__                             
-00009348  __memcpy_far                           
+00009380  __memcpy_far                           
 00000001  __mpu_enable                           
-000093c6  __mpu_init                             
-00009614  __mspabi_mpyi_f5hw                     
-00009aaa  _c_int00_noargs_mpu                    
+000093fe  __mpu_init                             
+0000964c  __mspabi_mpyi_f5hw                     
+00009ae2  _c_int00_noargs_mpu                    
 0000fffe  _reset_vector                          
 00002f60  _stack                                 
-000096ee  _system_post_cinit                     
-000096ea  _system_pre_init                       
-000096d8  abort                                  
+00009726  _system_post_cinit                     
+00009722  _system_pre_init                       
+00009710  abort                                  
 00002092  adc_char                               
 000020a2  baud_toggle                            
 000020a4  blink_count                            
@@ -1452,15 +1452,15 @@ ffffffff  __c_args__
 000020e2  command_op                             
 000020ea  conf_server                            
 000020e3  current_character                      
-00008c18  dispPrint                              
+00008c50  dispPrint                              
 0000208a  display                                
 000020e4  display_changed                        
 000020aa  display_count                          
 00002000  display_line                           
 000020ac  distance                               
-000096f0  eUSCI_A0_ISR                           
-000099be  eUSCI_A1_ISR                           
-000096d0  enable_interrupts                      
+00009728  eUSCI_A0_ISR                           
+000099f6  eUSCI_A1_ISR                           
+00009708  enable_interrupts                      
 000020e5  forward                                
 00008000  fram_rw_start                          
 00008000  fram_rx_start                          
@@ -1478,15 +1478,15 @@ ffffffff  __c_args__
 00002138  ip_index1                              
 0000213a  ip_index2                              
 000020bc  ip_record_flag                         
-000094f8  lcd_out                                
+00009530  lcd_out                                
 000020be  legacy                                 
-00008162  main                                   
+0000816c  main                                   
 0000213c  moore                                  
-0000966c  motor_off                              
-00009514  motor_run_backward                     
-00009530  motor_run_forward                      
-00009566  motor_run_left                         
-00009580  motor_run_right                        
+000096a4  motor_off                              
+0000954c  motor_run_backward                     
+00009568  motor_run_forward                      
+0000959e  motor_run_left                         
+000095b8  motor_run_right                        
 000020c0  okay_to_look_at_switch1                
 000020e6  one_time                               
 000020c2  period_record                          
@@ -1495,10 +1495,10 @@ ffffffff  __c_args__
 000020c6  run_time                               
 000020c8  run_time_flag                          
 000020ca  running                                
-0000967e  spi_chipselect_active                  
-00009642  spi_chipselect_idle                    
-000096de  spi_reset_active                       
-000096e4  spi_reset_idle                         
+000096b6  spi_chipselect_active                  
+0000967a  spi_chipselect_idle                    
+00009716  spi_reset_active                       
+0000971c  spi_reset_idle                         
 00002080  ssid_display                           
 00002136  ssid_index                             
 000020cc  ssid_record_flag                       
@@ -1506,13 +1506,13 @@ ffffffff  __c_args__
 00000000  start_protection_offset_address        
 000020d0  state                                  
 00002100  stop_save_sett                         
-0000959a  strcat                                 
-00009690  strcpy                                 
-000096ae  strlen                                 
-0000943e  strncpy                                
+000095d2  strcat                                 
+000096c8  strcpy                                 
+000096e6  strlen                                 
+00009476  strncpy                                
 000020d2  sw1_position                           
-00009a64  switch1_interrupt                      
-0000995a  switch2_interrupt                      
+00009a9c  switch1_interrupt                      
+00009992  switch2_interrupt                      
 000020d4  temp                                   
 000020d6  temp1                                  
 000020d8  tmr_ms_count                           
@@ -2512,74 +2512,74 @@ address   name
 0000805a  __TI_CINIT_Base                        
 0000806a  __TI_CINIT_Limit                       
 0000806a  __TI_CINIT_Warm                        
-00008162  main                                   
-000089a8  __TI_decompress_lzss                   
-00008a96  Init_LCD                               
-00008b5a  Software_Trim                          
-00008c18  dispPrint                              
-00008cd6  Init_Port3                             
-00008d80  Init_Port2                             
-00008e16  Init_Port6                             
-00008ea8  Init_Port1                             
-00008f2c  Init_Port4                             
-00008fa6  HEXtoBCD                               
-0000901c  __TI_auto_init_nobinit_nopinit_hold_wdt
-00009086  Init_Clocks                            
-000090ee  Init_Port5                             
-00009150  Init_Conditions                        
-000091a2  Init_Timer_B3                          
-000091ee  Init_Timer_B0                          
-00009238  Init_Serial_UCA0                       
-0000927e  Init_Serial_UCA1                       
-000092c4  Display_Update                         
-00009308  Init_SPI_B1                            
-00009348  __memcpy_far                           
-00009388  __TI_zero_init_nomemset                
-000093c6  __mpu_init                             
-00009402  __TI_decompress_none                   
-0000943e  strncpy                                
-0000946a  WriteData                              
-00009492  WriteIns                               
-000094ba  Display_Process                        
-000094dc  SPI_B1_write                           
-000094f8  lcd_out                                
-00009514  motor_run_backward                     
-00009530  motor_run_forward                      
-0000954c  Init_Ports                             
-00009566  motor_run_left                         
-00009580  motor_run_right                        
-0000959a  strcat                                 
-000095b4  ClrDisplay_Buffer_0                    
-000095cc  ClrDisplay_Buffer_1                    
-000095e4  ClrDisplay_Buffer_2                    
-000095fc  ClrDisplay_Buffer_3                    
-00009614  __mspabi_mpyi_f5hw                     
-0000962c  ClrDisplay                             
-00009642  spi_chipselect_idle                    
-00009658  Wheels_Stop                            
-0000966c  motor_off                              
-0000967e  spi_chipselect_active                  
-00009690  strcpy                                 
-000096a0  DisplayOnOff                           
-000096ae  strlen                                 
-000096bc  Init_Timers                            
-000096c6  USCI_A0_transmit                       
-000096d0  enable_interrupts                      
-000096d8  C$$EXIT                                
-000096d8  abort                                  
-000096de  spi_reset_active                       
-000096e4  spi_reset_idle                         
-000096ea  _system_pre_init                       
-000096ee  _system_post_cinit                     
-000096f0  eUSCI_A0_ISR                           
-0000983e  ADC_ISR                                
-000098dc  Timer0_B0_ISR                          
-0000995a  switch2_interrupt                      
-000099be  eUSCI_A1_ISR                           
-00009a14  TIMER0_B1_ISR                          
-00009a64  switch1_interrupt                      
-00009aaa  _c_int00_noargs_mpu                    
-00009aca  __TI_ISR_TRAP                          
+0000816c  main                                   
+000089e0  __TI_decompress_lzss                   
+00008ace  Init_LCD                               
+00008b92  Software_Trim                          
+00008c50  dispPrint                              
+00008d0e  Init_Port3                             
+00008db8  Init_Port2                             
+00008e4e  Init_Port6                             
+00008ee0  Init_Port1                             
+00008f64  Init_Port4                             
+00008fde  HEXtoBCD                               
+00009054  __TI_auto_init_nobinit_nopinit_hold_wdt
+000090be  Init_Clocks                            
+00009126  Init_Port5                             
+00009188  Init_Conditions                        
+000091da  Init_Timer_B3                          
+00009226  Init_Timer_B0                          
+00009270  Init_Serial_UCA0                       
+000092b6  Init_Serial_UCA1                       
+000092fc  Display_Update                         
+00009340  Init_SPI_B1                            
+00009380  __memcpy_far                           
+000093c0  __TI_zero_init_nomemset                
+000093fe  __mpu_init                             
+0000943a  __TI_decompress_none                   
+00009476  strncpy                                
+000094a2  WriteData                              
+000094ca  WriteIns                               
+000094f2  Display_Process                        
+00009514  SPI_B1_write                           
+00009530  lcd_out                                
+0000954c  motor_run_backward                     
+00009568  motor_run_forward                      
+00009584  Init_Ports                             
+0000959e  motor_run_left                         
+000095b8  motor_run_right                        
+000095d2  strcat                                 
+000095ec  ClrDisplay_Buffer_0                    
+00009604  ClrDisplay_Buffer_1                    
+0000961c  ClrDisplay_Buffer_2                    
+00009634  ClrDisplay_Buffer_3                    
+0000964c  __mspabi_mpyi_f5hw                     
+00009664  ClrDisplay                             
+0000967a  spi_chipselect_idle                    
+00009690  Wheels_Stop                            
+000096a4  motor_off                              
+000096b6  spi_chipselect_active                  
+000096c8  strcpy                                 
+000096d8  DisplayOnOff                           
+000096e6  strlen                                 
+000096f4  Init_Timers                            
+000096fe  USCI_A0_transmit                       
+00009708  enable_interrupts                      
+00009710  C$$EXIT                                
+00009710  abort                                  
+00009716  spi_reset_active                       
+0000971c  spi_reset_idle                         
+00009722  _system_pre_init                       
+00009726  _system_post_cinit                     
+00009728  eUSCI_A0_ISR                           
+00009876  ADC_ISR                                
+00009914  Timer0_B0_ISR                          
+00009992  switch2_interrupt                      
+000099f6  eUSCI_A1_ISR                           
+00009a4c  TIMER0_B1_ISR                          
+00009a9c  switch1_interrupt                      
+00009ae2  _c_int00_noargs_mpu                    
+00009b02  __TI_ISR_TRAP                          
 0000ffce  __TI_int22                             
 0000ffd0  __TI_int23                             
 0000ffd2  __TI_int24                             

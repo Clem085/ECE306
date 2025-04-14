@@ -1,0 +1,32 @@
+/* IR Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : IR.h
+  Description:  This file contains the code to control the IR LED (Infrared Emitter LED)
+  Programmer: Molana
+  Date Created: March, 2025
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
+
+#ifndef IR_H_
+#define IR_H_
+
+
+// Global Variables
+//// Internally Defined
+char IR_status; // Change this turn toggle the IR emitter LED on or off
+char IR_changed;
+//// Externally Defined
+
+
+
+// Macro Definitions
+#define IR_MAGIC_NUM (500)
+
+
+
+// Function Declarations
+void IR_control(void);
+
+
+
+#endif /* IR_H_ */

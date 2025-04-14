@@ -1,0 +1,302 @@
+/*
+ * timersB0.c
+ *
+ *  Created on: Oct 11, 2024
+ *      Author: kaylaradu
+ */
+
+
+// Includes
+#include "LCD.h"
+#include "functions.h"
+#include "macros.h"
+#include "wheels.h"
+#include "msp430.h"
+#include "ports.h"
+#include "switches.h"
+#include <string.h>
+#include "timersB0.h"
+#include <stdio.h>
+
+
+// Globals
+
+volatile unsigned int Time_Sequence;
+volatile char one_time;
+unsigned int counter_B0;
+unsigned int delay_time;
+extern unsigned int backlight_status;
+extern volatile unsigned char backlight_changed;
+extern int Switch_Counter1;
+extern volatile unsigned char update_display;
+extern volatile unsigned int backlight;
+extern volatile unsigned int debounce_statesw1 = 0;
+extern volatile unsigned int debounce_statesw2 = 0;
+extern volatile unsigned int count_debounce_SW1;
+extern volatile unsigned int count_debounce_SW2;
+unsigned int DimFlag = TRUE;
+unsigned int FlagSpinL;
+unsigned int FlagSpinR;
+unsigned int Blink_counter;
+
+extern unsigned int SpincountL;
+extern unsigned int SpincountR;
+
+unsigned int Displaycount = 0;
+
+extern char display_line[4][11];
+extern char *display[4];
+extern volatile unsigned char display_changed;
+extern volatile unsigned char update_display;
+
+unsigned char dec = ' ';
+unsigned char one = ' ';
+unsigned char ten = ' ';
+unsigned char hun = ' ';
+
+
+char USB_Char_Rx[SMALL_RING_SIZE];
+volatile unsigned int usb_rx_ring_wr = BEGINNING;
+volatile unsigned int usb_rx_ring_rd = BEGINNING;
+unsigned int transmit_count;
+
+void Init_Timers(void) {
+    Init_Timer_B0();
+    Init_Timer_B1();
+    Init_Timer_B3();
+}
+
+
+
+
+// ---ORIGINAL-------------------------------------------------------------------
+// Timer B0 initialization sets up both B0_0, B0_1-B0_2 and overflow
+void Init_Timer_B0(void) {
+    TB0CTL = TBSSEL__SMCLK;     // SMCLK source
+    TB0CTL = TBSSEL__SMCLK;     // SMCLK source
+       TB0CTL |= TBCLR;            // Resets TB0R, clock divider, count direction
+       TB0CTL |= MC__CONTINOUS;    // Continuous up
+       TB0CTL |= ID__8;            // Divide clock by 2
+       TB0EX0 = TBIDEX__8;         // Divide clock by an additional 8
+       TB0CCR0 = TB0CCR0_INTERVAL; // CCR0
+       TB0CCTL0 |= CCIE;           // CCR0 enable interrupt
+       // TB0CCR1 = TB0CCR1_INTERVAL; // CCR1
+       // TB0CCTL1 |= CCIE; // CCR1 enable interrupt
+       // TB0CCR2 = TB0CCR2_INTERVAL; // CCR2
+       // TB0CCTL2 |= CCIE; // CCR2 enable interrupt
+       TB0CTL &= ~TBIE;  // Disable Overflow Interrupt
+       TB0CTL &= ~TBIFG; // Clear Overflow Interrupt flag
+
+
+}
+
+
+
+void Init_Timer_B1(void) {
+    TB0CTL = TBSSEL__SMCLK;     // SMCLK source
+    TB0CTL = TBSSEL__SMCLK;     // SMCLK source
+       TB0CTL |= TBCLR;            // Resets TB0R, clock divider, count direction
+       TB0CTL |= MC__CONTINOUS;    // Continuous up
+       TB0CTL |= ID__8;            // Divide clock by 2
+       TB0EX0 = TBIDEX__8;         // Divide clock by an additional 8
+       TB0CCR0 = TB0CCR0_INTERVAL; // CCR0
+       TB0CCTL0 |= CCIE;           // CCR0 enable interrupt
+       // TB0CCR1 = TB0CCR1_INTERVAL; // CCR1
+       // TB0CCTL1 |= CCIE; // CCR1 enable interrupt
+       // TB0CCR2 = TB0CCR2_INTERVAL; // CCR2
+       // TB0CCTL2 |= CCIE; // CCR2 enable interrupt
+       TB0CTL &= ~TBIE;  // Disable Overflow Interrupt
+       TB0CTL &= ~TBIFG; // Clear Overflow Interrupt flag
+
+
+}
+
+
+
+void Init_Timer_B3(void) {
+    //-----------------------------------------------------------------------------
+    // SMCLK source, up count mode, PWM Right Side
+    // TB3.1 P6.0 LCD_BACKLITE
+    // TB3.2 P6.1 R_FORWARD
+    // TB3.3 P6.2 R_REVERSE
+    // TB3.4 P6.3 L_FORWARD
+    // TB3.5 P6.4 L_REVERSE
+    //-----------------------------------------------------------------------------
+    TB3CTL = TBSSEL__SMCLK; // SMCLK
+    TB3CTL |= MC__UP;       // Up Mode
+    TB3CTL |= TBCLR;        // Clear TAR
+
+    PWM_PERIOD = WHEEL_PERIOD;         // PWM Period [Set this to 50005]
+
+    TB3CCTL1 = OUTMOD_7;               // CCR1 reset/set
+    LCD_BACKLITE_DIMING = PERCENT_80;  // P6.0 Right Forward PWM duty cycle
+
+    TB3CCTL2 = OUTMOD_7;               // CCR2 reset/set
+    RIGHT_FORWARD_SPEED = WHEEL_OFF;   // P6.1 Right Forward PWM duty cycle
+
+    TB3CCTL3 = OUTMOD_7;               // CCR3 reset/se
+    LEFT_FORWARD_SPEED = WHEEL_OFF;    // P6.2 Right Forward PWM duty cycl
+
+    TB3CCTL4 = OUTMOD_7;               // CCR4 reset/set
+    RIGHT_REVERSE_SPEED = WHEEL_OFF;   // P6.3 Left Forward PWM duty cycle
+
+    TB3CCTL5 = OUTMOD_7;               // CCR5 reset/set
+    LEFT_REVERSE_SPEED = WHEEL_OFF;    // P6.4 Right Reverse PWM duty cycle
+    //-----------------------------------------------------------------------------
+}
+
+
+//-----------------------------------------------------------------------------
+// 200ms TRIGGER WHAT HAPPENS
+//---------------------------------------------------------------------------
+#pragma vector = TIMER0_B0_VECTOR
+__interrupt void Timer0_B0_ISR(void){
+
+    Displaycount += 2;
+    if(Displaycount >= 9998){
+        Displaycount = 0;
+    }
+//    timerdisplay();
+//    strncpy(display_line[4], "          ", 10);
+//
+//
+//
+//    display_changed = TRUE;
+    update_display = TRUE;
+
+    Time_Sequence++;
+    //    backlight_changed = TRUE;
+    //    backlight = ~backlight;
+//    P6OUT |= LCD_BACKLITE;
+
+
+    if(DimFlag == TRUE){
+     if (Blink_counter++ >= 20){
+         Blink_counter = 0;
+         LCD_BACKLITE_DIMING = PERCENT_80; //Flips on
+
+     }
+    }
+
+
+    if(FlagSpinL == TRUE){
+        SpincountL++;
+    }
+    if(FlagSpinR == TRUE){
+            SpincountR++;
+        }
+
+}
+
+//-----------------------------------------------------------------------------
+// DEBOUNCE TIMER
+//---------------------------------------------------------------------------
+#pragma vector=TIMER0_B1_VECTOR
+__interrupt void TIMER0_B1_ISR(void){
+    switch(__even_in_range(TB0IV,14)){
+    case  0: break;                    // No interrupt
+    case  2:                           // CCR1 Used for SW1 Debounce
+        count_debounce_SW1++;
+        if (count_debounce_SW1 >= DEBOUNCE_TIME){
+            count_debounce_SW1 = 0;
+
+            TB0CCTL1 &= ~CCIE;
+            P4IFG &= ~SW1;
+            P4IE  |= SW1;
+
+            TB0CCTL0 |= CCIE;
+        }
+        break;
+
+    case  4:                           // CCR2 Used for SW2 Debounce
+        count_debounce_SW2++;
+        if (count_debounce_SW2 >= DEBOUNCE_TIME){
+            count_debounce_SW2 = 0;
+
+            TB0CCTL2 &= ~CCIE;
+            P2IFG &= ~SW2;
+            P2IE  |=  SW2;
+
+            TB0CCTL0 |= CCIE;
+        }
+
+        break;
+
+    case 14:                           // overflow available for greater than 1 second timer
+        break;
+    default: break;
+    }
+}
+
+
+#pragma vector = TIMER0_B3_VECTOR
+__interrupt void Timer0_B3_ISR(void){
+    TB0CCR2 += TB0CCR2_INTERVAL;
+}
+
+
+void timerdisplay(void){
+    int x = Displaycount;
+    if(x%1000){
+        dec = (x / 1000) + '0';
+        x = x/1000;
+        one = (x / 100)+ '0';
+        x = x/100;
+        ten = (x / 10)+ '0';
+        x = x/10;
+        hun = x + '0';
+    }else if(x %100){
+        dec = (x / 1000) + '0';
+        one = (x / 100)+ '0';
+        x = x/100;
+        ten = (x / 10)+ '0';
+        x = x/10;
+        hun = x + '0';
+    }else if(x %10){
+        dec = (x / 1000) + '0';
+        one = (x / 100)+ '0';
+        ten = (x / 10)+ '0';
+        x = x/10;
+        hun = x + '0';
+    }else {
+        dec = (x / 1000) + '0';
+        one = (x / 100)+ '0';
+        ten = (x / 10)+ '0';
+        hun = x + '0';
+    }
+
+}
+
+// UART ISR for handling received data
+#pragma vector=EUSCI_A0_VECTOR
+__interrupt void eUSCI_A0_ISR(void) {
+    unsigned int temp;
+    switch(__even_in_range(UCA0IV, 0x08)) {
+        case 0: // Vector 0 - no interrupt
+            break;
+        case 2: // Vector 2 – RXIFG
+            temp = usb_rx_ring_wr++;
+            USB_Char_Rx[temp] = UCA0RXBUF; // Store received character into ring buffer
+            if (usb_rx_ring_wr >= (sizeof(USB_Char_Rx))) {
+                usb_rx_ring_wr = BEGINNING; // Wrap around if at end of ring buffer
+            }
+            break;
+        case 4: // Vector 4 – TXIFG
+            // Code for transmitting if needed
+            break;
+        default:
+            break;
+    }
+}
+
+// Switch ISR for changing the baud rate
+#pragma vector=PORT1_VECTOR
+__interrupt void Port_1_ISR(void) {
+    if (P1IFG & SW1) {
+        Change_Baud_Rate(115200); // Switch to 115200 baud
+        P1IFG &= ~SW1; // Clear interrupt flag
+    } else if (P1IFG & SW2) {
+        Change_Baud_Rate(460800); // Switch to 460800 baud
+        P1IFG &= ~SW2; // Clear interrupt flag
+    }
+}

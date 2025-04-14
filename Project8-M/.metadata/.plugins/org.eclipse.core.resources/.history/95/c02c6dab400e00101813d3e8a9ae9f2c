@@ -1,0 +1,230 @@
+//------------------------------------------------------------------------------
+// Main System Routine
+//
+// Description: Core operating system loop for embedded project
+// Features:
+// - Initializes all hardware peripherals
+// - Manages serial communication state machine
+// - Handles switch debouncing and baud rate switching
+// - Implements display update logic
+//
+// Author: Jim Carlson
+// Date: Jan 2023
+// Environment: Built with Code Composer Version: CCS12.4.0.00007_win64
+//------------------------------------------------------------------------------
+
+// System includes
+#include "msp430.h"
+#include "functions.h"
+#include "LCD.h"
+#include "ports.h"
+#include "macros.h"
+#include "motors.h"
+#include "Display.h"
+#include "timers.h"
+#include "interrupts.h"
+#include "switches.h"
+#include "ADC.h"
+#include "IR.h"
+#include "serial.h"
+#include "menu.h"
+#include <string.h>
+#include <stdio.h>
+
+// Function Prototypes
+void main(void);
+void Init_Conditions(void);
+void Display_Process(void);
+void IOT_Process(void);
+void Init_LEDs(void);
+void Project8_StateMachine(void);
+
+// Global Variables
+// Internal System Buffers
+char process_buffer[25];          // Command processing buffer
+volatile char AT[11];             // AT command response buffer
+volatile unsigned int ip_address_found; // IP detection flag
+volatile unsigned int localCounter;     // System tick counter
+extern _Bool IOT_received_str;
+
+// Communication Variables
+char process_buf[25];             // Secondary process buffer
+int baudLow = 0;                  // Current baud rate flag (0=115200, 1=460800)
+volatile extern char Baud_Rate1[] = "115,200"; // Baud rate strings
+volatile extern char Baud_Rate2[] = "460,800";
+volatile unsigned int requested_move; // Movement request flag
+
+// External References
+extern unsigned int iot_index;     // IoT buffer index
+extern char IOT_Data[11][11];      // IoT message storage
+extern volatile unsigned int boot_state; // System boot state
+extern volatile unsigned int IOT_parse;  // IoT parsing flag
+extern volatile char switch_debounce_active; // Debounce control flag
+extern int ip_address[11];         // IP address storage
+extern volatile char USB_Char_Rx[16]; // USB receive buffer
+extern volatile unsigned int pause_counter; // System pause counter
+extern volatile unsigned int pause_counter1; // Secondary pause counter
+extern char pb_index;              // Process buffer index
+extern char IOT_Ring_Rx[11];       // IoT receive ring buffer
+extern char iot_TX_buf[11];        // IoT transmit buffer
+extern volatile int switch1_pressed; // SW1 pressed flag
+extern volatile int switch2_pressed; // SW2 pressed flag
+extern volatile unsigned int iot_rx_wr; // IoT receive write index
+
+/**
+ * Main System Entry Point
+ * Initializes hardware and enters infinite processing loop
+ */
+void main(void) {
+    // Disable watchdog timer
+    WDTCTL = WDTPW | WDTHOLD;
+
+    // Initialize system state
+    Time_Sequence = 0;
+    PM5CTL0 &= ~LOCKLPM5;  // Enable GPIO pins
+
+    // Hardware initialization sequence
+    Init_Ports();
+    Init_Clocks();
+    Init_Conditions();
+    Init_LCD();
+    Init_Timer_B0();
+    Init_Timer_B3();
+
+    // Initialize serial communication at 115200 baud
+    Init_Serial_UCA0(1);
+    baudLow = 0;
+    UCA0BRW = 4;        // 115,200 Baud
+    UCA0MCTLW = 0x5551;
+
+    // Initialize display with welcome message
+    strcpy(display_line[0], "  Waiting ");
+    strcpy(display_line[1], "          ");
+    strcpy(display_line[2], "BR:115,200");
+    strcpy(display_line[3], "          ");
+    display_changed = TRUE;
+
+    // Clear IoT receive buffer
+    int i;
+    for (i = 0; i < sizeof(IOT_Ring_Rx); i++) {
+        IOT_Ring_Rx[i] = '\0';
+    }
+
+    // Main system loop
+    while(ALWAYS) {
+        display_changed = TRUE;
+        Display_Process();   // Handle display updates
+        IOT_Process();       // Process incoming IoT messages
+        Project8_StateMachine(); // Main state machine logic
+    }
+}
+
+/**
+ * Project 8 State Machine
+ * Handles:
+ * - IoT message processing
+ * - Switch press handling
+ * - Baud rate switching
+ * - Display updates for communication status
+ */
+void Project8_StateMachine(void) {
+    // Handle received IoT messages
+    if(IOT_received_str && switch2_pressed == 0 && switch1_pressed == 0) {
+        IOT_received_str = 0;
+        strcpy(process_buf, IOT_Ring_Rx);
+        strcpy(display_line[0], " Received");
+
+        // Update baud rate display
+        if (baudLow == 0) {
+            strcpy(display_line[2], "BR:115,200");
+        } else {
+            strcpy(display_line[2], "BR:460,800");
+        }
+
+        // Display received message
+       //strcpy(display_line[3], "          ");
+       strcpy(display_line[3], process_buf);
+
+        // Copy received message character by character
+//        unsigned int i;
+//        for (i = 0; i < process_buf[i] != '\r'; i++) {
+//            if (i < 11) {
+//                display_line[3][i] = process_buf[i];
+//            }
+//        }
+//        display_line[3][sizeof(display_line[3]) - 1] = '\0'; // Null-terminate
+
+        // Clear receive buffer
+        //unsigned int i;
+        for (i = 0; i < sizeof(IOT_Ring_Rx); i++) {
+            IOT_Ring_Rx[i] = '\0';
+        }
+        iot_rx_wr = BEGINNING;
+    }
+
+    // Handle SW1 press (message transmission)
+    if (switch1_pressed == 1 && switch2_pressed == 0) {
+        strcpy(display_line[0], " Transmit ");
+        strcpy(iot_TX_buf, process_buf);
+
+        // Clear message display lines
+        strcpy(display_line[3], "          ");
+
+        // Start transmission
+        UCA0IE |= UCTXIE;
+
+        // Move message to display line 1
+        int i;
+        for (i = 0; i < strlen(process_buf); i++) {
+            display_line[1][i] = process_buf[i];
+        }
+        // Pad with spaces
+        for (i = strlen(process_buf); i < sizeof(display_line[1]); i++) {
+            display_line[1][i] = ' ';
+        }
+
+        display_changed = TRUE;
+        pb_index = 0;
+
+        // Clear buffers
+        for (i = 0; i < sizeof(IOT_Ring_Rx); i++) {
+            IOT_Ring_Rx[i] = 0x00;
+            process_buf[i] = 0x00;
+        }
+
+        // Reset switch state
+        switch1_pressed = 0;
+        switch_debounce_active = 0;
+
+        // Re-enable switch interrupts
+        P4IE |= SW1;
+        P2IE |= SW2;
+    }
+
+    // Handle SW2 press (baud rate toggle)
+    if (switch2_pressed == 1 && switch1_pressed == 0) {
+        if (baudLow == 1) {
+            // Switch to 115200 baud
+            baudLow = 0;
+            strcpy(display_line[2], "BR:115,200");
+            UCA0BRW = 4;        // 115,200 Baud
+            UCA0MCTLW = 0x5551;
+        } else {
+            // Switch to 460800 baud
+            baudLow = 1;
+            strcpy(display_line[2], "BR:460,800");
+            UCA0BRW = 17;       // 460,800 Baud
+            UCA0MCTLW = 0x4A00;
+        }
+
+        display_changed = TRUE;
+
+        // Reset switch state
+        switch2_pressed = 0;
+        switch_debounce_active = 0;
+
+        // Re-enable switch interrupts
+        P4IE |= SW1;
+        P2IE |= SW2;
+    }
+}

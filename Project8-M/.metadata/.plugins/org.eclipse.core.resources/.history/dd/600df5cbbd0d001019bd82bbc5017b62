@@ -1,0 +1,185 @@
+//===========================================================================
+// File Name : Display.c
+//
+// Description: Handles LCD display operations including:
+//              - Display updates and refresh control
+//              - Backlight PWM control
+//              - Text alignment and formatting
+//              - Specialized ADC value display
+//
+// Created on: Jan, 2025
+// Author: Molana Torabi
+//===========================================================================
+
+//// Header Files
+#include  "msp430.h"          // MSP430 MCU headers
+#include  "functions.h"       // Common functions
+#include  "LCD.h"            // LCD hardware control
+#include  "ports.h"          // Port pin definitions
+#include  "macros.h"         // System macros
+#include  "motors.h"         // Motor control functions
+#include  "Display.h"        // Display definitions
+#include  "timers.h"         // Timer functions
+#include  "interrupts.h"     // Interrupt handlers
+#include  "switches.h"       // Switch inputs
+#include  "ADC.h"           // Analog-to-Digital Converter
+#include  "IR.h"            // Infrared sensors
+#include  "serial.h"        // Serial communication
+#include  "menu.h"          // Menu system
+//// Libraries
+#include  <string.h>        // String operations
+#include  <stdio.h>         // Standard I/O
+
+// Global Variables declared and referenced in Header file
+
+/**
+ * Main display processing function
+ * Handles display refresh when update flags are set
+ */
+void Display_Process(void){
+    if(update_display){  // Check global update flag
+        update_display = 0;  // Clear flag
+        if(display_changed){  // Check if content changed
+            display_changed = 0;  // Clear change flag
+            Display_Update(0,0,0,0);  // Update all display lines
+        }
+    }
+}
+
+/**
+ * Controls LCD backlight brightness using PWM
+ * Converts percentage (0-100) to PWM duty cycle value
+ */
+void PWM_backlight(void){
+    double backlight_value;
+    backlight_value = (light_percent / 100.00)*PERCENT_100;  // Calculate PWM value
+    LCD_BACKLITE_DIMING = backlight_value;  // Set PWM duty cycle
+}
+
+// DEPRECATED - REPLACED BY PWM
+//// Controls Display Backlight
+//void backlight_control(void){
+//    /*  Parameter Values
+//    action
+//        0: Backlight OFF
+//        1: Backlight ON
+//     */
+//    if(backlight_status == OFF){
+//        P6OUT  &= ~LCD_BACKLITE;
+//    }
+//    else{// backlight_status = ON
+//        P6OUT  |=  LCD_BACKLITE;
+//    }
+//}
+
+// Dummy display_line array to hold display values
+//char display_line[4][10 + 1]; // +1 for null terminator
+
+// Function Definition
+//void dispPrint(char *line0, char *line1, char *line2, char *line3) {
+//    char tempLine[11]; // Temporary line buffer
+//    if (line0 != NULL && line1 != NULL && line2 != NULL && line3 != NULL) {
+//        // Process each line
+//        char *lines[] = { line0, line1, line2, line3 };
+//        int lineIndex;
+//        for (lineIndex = 0; lineIndex < 4; lineIndex++) {
+//            int spaces = (10 - strlen(lines[lineIndex])) >> 1;// Calculate spaces needed for centering the string
+//
+//            int i;// Initialize tempLine with spaces using a loop
+//            for (i = 0; i < 10; i++) {
+//                tempLine[i] = ' '; // Fill tempLine with spaces
+//            }
+//            tempLine[10] = '\0'; // Null-terminate
+//
+//            // Copy the line string into the center of tempLine
+//            strncpy(tempLine + spaces, lines[lineIndex], strlen(lines[lineIndex]));
+//
+//            // Ensure the string is null-terminated
+//            tempLine[10] = '\0'; // Explicitly null-terminate again after copying
+//
+//            // Copy the temporary line to display_line
+//            strcpy(display_line[lineIndex], tempLine);
+//        }
+//        display_changed = TRUE;
+//    } else {
+//        // Handle null parameters
+//        strcpy(display_line[0], " Error!!! ");
+//        strcpy(display_line[1], "dispPrint ");
+//        strcpy(display_line[2], "InvldParam");
+//        strcpy(display_line[3], "line=NULL ");
+//        display_changed = TRUE;
+//    }
+//}
+
+/**
+ * Centers text on a specified display line (1-4)
+ * @param line The text string to display
+ * @param lineToUpdate The line number (1-4) to update
+ */
+void dispPrint(char *line, char lineToUpdate) {
+    char tempLine[11]; // Temporary line buffer (+1 for null terminator)
+    int lineIndex = -1; // Index of the line to be updated (0-3)
+
+    // Convert line number to array index
+    switch (lineToUpdate) {
+        case '1': lineIndex = 0; break;
+        case '2': lineIndex = 1; break;
+        case '3': lineIndex = 2; break;
+        case '4': lineIndex = 3; break;
+        default:  // Handle invalid line numbers
+            strcpy(display_line[0], "-Invalid--");
+            display_changed = TRUE;
+            return;
+    }
+
+    if (line != NULL) {
+        int spaces = (10 - strlen(line)) >> 1; // Calculate leading spaces for centering
+
+        // Initialize with spaces
+        for (int i = 0; i < 10; i++) {
+            tempLine[i] = ' ';
+        }
+        tempLine[10] = '\0'; // Null-terminate
+
+        // Center the text
+        strncpy(tempLine + spaces, line, strlen(line));
+        tempLine[10] = '\0'; // Ensure null-termination
+
+        // Update display buffer
+        strcpy(display_line[lineIndex], tempLine);
+        display_changed = TRUE;  // Set update flag
+    } else {
+        // Handle NULL input
+        strcpy(display_line[lineIndex], " NULL Line ");
+        display_changed = TRUE;
+    }
+}
+
+//int middleChar(char * string){
+//    int spaces = (10 - strlen(string)) >> 1;// Calculate spaces needed for centering the string
+//    return spaces;
+//}
+
+//-------------------------------------------------------------
+/**
+ * Inserts ADC values into specific display line positions
+ * @param line Display line number (1-4)
+ * @param location Starting character position (0-9)
+ * Note: Uses global adc_char[] buffer containing BCD-converted values
+ */
+//-------------------------------------------------------------
+void adc_line(char line, char location){
+    int i;
+    unsigned int real_line = line - 1;  // Convert to 0-based index
+
+    for(i=0; i < 10; i++) {
+        if(i >= location && i <= location+strlen(adc_char)){
+            // Insert ADC characters in specified range
+            display_line[real_line][i+location] = adc_char[i];
+        }else{
+            // Fill remaining positions with spaces
+            display_line[real_line][i+location] = ' ';
+        }
+    }
+}
+//-------------------------------------------------------------

@@ -1,0 +1,53 @@
+/* IR Program Information
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  File Name : IR.c
+  Description:  Infrared Emitter LED control module
+                - Provides functions to control IR LED state
+                - Interfaces with hardware port pins
+  Programmer: Molana
+  Date Created: March, 2025
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+*/
+
+//// Header Files
+#include  "msp430.h"          // MSP430 MCU headers
+#include  "functions.h"       // Common utility functions
+#include  "LCD.h"            // LCD display control
+#include  "ports.h"          // Port and pin definitions
+#include  "macros.h"         // System macros and constants
+#include  "motors.h"         // Motor control functions
+#include  "Display.h"        // Display handling
+#include  "timers.h"         // Timer configurations
+#include  "interrupts.h"     // Interrupt handling
+#include  "switches.h"       // Switch debouncing
+#include  "ADC.h"           // Analog-to-Digital Converter
+#include  "IR.h"            // IR module header
+#include  "serial.h"        // Serial communication
+#include  "menu.h"          // Menu system interface
+//// Libraries
+#include  <string.h>        // String manipulation
+#include  <stdio.h>         // Standard I/O functions
+
+// Global Variables declared and referenced in Header file
+
+/**
+ * Controls the Infrared (IR) LED state
+ * - Turns IR LED on/off based on global IR_status
+ * - Uses direct port manipulation for fastest response
+ * - Called periodically to maintain desired IR state
+ *
+ * Note: IR_status should be set before calling this function
+ *       (OFF = 0, ON = 1 as defined in macros.h)
+ */
+void IR_control(void){
+    /*  Parameter Values (via global IR_status)
+        OFF ('0'): IR LED OFF
+        ON  ('1'): IR LED ON
+     */
+    if(IR_status == OFF){
+        P2OUT  &= ~IR_LED;  // Clear IR LED pin (turn OFF)
+    }
+    else{ // IR_status = ON
+        P2OUT  |=  IR_LED;  // Set IR LED pin (turn ON)
+    }
+}

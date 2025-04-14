@@ -1,0 +1,263 @@
+/* Serial Communication Module
+ * ============================================================================
+ * File        : serial.c
+ * Description : UART communication handling for MSP430 microcontroller
+ *               - Manages two UART ports (UCA0 and UCA1)
+ *               - Handles baud rate configuration
+ *               - Implements ring buffers for data transmission/reception
+ *               - Processes IoT command messages
+ * Author      : Molana
+ * Created     : March 2025
+ * ============================================================================
+ */
+
+#include "msp430.h"
+#include "functions.h"
+#include "LCD.h"
+#include "ports.h"
+#include "macros.h"
+#include "motors.h"
+#include "Display.h"
+#include "timers.h"
+#include "interrupts.h"
+#include "switches.h"
+#include "ADC.h"
+#include "IR.h"
+#include "serial.h"
+#include "menu.h"
+#include <string.h>
+#include <stdio.h>
+
+/* ===========================================================================
+ * Global Variables
+ * ===========================================================================*/
+
+// Serial Communication Buffers
+volatile unsigned int iot_rx_wr;        // IoT receive buffer write index
+volatile unsigned int iot_rx_rd;        // IoT receive buffer read index
+char IOT_Data[11][11];                 // IoT message storage (11 messages x 11 chars)
+char IOT_Ring_Rx[11];                  // IoT receive ring buffer
+volatile int ip_address[11];            // IP address storage
+char ip_mac[11];                       // MAC address storage
+
+// Communication Control Flags
+volatile unsigned int direct_iot;       // Direct IoT access index
+volatile unsigned int iot_index;        // General IoT buffer index
+volatile int ip_address_found;         // Flag for IP address detection
+volatile unsigned int iot_tx;           // IoT transmit buffer index
+volatile unsigned int boot_state;       // System boot state
+volatile unsigned int IOT_parse;        // IoT message parsing flag
+
+// USB Communication Buffers
+volatile unsigned int usb_rx_ring_wr = 0; // USB receive ring write index
+volatile unsigned int usb_rx_ring_rd;   // USB receive ring read index
+volatile unsigned int usb_tx_ring_wr;   // USB transmit ring write index
+volatile unsigned int usb_tx_ring_rd;   // USB transmit ring read index
+volatile char USB_Char_Rx[SMALL_RING_SIZE]; // USB receive character buffer
+volatile char USB_Char_Tx[11];          // USB transmit character buffer
+volatile char IOT_Char_Rx[11];          // IoT receive character buffer
+volatile char IOT_Char_Tx[11];          // IoT transmit character buffer
+
+// System Control Flags
+volatile int Still_Put_In_Processor = 1; // Data processing flag
+volatile unsigned int test_Value;       // Test value storage
+
+// Display and Message Processing
+unsigned int nextline;                  // Next display line index
+int unsigned line = 0;                  // Current display line
+int character = 0;                      // Character position in message
+char pb_index;                          // Process buffer index
+volatile char NCSU[] = "NCSU  #1  ";    // NCSU identification string
+volatile unsigned int ncsu_index = 0;   // NCSU string index
+volatile char USB_Ring_Rx[11];          // USB receive ring buffer
+char iot_TX_buf[11];                    // IoT transmit buffer
+
+/* ===========================================================================
+ * Function Implementations
+ * ===========================================================================*/
+
+/**
+ * Initializes UART port UCA0 with specified baud rate
+ * @param speed Baud rate selection (1=115200, 2=460800)
+ *
+ * Configuration details:
+ * - Uses SMCLK (8MHz) as clock source
+ * - 8-bit data, no parity, 1 stop bit
+ * - Implements ring buffers for RX/TX
+ * - Enables RX interrupts
+ */
+void Init_Serial_UCA0(char speed) {
+    // Baud rate configuration table:
+    // BRCLK   Baudrate UCOS16  UCBRx  UCFx    UCSx    Error(%)
+    // 8000000  115200     1       4     5     0x55   -0.80 0.64 -1.12 1.76
+    // 8000000  460800     0      17     0     0x4A   -2.72 2.56 -3.76 7.28
+
+    // Initialize UART control register
+    UCA0CTLW0 = 0;
+    UCA0CTLW0 |= UCSWRST;               // Put eUSCI in reset
+    UCA0CTLW0 |= UCSSEL__SMCLK;         // SMCLK as clock source
+    UCA0CTLW0 &= ~UCMSB;                // LSB first
+    UCA0CTLW0 &= ~UCSPB;                // 1 stop bit
+    UCA0CTLW0 &= ~UCPEN;                // No parity
+    UCA0CTLW0 &= ~UCSYNC;               // Asynchronous mode
+    UCA0CTLW0 &= ~UC7BIT;               // 8-bit data
+    UCA0CTLW0 |= UCMODE_0;              // UART mode
+
+    // Initialize receive ring buffer
+    for(int i=0; i<SMALL_RING_SIZE; i++) {
+        USB_Char_Rx[i] = 0x00;
+    }
+    usb_rx_ring_wr = BEGINNING;
+    usb_rx_ring_rd = BEGINNING;
+
+    // Initialize transmit ring buffer
+    for(int i=0; i<LARGE_RING_SIZE; i++) {
+        USB_Char_Tx[i] = 0x00;
+    }
+    usb_tx_ring_wr = BEGINNING;
+    usb_tx_ring_rd = BEGINNING;
+
+    // Configure baud rate
+    switch(speed) {
+        case 1:  // 115200 baud
+            UCA0BRW = 4;
+            UCA0MCTLW = 0x5551;
+            break;
+        case 2:  // 460800 baud
+            UCA0BRW = 17;
+            UCA0MCTLW = 0x4A00;
+            break;
+    }
+
+    // Enable UART
+    UCA0CTLW0 &= ~UCSWRST;              // Release from reset
+    UCA0TXBUF = 0x00;                   // Initialize transmit buffer
+    UCA0IE |= UCRXIE;                   // Enable RX interrupts
+}
+
+/**
+ * Initializes UART port UCA1 with specified baud rate
+ * @param speed Baud rate selection (1=115200, 2=460800)
+ *
+ * Note: Configuration identical to UCA0 but for secondary port
+ */
+void Init_Serial_UCA1(char speed) {
+    // Initialize UART control register
+    UCA1CTLW0 = 0;
+    UCA1CTLW0 |= UCSWRST;
+    UCA1CTLW0 |= UCSSEL__SMCLK;
+    UCA1CTLW0 &= ~UCMSB;
+    UCA1CTLW0 &= ~UCSPB;
+    UCA1CTLW0 &= ~UCPEN;
+    UCA1CTLW0 &= ~UCSYNC;
+    UCA1CTLW0 &= ~UC7BIT;
+    UCA1CTLW0 |= UCMODE_0;
+
+    // Initialize receive ring buffer
+    for(int i=0; i<SMALL_RING_SIZE; i++) {
+        IOT_Char_Rx[i] = 0x00;
+    }
+    usb_rx_ring_wr = BEGINNING;
+    usb_rx_ring_rd = BEGINNING;
+
+    // Initialize transmit ring buffer
+    for(int i=0; i<LARGE_RING_SIZE; i++) {
+        IOT_Char_Tx[i] = 0x00;
+    }
+    usb_tx_ring_wr = BEGINNING;
+    usb_tx_ring_rd = BEGINNING;
+
+    // Configure baud rate
+    switch(speed) {
+        case 1:  // 115200 baud
+            UCA0BRW = 4;
+            UCA0MCTLW = 0x5551;
+            break;
+        case 2:  // 460800 baud
+            UCA1BRW = 17;
+            UCA1MCTLW = 0x4A00;
+            break;
+    }
+
+    // Enable UART
+    UCA1CTLW0 &= ~UCSWRST;
+    UCA1TXBUF = 0x00;
+    UCA1IE |= UCRXIE;
+}
+
+/**
+ * Initiates transmission on UCA0
+ * - Uses data in process_buffer (must be NULL-terminated)
+ * - Enables transmit interrupts to start sending
+ */
+void USCI_A0_transmit(void) {
+    pb_index = 0;                      // Reset buffer index
+    UCA0IE |= UCTXIE;                  // Enable transmit interrupts
+}
+
+/**
+ * Processes incoming IoT messages
+ * - Parses command messages from receive buffer
+ * - Handles special commands (IP requests, ready signals)
+ * - Updates system state based on received commands
+ */
+void IOT_Process(void) {
+    unsigned int iot_rx_wr_temp = iot_rx_wr;
+
+    // Check if new data is available
+    if(iot_rx_wr_temp != iot_rx_rd) {
+        // Store incoming character
+        IOT_Data[line][character] = IOT_Ring_Rx[iot_rx_rd++];
+
+        // Handle buffer wrap-around
+        if(iot_rx_rd >= sizeof(IOT_Ring_Rx)) {
+            iot_rx_rd = BEGINNING;
+        }
+
+        // Check for message terminator (newline)
+        if(IOT_Data[line][character] == 0x0A) {
+            character = 0;
+            line = (line >= 3) ? 0 : line + 1;  // Wrap around at 4 lines
+        }
+        else {
+            // Parse specific message patterns
+            switch(character) {
+                case 0:  // Check for '+' prefix (test command)
+                    if(IOT_Data[line][character] == '+') {
+                        test_Value++;
+                        if(test_Value) P1SEL0 |= RED_LED;
+                        IOT_parse = 1;
+                    }
+                    break;
+
+                case 4:  // Check for "ready" message
+                    if(IOT_Data[line][character] == 'y') {
+                        strncpy(iot_TX_buf, NCSU, sizeof(NCSU));
+                        UCA0IE |= UCTXIE;
+                        boot_state = 1;
+                        P6SEL0 |= GRN_LED;
+                    }
+                    break;
+
+                case 5:  // Check for IP request ('G' command)
+                    if(IOT_Data[line][character] == 'G') {
+                        strncpy(iot_TX_buf, ip_mac, sizeof(ip_mac));
+                        iot_tx = 0;
+                        UCA0IE |= UCTXIE;
+                    }
+                    break;
+
+                case 10: // Check for IP detection ('I' command)
+                    if(IOT_Data[line][character] == 'I') {
+                        ip_address_found = 1;
+                        strcpy(display_line[0], "IP Address");
+                        memset(ip_address, 0, sizeof(ip_address));
+                        display_changed = 1;
+                        iot_index = 0;
+                    }
+                    break;
+            }
+            character++;
+        }
+    }
+}

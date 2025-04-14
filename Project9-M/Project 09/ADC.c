@@ -1,0 +1,195 @@
+/*
+ * ADC.c
+ *
+ *  Created on: Oct 19, 2024
+ *      Author: Kayla Radu
+ */
+
+
+
+#include  "msp430.h"
+#include  "functions.h"
+#include  "LCD.h"
+#include  "ports.h"
+#include  "macros.h"
+#include "strings.h"
+#include "wheels.h"
+#include "Timers.h"
+//#include  "DAC.h"
+#include "switches.h"
+
+
+//char adc_char[4];
+extern char *display[4];
+extern char display_line[4][11];
+
+// External variable to track backlight status
+extern unsigned int backlight_status;
+
+// Variables for ADC measurements
+volatile unsigned int ADC_Channel;          // Current ADC channel being used
+volatile unsigned int ADC_Left_Detect;     // Left sensor detection value
+volatile unsigned int ADC_Right_Detect;    // Right sensor detection value
+volatile unsigned int ADC_Thumb = 0;       // Thumb sensor detection value
+
+// External variables for backlight control
+extern volatile unsigned char backlight_changed;
+extern volatile unsigned int backlight;
+
+// Variables for line detection
+volatile unsigned int blackleft;           // Flag for left black line detection
+volatile unsigned int blackright;          // Flag for right black line detection
+volatile unsigned int blacklinefound;      // Flag for overall black line detection
+extern volatile unsigned int pressed;      // External variable for button press status
+
+// Variables to store sensor values
+int Left;
+int Right;
+
+// Buffer to store ADC values in BCD format for display
+char adc_char[10];
+
+// Function to initialize the ADC
+void Init_ADC(void){
+    //-----------------------------------------------------------------------------
+    // V_DETECT_L      (0x04) // Pin 2 A2
+    // V_DETECT_R      (0x08) // Pin 3 A3
+    // V_THUMB         (0x20) // Pin 5 A5
+    //-----------------------------------------------------------------------------
+
+    // ADCCTL0 Register Configuration
+    ADCCTL0 = 0;                        // Reset ADCCTL0
+    ADCCTL0 |=  ADCSHT_2;                // Set sample-and-hold time to 16 ADC clocks
+    ADCCTL0 |=  ADCMSC;                  // Enable multiple sample-and-conversion
+    ADCCTL0 |=  ADCON;                   // Turn on the ADC
+
+    // ADCCTL1 Register Configuration
+    ADCCTL1 = 0;                         // Reset ADCCTL1
+    ADCCTL1 |=  ADCSHS_0;                // Use ADCSC bit to start conversion
+    ADCCTL1 |=  ADCSHP;                  // Use sampling timer for sample-and-hold
+    ADCCTL1 &= ~ADCISSH;                 // Do not invert sample-and-hold signal
+    ADCCTL1 |=  ADCDIV_0;                // Set ADC clock divider to 1
+    ADCCTL1 |=  ADCSSEL_0;               // Use MODCLK as ADC clock source
+    ADCCTL1 |=  ADCCONSEQ_0;             // Set conversion mode to single-channel, single-conversion
+
+    // ADCCTL2 Register Configuration
+    ADCCTL2 = 0;                         // Reset ADCCTL2
+    ADCCTL2 |= ADCPDIV0;                 // Set pre-divider for ADC clock
+    ADCCTL2 |= ADCRES_2;                 // Set ADC resolution to 12-bit
+    ADCCTL2 &= ~ADCDF;                   // Disable data format (use straight binary)
+    ADCCTL2 &= ~ADCSR;                   // Disable sample rate control
+
+    // ADCMCTL0 Register Configuration
+    ADCMCTL0 |=  ADCSREF_0;              // Use VREF+ and VREF- as reference
+    ADCMCTL0 |=  ADCINCH_2;              // Set initial input channel to A2 (left sensor)
+    ADCIE    |=  ADCIE0;                 // Enable ADC interrupt
+    ADCCTL0  |=  ADCENC;                 // Enable ADC conversions
+    ADCCTL0  |=  ADCSC;                  // Start the first conversion
+}
+
+// Function to convert a hexadecimal value to BCD for display
+void HexToBCD(int hex_value){
+    int value;
+    int i;
+    for(i=0; i < 4; i++) {
+        adc_char[i] = '0';               // Initialize the BCD character array with '0'
+    }
+    value = 0;
+    while (hex_value > 999){             // Convert thousands place
+        hex_value = hex_value - 1000;
+        value = value + 1;
+        adc_char[0] = 0x30 + value;      // Store the thousands digit
+    }
+    value = 0;
+    while (hex_value > 99){              // Convert hundreds place
+        hex_value = hex_value - 100;
+        value = value + 1;
+        adc_char[1] = 0x30 + value;     // Store the hundreds digit
+    }
+    value = 0;
+    while (hex_value > 9){               // Convert tens place
+        hex_value = hex_value - 10;
+        value = value + 1;
+        adc_char[2] = 0x30 + value;     // Store the tens digit
+    }
+    adc_char[3] = 0x30 + hex_value;     // Store the units digit
+}
+
+// ADC Interrupt Service Routine
+#pragma vector = ADC_VECTOR
+__interrupt void ADC_ISR(void){
+    switch(__even_in_range(ADCIV,ADCIV_ADCIFG)){  // Determine the interrupt source
+
+    case ADCIV_NONE:
+        break;
+    case ADCIV_ADCOVIFG:   // Interrupt for ADC conversion result overwrite
+        break;
+    case ADCIV_ADCTOVIFG:  // Interrupt for ADC conversion timeout
+        break;
+    case ADCIV_ADCHIIFG:   // Interrupt for high threshold comparison
+        break;
+    case ADCIV_ADCLOIFG:   // Interrupt for low threshold comparison
+        break;
+    case ADCIV_ADCINIFG:   // Interrupt for window comparator
+        break;
+    case ADCIV_ADCIFG:     // Interrupt for ADC conversion completion
+        ADCCTL0 &= ~ADCENC; // Disable ADC conversions temporarily
+
+        switch (ADC_Channel++){
+        case 0:                                   // Channel A2 (Left Sensor) Interrupt
+            ADCMCTL0 &= ~ADCINCH_2;               // Disable A2 channel
+            ADCMCTL0 |=  ADCINCH_3;               // Enable A3 channel (Right Sensor)
+            ADC_Left_Detect = ADCMEM0;            // Store the left sensor value
+            ADC_Left_Detect = ADC_Left_Detect >> 2; // Scale down the value by dividing by 4
+
+            if(pressed == 1 || pressed == 2){     // Store value if button is pressed
+                Left = ADC_Left_Detect;
+            }
+            break;
+
+        case 1:                                   // Channel A3 (Right Sensor) Interrupt
+            ADCMCTL0 &= ~ADCINCH_3;              // Disable A3 channel
+            ADCMCTL0 |=  ADCINCH_5;              // Enable A5 channel (Thumb Sensor)
+            ADC_Right_Detect = ADCMEM0;           // Store the right sensor value
+            ADC_Right_Detect = ADC_Right_Detect >> 2; // Scale down the value by dividing by 4
+            if(pressed == 1 || pressed == 2){     // Store value if button is pressed
+                Right = ADC_Right_Detect;
+            }
+            break;
+
+        case 2:                                   // Channel A5 (Thumb Sensor) Interrupt
+            ADCMCTL0 &= ~ADCINCH_5;              // Disable A5 channel
+            ADCMCTL0 |= ADCINCH_2;               // Re-enable A2 channel (Left Sensor)
+            ADC_Thumb = ADCMEM0;                 // Store the thumb sensor value
+            ADC_Thumb = ADC_Thumb >> 2;          // Scale down the value by dividing by 4
+            ADC_Channel = 0;                     // Reset channel counter
+            break;
+
+        default:
+            break;
+        }
+        ADCCTL0 |= ADCENC;                       // Re-enable ADC conversions
+        ADCCTL0 |= ADCSC;                        // Start the next conversion
+        break;
+        default:
+            break;
+    }
+}
+
+// Function to detect black lines using sensor values
+void LineDetect(void){
+    if(ADC_Left_Detect >= 500){                 // Check if left sensor detects a black line
+        blackleft = TRUE;
+        blacklinefound = TRUE;
+    }
+    else {
+        blackleft = FALSE;
+    }
+    if(ADC_Right_Detect > 500){                 // Check if right sensor detects a black line
+        blackright = TRUE;
+        blacklinefound = TRUE;
+    }
+    else {
+        blackright = FALSE;
+    }
+}

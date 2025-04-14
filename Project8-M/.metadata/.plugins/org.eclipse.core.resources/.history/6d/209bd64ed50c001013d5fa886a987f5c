@@ -1,0 +1,52 @@
+/*
+ * wheels.h
+ *
+ * Created on: Jan, 2025
+ * Author: Molana Torabi
+ *
+ * Description: Header file for wheel control and movement constants.
+ * Defines constants for wheel timing, movement directions, and motor speeds.
+ */
+
+// Include guards to prevent multiple inclusions of this header file
+#ifndef WHEELS_H_
+#define WHEELS_H_
+
+// Constants for wheel control and timing
+#define WHEEL_COUNT_TIME (10)  // Time constant for wheel counting (used in timing loops)
+#define RIGHT_COUNT_TIME (7)   // Time constant for right wheel counting (used in timing loops)
+#define LEFT_COUNT_TIME (8)    // Time constant for left wheel counting (used in timing loops)
+#define TRAVEL_DISTANCE (2)    // Distance constant for travel (used in movement calculations)
+#define WAITING2START (50)     // Time constant for waiting to start (used in delay loops)
+#define ONESEC (5)             // Time constant for one second (used in timing loops)
+
+// Movement direction constants
+#define NONE ('N')             // No movement (used to indicate idle state)
+#define FORWARD ('F')          // Forward movement (used to indicate forward direction)
+#define REVERSE ('R')          // Reverse movement (used to indicate reverse direction)
+
+// Boolean and detection constants
+#define FALSE (0)              // Boolean false value (used for logic conditions)
+#define OFF (0)
+#define BLACKRSP (800)         // Threshold for right sensor to detect black line during spinning
+#define BLACKLSP (800)         // Threshold for left sensor to detect black line during spinning
+#define BLACKR (550)           // Threshold for right sensor to detect black line
+#define BLACKL (550)           // Threshold for left sensor to detect black line
+#define BLACKDETECTR (800)     // Threshold for right sensor to detect black line during tracking
+#define BLACKDETECTL (800)     // Threshold for left sensor to detect black line during tracking
+#define RIGHT (1)              // Constant to indicate right direction (used in turn logic)
+#define LEFT (0)               // Constant to indicate left direction (used in turn logic)
+#define BLACKDETECT (500)
+
+// Speed constants for motor control
+#define FORWARDSPEED (13000)   // Speed for forward movement (PWM duty cycle value)
+#define SPINSPEED (13000)      // Speed for spinning movement (PWM duty cycle value)
+#define SPINSPEEDR (13000)     // Speed for right spinning movement (PWM duty cycle value)
+#define TURNSPEED (13000)      // Speed for turning movement (PWM duty cycle value)
+#define SPEED1 (13000)         // General speed setting (PWM duty cycle value)
+#define STRAIGHTMOVE (13000)   // Speed for straight movement (PWM duty cycle value)
+
+#define FIFTYSEC (20)          // Time constant for fifty seconds (used in timing loops)
+#define USEVAL (80)            // Threshold value for spin counter (used in spin logic)
+
+#endif /* WHEELS_H_ */ // End of the header file

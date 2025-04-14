@@ -1,0 +1,318 @@
+/*
+ * wheels.c
+ *
+ * Created on: Jan, 2025
+ * Author: Molana Torabi
+ *
+ * Description: This file contains functions to control the movement of the wheels.
+ */
+
+#include  "msp430.h"
+#include  <string.h>
+#include  "functions.h"
+#include  "LCD.h"
+#include  "ports.h"
+#include "macros.h"
+#include "switches.h"
+#include "wheels.h"
+#include  <stdio.h>
+
+// Global Variables
+volatile unsigned char event;  // Event variable from switches.c (e.g., STRAIGHT, CIRCLE)
+extern volatile unsigned int event_Counter; // Counter for picking the event based on increment
+
+extern unsigned int Last_Time_Sequence;  // To track changes in Time_Sequence
+extern unsigned int cycle_time;          // Controls shape timings
+extern unsigned int time_change;         // Flag to detect time sequence change
+unsigned int Time_Sequence;              // Current time sequence
+
+unsigned int delay_start;                // Start time for delays
+unsigned int left_motor_count;           // Counter for left motor movements
+unsigned int right_motor_count;          // Counter for right motor movements
+unsigned int segment_count;              // Counter for movement segments
+
+unsigned int waitingtostart;             // Flag to wait before starting movement
+extern volatile unsigned int rdirection = 0; // Direction of the right motor (0 = off, 1 = forward, 2 = reverse)
+extern volatile unsigned int ldirection = 0; // Direction of the left motor (0 = off, 1 = forward, 2 = reverse)
+extern volatile unsigned int instruction; // Current movement instruction
+volatile unsigned char origevent;        // Original event state
+extern volatile unsigned int elapsed_time = 0; // Elapsed time for movement
+extern volatile unsigned int desiredtime= 0;   // Desired time for movement
+extern volatile unsigned int desired_cycles = 0; // Desired number of cycles for movement
+
+extern char display_line[4][11];         // Buffer for LCD display lines
+extern char *display[4];                 // Pointers to display lines
+extern volatile unsigned char display_changed; // Flag to indicate display update
+extern volatile unsigned char update_display; // Flag to update the display
+extern volatile unsigned int switchpressed; // Flag to indicate switch press
+extern volatile unsigned int instruction; // Current movement instruction
+
+extern volatile unsigned int blackleft;  // Flag for left black line detection
+extern volatile unsigned int blackright; // Flag for right black line detection
+extern volatile unsigned int blacklinefound; // Flag for overall black line detection
+
+extern volatile unsigned int ADC_Left_Detect; // Left sensor detection value
+extern volatile unsigned int ADC_Right_Detect; // Right sensor detection value
+
+unsigned int SpincountL;                 // Counter for left spin duration
+unsigned int SpincountR;                 // Counter for right spin duration
+unsigned int WaitingCounter;                  // Counter for wait duration
+extern unsigned int FlagSpinL;           // Flag for left spin state
+extern unsigned int FlagSpinR;           // Flag for right spin state
+extern unsigned int FlagWait;            // Flag for wait state
+unsigned int TurningDirection = 0;          // Direction of turn (LEFT or RIGHT)
+
+volatile unsigned char state;            // Current system state
+extern unsigned int leaveFlag;           // Flag to control display updates
+
+// Function to start movement toward the line until it is detected
+void start_movement(void){
+    Off_Case(); // Stop all motors
+    LEFT_FORWARD_SPEED = 16000; // Set left motor speed
+    RIGHT_FORWARD_SPEED = 16000 ; // Set right motor speed
+
+    strcpy(display_line[0], "INTERCEPT "); // Update display
+    display_changed = TRUE;
+
+    // Check if both sensors detect the black line
+    if((ADC_Left_Detect >= 600 ) && (ADC_Right_Detect >= 600)){
+        state = DETECTED; // Change state to DETECTED
+    }
+}
+
+// Function to handle detection of the black line
+void detect_movement(void){
+    FlagWait = TRUE; // Enable wait state
+    LEFT_FORWARD_SPEED = WHEEL_OFF; // Stop left motor
+    RIGHT_FORWARD_SPEED = WHEEL_OFF; // Stop right motor
+    strcpy(display_line[0], "BLACK LINE "); // Update display
+    display_changed = TRUE;
+    if(WaitingCounter >=4){ // Wait for 4 cycles
+        state = SPIN; // Change state to SPIN
+        FlagWait = FALSE; // Disable wait state
+        WaitingCounter=0; // Reset wait counter
+    }
+}
+
+// Function to handle spinning movement
+void spinning_movement(void){
+    strcpy(display_line[0], "SPINNING "); // Update display
+    display_changed = TRUE;
+    if(ADC_Left_Detect >= 800 && ADC_Right_Detect >= 800){ // Check if sensors detect the line
+        state = TRACKWAIT; // Change state to TRACKWAIT
+    }
+    else {
+        RIGHT_FORWARD_SPEED = 13000; // Set right motor speed for spinning
+        LEFT_REVERSE_SPEED = 13000; // Set left motor speed for spinning
+    }
+}
+
+// Function to wait during tracking
+void track_wait(void){
+    FlagWait = TRUE; // Enable wait state
+    strcpy(display_line[0], " TRACKWAIT"); // Update display
+    display_changed = TRUE;
+    RIGHT_FORWARD_SPEED = WHEEL_OFF; // Stop right motor
+    LEFT_REVERSE_SPEED = WHEEL_OFF; // Stop left motor
+    RIGHT_REVERSE_SPEED = WHEEL_OFF; // Stop right motor
+    LEFT_FORWARD_SPEED = WHEEL_OFF; // Stop left motor
+
+    if(WaitingCounter >=4){ // Wait for 4 cycles
+        state = TRACK; // Change state to TRACK
+        FlagWait = FALSE; // Disable wait state
+        WaitingCounter=0; // Reset wait counter
+    }
+}
+
+// Function to handle tracking movement
+void tracking_movement(void){
+    FlagSpinR = TRUE; // Enable right spin state
+    strcpy(display_line[0], " TRACKING "); // Update display
+    display_changed = TRUE;
+    RIGHT_FORWARD_SPEED = WHEEL_OFF; // Stop right motor
+    RIGHT_REVERSE_SPEED = WHEEL_OFF; // Stop right motor
+    LEFT_FORWARD_SPEED = WHEEL_OFF; // Stop left motor
+    LEFT_REVERSE_SPEED = WHEEL_OFF; // Stop left motor
+
+    // Check sensor values to adjust movement
+    if(ADC_Left_Detect >= 800 && ADC_Right_Detect >= 800){ // Both sensors on the line
+        strcpy(display_line[0], " STRAIGHT "); // Update display
+        display_changed = TRUE;
+        RIGHT_FORWARD_SPEED = 13000; // Move straight
+        LEFT_FORWARD_SPEED = 13000; // Move straight
+
+    }else if(ADC_Left_Detect < 800 && ADC_Right_Detect >= 800){ // Left sensor off the line
+        strcpy(display_line[0], "  RIGHT   "); // Update display
+        display_changed = TRUE;
+        LEFT_FORWARD_SPEED = 13000; // Turn right
+        RIGHT_FORWARD_SPEED = WHEEL_OFF; // Stop right motor
+        TurningDirection = RIGHT; // Set turn direction to RIGHT
+
+    }else if(ADC_Right_Detect < 800 && ADC_Left_Detect >= 800){ // Right sensor off the line
+        strcpy(display_line[0], "   LEFT   "); // Update display
+        display_changed = TRUE;
+        RIGHT_FORWARD_SPEED = 13000; // Turn left
+        LEFT_FORWARD_SPEED = WHEEL_OFF; // Stop left motor
+        TurningDirection = LEFT; // Set turn direction to LEFT
+
+    }else { // Both sensors off the line
+        strcpy(display_line[0], "   LOST   "); // Update display
+        display_changed = TRUE;
+        LEFT_FORWARD_SPEED = WHEEL_OFF; // Stop left motor
+        RIGHT_FORWARD_SPEED = WHEEL_OFF; // Stop right motor
+        LEFT_REVERSE_SPEED = WHEEL_OFF; // Stop left motor
+        RIGHT_REVERSE_SPEED = WHEEL_OFF; // Stop right motor
+
+        // Reverse motors to find the line
+        RIGHT_REVERSE_SPEED = 13000; // Reverse right motor
+        LEFT_REVERSE_SPEED = 13000; // Reverse left motor
+    }
+
+    if(SpincountR >= USEVAL){ // Check if spin counter exceeds threshold
+        leaveFlag = 0; // Disable leave flag
+        state = TURNSTOP; // Change state to TURNSTOP
+        SpincountR = OFF; // Reset spin counter
+        FlagSpinR = FALSE; // Disable spin state
+    }
+}
+
+// Function to stop during a turn
+void turn_stop(void){
+    FlagWait = TRUE; // Enable wait state
+    LEFT_FORWARD_SPEED = WHEEL_OFF; // Stop left motor
+    RIGHT_FORWARD_SPEED = WHEEL_OFF; // Stop right motor
+    if(WaitingCounter >=4){ // Wait for 4 cycles
+        state = TURNN; // Change state to TURNN
+        FlagWait = FALSE; // Disable wait state
+        WaitingCounter=0; // Reset wait counter
+    }
+}
+
+// Function to handle turning movement
+void turning(void){
+    strcpy(display_line[0], "   TURN   "); // Update display
+    display_changed = TRUE;
+    FlagWait = TRUE; // Enable wait state
+    RIGHT_FORWARD_SPEED = 13000; // Set right motor speed for turning
+    LEFT_REVERSE_SPEED = 13000; // Set left motor speed for turning
+    if(WaitingCounter >=1){ // Wait for 1 cycle
+        state = STRAIGHTSTOP; // Change state to STRAIGHTSTOP
+        FlagWait = FALSE; // Disable wait state
+        WaitingCounter=0; // Reset wait counter
+    }
+}
+
+// Function to stop during straight movement
+void straightstop(void){
+    strcpy(display_line[0], "   STOP   "); // Update display
+    display_changed = TRUE;
+    FlagWait = TRUE; // Enable wait state
+    RIGHT_FORWARD_SPEED = WHEEL_OFF; // Stop right motor
+    LEFT_FORWARD_SPEED = WHEEL_OFF; // Stop left motor
+    LEFT_REVERSE_SPEED = WHEEL_OFF; // Stop left motor
+    RIGHT_REVERSE_SPEED = WHEEL_OFF; // Stop right motor
+    if(WaitingCounter >=4){ // Wait for 4 cycles
+        state = STRAIGHTL; // Change state to STRAIGHTL
+        FlagWait = FALSE; // Disable wait state
+        WaitingCounter=0; // Reset wait counter
+    }
+}
+
+// Function to move straight
+void straightline(void){
+    FlagWait = TRUE; // Enable wait state
+    RIGHT_FORWARD_SPEED = 13000; // Set right motor speed
+    LEFT_FORWARD_SPEED = 13000; // Set left motor speed
+    if(WaitingCounter >=3){ // Wait for 5 cycles
+        state = END; // Change state to END
+        FlagWait = FALSE; // Disable wait state
+        WaitingCounter=0; // Reset wait counter
+    }
+}
+
+// Function to handle the end state
+void end_state(void){
+    strcpy(display_line[0], " STOPPED "); // Update display
+    update_display = TRUE;
+    display_changed = 1;
+    Off_Case(); // Stop all motors
+    SpincountL = 0; // Reset left spin counter
+    SpincountR = 0; // Reset right spin counter
+    state = NONE; // Change state to NONE
+}
+
+// Functions to control individual motors
+void LForward_On(void) {
+    P6OUT |= L_FORWARD;   // Turn on the left motor (set pin high)
+}
+void RForward_On(void) {
+    P6OUT |= R_FORWARD;   // Turn on the right motor (set pin high)
+}
+
+void LForward_Off(void){
+    P6OUT &= ~L_FORWARD;  // Turn off the left motor (set pin low)
+}
+void RForward_Off(void){
+    P6OUT &= ~R_FORWARD;  // Turn off the right motor (set pin low)
+}
+void LReverse_On(void) {
+    P6OUT |= L_REVERSE;   // Turn on the left motor in reverse (set pin high)
+}
+void RReverse_On(void){
+    P6OUT |= R_REVERSE;   // Turn on the right motor in reverse (set pin high)
+}
+void LReverse_Off(void){
+    P6OUT &= ~L_REVERSE;  // Turn off the left motor in reverse (set pin low)
+}
+void RReverse_Off(void){
+    P6OUT &= ~R_REVERSE;  // Turn off the right motor in reverse (set pin low)
+}
+void Forward_Off(void){
+    P6OUT &= ~L_FORWARD;  // Turn off both motors
+    P6OUT &= ~R_FORWARD;
+}
+void Reverse_Off(void){
+    P6OUT &= ~L_REVERSE;  // Turn off both motors in reverse
+    P6OUT &= ~R_REVERSE;
+}
+
+// Function to move forward based on direction flags
+void Forward_Move(void) {
+    if(ldirection == FORWARD){
+        LForward_On(); // Turn on left motor if direction is forward
+    }
+    if(rdirection == FORWARD){
+        RForward_On(); // Turn on right motor if direction is forward
+    }
+}
+
+// Function to move in reverse based on direction flags
+void Reverse_Move(void) {
+    if(ldirection == REVERSE){
+        LReverse_On(); // Turn on left motor in reverse if direction is reverse
+    }
+    if(rdirection == REVERSE){
+        RReverse_On(); // Turn on right motor in reverse if direction is reverse
+    }
+}
+
+// Function to stop all motors
+void Off_Case(void){
+    RIGHT_FORWARD_SPEED = WHEEL_OFF;   // Stop right motor
+    LEFT_FORWARD_SPEED = WHEEL_OFF;    // Stop left motor
+    RIGHT_REVERSE_SPEED = WHEEL_OFF;   // Stop right motor in reverse
+    LEFT_REVERSE_SPEED = WHEEL_OFF;    // Stop left motor in reverse
+}
+
+/*
+ * SaveMeFets - Prevents both forward and reverse signals from being active simultaneously.
+ * If both directions are active, turns off motors and lights a red LED as a warning.
+ */
+void SaveMeFets(void){
+    if(((P6IN & L_FORWARD)&&(P6IN & L_REVERSE)) || ((P6IN & R_FORWARD)&&(P6IN & R_REVERSE))){
+        P1OUT |= RED_LED;  // Warning LED turned on
+        Forward_Off();     // Stop both forward movements
+        Reverse_Off();     // Stop both reverse movements
+    }
+}
+
