@@ -1,0 +1,74 @@
+//===========================================================================
+// File Name : Display.c
+//
+// Description: This file contains the Initialization for display aspects
+//
+// Created on: Jan, 2025
+// Author: Molana Torabi
+//===========================================================================
+
+#include  "msp430.h"
+#include  <string.h>
+#include  "functions.h"
+#include  "LCD.h"
+#include  "ports.h"
+#include  "macros.h"
+#include  "ADC.h"
+
+// Variables
+extern volatile unsigned char display_changed;  // Flag to indicate display update required
+extern volatile unsigned char update_display;   // Flag to trigger display update
+
+extern volatile unsigned int backlight;         // Stores backlight state (ON/OFF)
+extern volatile unsigned char backlight_changed; // Flag to indicate backlight state change
+extern char adc_char[10];  // Stores converted ADC values as characters
+extern char display_line[4][11]; // Holds text for each of the 4 display lines (max 10 chars + null terminator)
+
+//-------------------------------------------------------------
+// Function: Display_Process
+// Description: Updates the display if any change is detected
+//-------------------------------------------------------------
+void Display_Process(void){
+  if(update_display){       // Check if display update is required
+    update_display = 0;     // Reset the update flag
+    if(display_changed){    // Check if the display content has changed
+      display_changed = 0;  // Reset the display change flag
+      Display_Update(0,0,0,0); // Update the display with default parameters
+    }
+  }
+}
+
+//-------------------------------------------------------------
+// Function: Backlight_Process
+// Description: Manages the LCD backlight state
+//-------------------------------------------------------------
+void Backlight_Process(void){
+    if(backlight_changed){  // Check if the backlight state has changed
+        backlight_changed = 0;  // Reset the flag
+        if(backlight){          // If backlight is ON
+            P6OUT |= LCD_BACKLITE;  // Turn on the LCD backlight
+        }
+        else {
+            P6OUT &= ~LCD_BACKLITE; // Turn off the LCD backlight
+        }
+    }
+}
+
+//-------------------------------------------------------------
+// Function: adc_line
+// Description: Inserts ADC value (converted to characters) into
+//              the specified location on the specified display line
+// Parameters:
+//    int line     => Specifies the line (1 to 4)
+//    int location => Specifies the location (0 to 9)
+//-------------------------------------------------------------
+void adc_line(int line, int location){
+    int i;
+    unsigned int real_line;
+    real_line = line - 1;  // Convert line number to zero-based index
+    for(i=0; i < 4; i++) { // Loop through the first 4 characters of adc_char
+        display_line[real_line][i+location] = adc_char[i]; // Insert characters at specified location
+    }
+    update_display = TRUE;  // Set flag to update display
+    display_changed = TRUE; // Set flag indicating display content has changed
+}

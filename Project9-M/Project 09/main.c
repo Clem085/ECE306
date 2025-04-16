@@ -408,6 +408,7 @@ void main(void){
             pingpong();
             vv = 0;
             if (iot_TX_buf[response_parse++] == '^'){
+                
                 //            response_parse++;
                 if(iot_TX_buf[response_parse] == pin[0] && iot_TX_buf[response_parse+1] == pin[1] && iot_TX_buf[response_parse+2] == pin[2] && iot_TX_buf[response_parse+3] == pin[3]){
                     response_parse = response_parse +4;
